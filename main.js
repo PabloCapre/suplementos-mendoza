@@ -53,208 +53,252 @@ const CATEGORY_THEMES = {
     pillInactive: "bg-neutral-950 border-white/[0.08] text-neutral-300 hover:border-amber-500/30 font-medium",
     tabActive: "bg-amber-600 text-white font-bold shadow-md shadow-amber-600/25",
     iconColor: "text-amber-400",
-    strokeColor: "#f59e0b",
+    strokeColor: "#d97706",
     shadowRgba: "rgba(217,119,6,0.25)"
   }
 };
 
-// 2. Catálogo Oficial extraído textualmente de dev-brief.md
-const PRODUCTS = [
-  // CATEGORÍA: RENDIMIENTO & FUERZA (Azul Eléctrico)
+// 2. Catálogo Oficial con Precios Dinámicos por Presentación
+const productos = [
+  // RENDIMIENTO & FUERZA
   {
-    id: "creatina-nn",
-    category: "rendimiento",
-    name: "Creatina Pura Micronizada",
-    brand: "Natural Nutrition",
-    badge: "Más Vendido",
-    badgeColor: "blue",
-    description: "100% monohidrato micronizado de máxima biodisponibilidad. Aumenta la fuerza muscular, la recuperación y el volumen celular sin retención hídrica subcutánea. Cuenta con el sello aval del \"Proyecto Suplementos\" de Pablo Pizurno. Certificado Sin TACC y aprobado por la FDA.",
-    variants: [
-      { label: "600g (120 porciones)", price: 45000, value: "600g" },
-      { label: "350g (75 porciones)", price: 33000, value: "350g" },
-      { label: "150g (30 porciones)", price: 16500, value: "150g" }
+    id: 'creatina',
+    nombre: 'Creatina Monohidrato Pura',
+    categoria: 'Rendimiento & Fuerza',
+    imagen: 'assets/productos/creatina.webp',
+    descripcion: '100% monohidrato. Aumenta fuerza y potencia sin retención hídrica. Pureza superior al 99.85%, avalado por el <a href="https://www.instagram.com/p/DDhoT2gx5qB/" target="_blank" class="text-blue-400 underline">Proyecto Suplementos</a>.',
+    presentaciones: [
+      { nombre: '600g', precio: 49000 },
+      { nombre: '350g', precio: 33000 },
+      { nombre: '150g', precio: 16500 }
     ],
-    highlight: "100% Pura sin agregados"
+    inStock: true
   },
   {
-    id: "pre-work-nn",
-    category: "rendimiento",
-    name: "Pre-Work Explosivo",
-    brand: "Natural Nutrition",
-    badge: "Energía Limpia",
-    badgeColor: "blue",
-    description: "Complejo sinérgico de Beta-alanina, Taurina y Cafeína pura. Reduce la acumulación de ácido láctico y optimiza el enfoque mental durante el entrenamiento de alta intensidad. Certificado Sin TACC y aprobado por la FDA.",
-    variants: [
-      { label: "Pote 300g (Polvo)", price: 34300, value: "300g" }
+    id: 'proteina-vegetal',
+    nombre: 'Proteína Vegetal Aislada',
+    categoria: 'Rendimiento & Fuerza',
+    imagen: 'assets/productos/proteina-cookies.webp',
+    descripcion: '25g de proteína y 3.8g de BCAAs por porción. Cero azúcares añadidos. Digestión liviana. Sabores: Cookies / Milkshake.',
+    presentaciones: [
+      { nombre: '907g (Cookies)', precio: 47800 },
+      { nombre: '907g (Milkshake)', precio: 47800 }
     ],
-    highlight: "Beta-Alanina + Taurina + Cafeína"
+    inStock: true
   },
   {
-    id: "proteina-soja-nn",
-    category: "rendimiento",
-    name: "Proteína de Soja Aislada",
-    brand: "Natural Nutrition",
-    badge: "Origen Vegetal",
-    badgeColor: "blue",
-    description: "Aislado proteico 100% vegano de alta pureza con aminograma completo. 907 gramos (30 porciones) ideales para síntesis proteica muscular con digestión liviana y sin lactosa. Incluye 3,8g de BCAAs y 4,4g de Glutamina por cada scoop de 25g. Aprobado por la FDA.",
-    variants: [
-      { label: "Cookies & Cream", price: 47800, value: "Cookies" },
-      { label: "Milk Shake", price: 47800, value: "Milkshake" }
+    id: 'pre-work',
+    nombre: 'Pre-Work Explosivo',
+    categoria: 'Rendimiento & Fuerza',
+    imagen: 'assets/productos/prework.webp',
+    descripcion: 'Complejo de Beta-alanina, Taurina y Cafeína. Energía y enfoque extremo para entrenamientos de alta intensidad. Sabores: Limón / Frutos del Bosque.',
+    presentaciones: [
+      { nombre: '300g (Limón)', precio: 34300 },
+      { nombre: '300g (Bosque)', precio: 34300 }
     ],
-    highlight: "Alta pureza, 0% lactosa"
-  },
-
-  // CATEGORÍA: SALUD & LONGEVIDAD (Verde Esmeralda)
-  {
-    id: "colageno-c-nn",
-    category: "salud",
-    name: "Colágeno Hidrolizado + Vitamina C",
-    brand: "Natural Nutrition",
-    badge: "Articulaciones & Piel",
-    badgeColor: "emerald",
-    description: "Péptidos de colágeno hidrolizado potenciados con ácido ascórbico para facilitar la fijación en cartílagos, tendones, ligamentos y elasticidad de la piel. Certificado Sin TACC y aprobado por la FDA.",
-    variants: [
-      { label: "Pote 300g", price: 31000, value: "300g" }
-    ],
-    highlight: "Máxima asimilación articular"
+    inStock: true
   },
   {
-    id: "omega-3-nn",
-    category: "salud",
-    name: "Omega 3 Puro Concentrado",
-    brand: "Natural Nutrition",
-    badge: "Cardio & Cerebro",
-    badgeColor: "emerald",
-    description: "Ácidos grasos esenciales EPA y DHA purificados. Potente regulador antiinflamatorio sistémico, protector de la salud cardiovascular y función cognitiva. Cuenta con certificado libre de metales pesados y mercurio. Aprobado por la FDA.",
-    variants: [
-      { label: "Frasco 60 cápsulas blandas", price: 33900, value: "60 caps" }
+    id: 'beta-alanina',
+    nombre: 'Beta Alanina Pura',
+    categoria: 'Rendimiento & Fuerza',
+    imagen: 'assets/productos/betaalanina.webp',
+    descripcion: 'Retrasa la fatiga muscular y aumenta la resistencia. El aliado indispensable para sumar repeticiones y entrenar al fallo.',
+    presentaciones: [{ nombre: '150g', precio: 16800 }],
+    inStock: false
+  },
+  // SALUD & LONGEVIDAD
+  {
+    id: 'colageno-hidrolizado',
+    nombre: 'Colágeno Hidrolizado + Vit C',
+    categoria: 'Salud & Longevidad',
+    imagen: 'assets/productos/colageno-hidrolizado.webp',
+    descripcion: 'Péptidos de colágeno optimizados con Vitamina C. Protege articulaciones y mejora la elasticidad. Sabores: Arándanos / Naranja.',
+    presentaciones: [
+      { nombre: '300g (Arándanos)', precio: 36500 },
+      { nombre: '300g (Naranja)', precio: 36500 }
     ],
-    highlight: "Alto contenido de EPA y DHA"
+    inStock: false
   },
   {
-    id: "cmz-nn",
-    category: "salud",
-    name: "CMZ + Vitamina D3",
-    brand: "Natural Nutrition",
-    badge: "Recuperación Nocturna",
-    badgeColor: "emerald",
-    description: "Fórmula quelatada de Calcio, Magnesio y Zinc combinada con Vitamina D3. Promueve el descanso profundo, el balance hormonal y la relajación neuromuscular. Aprobado por la FDA.",
-    variants: [
-      { label: "Frasco 60 cápsulas", price: 24000, value: "60 caps" }
-    ],
-    highlight: "Minerales biodisponibles"
+    id: 'glutamina',
+    nombre: 'L-Glutamina Pura',
+    categoria: 'Salud & Longevidad',
+    imagen: 'assets/productos/glutamina.webp',
+    descripcion: '5g de L-Glutamina de alta pureza por porción. Fundamental para optimizar la recuperación muscular y evitar el catabolismo.',
+    presentaciones: [{ nombre: '150g', precio: 16800 }],
+    inStock: false
   },
   {
-    id: "vitamina-d3-k2-nn",
-    category: "salud",
-    name: "Vitamina D3 + K2 en Aceite MCT",
-    brand: "Natural Nutrition",
-    badge: "Sinergia Celular",
-    badgeColor: "emerald",
-    description: "Dúo sinérgico formulado en base de triglicéridos de cadena media (aceite de coco MCT). La Vitamina K2 asegura que el calcio movilizado por la D3 se fije en los huesos y no en las arterias. Certificado Sin TACC y aprobado por la FDA.",
-    variants: [
-      { label: "Gotero sublingual 30ml", price: 19700, value: "30ml" }
-    ],
-    highlight: "Base de aceite de coco MCT"
+    id: 'omega-3',
+    nombre: 'Omega 3 (IFOS 5-Star)',
+    categoria: 'Salud & Longevidad',
+    imagen: 'assets/productos/omega3.webp',
+    descripcion: 'Aceite de pescado con certificación internacional IFOS. Aporta 360mg EPA y 240mg DHA para máxima protección cardiovascular.',
+    presentaciones: [{ nombre: '60 Cápsulas', precio: 36900 }],
+    inStock: true
   },
   {
-    id: "vitamina-c-nn",
-    category: "salud",
-    name: "Vitamina C 1000mg",
-    brand: "Natural Nutrition",
-    badge: "Inmunidad & Antioxidante",
-    badgeColor: "emerald",
-    description: "Ácido ascórbico puro en dosis terapéutica de 1000mg. Combate el estrés oxidativo celular y refuerza las defensas del sistema inmunitario. Certificado Sin TACC y aprobado por la FDA.",
-    variants: [
-      { label: "Frasco de comprimidos", price: 18200, value: "1000mg" }
-    ],
-    highlight: "Dosis terapéutica concentrada"
-  },
-
-  // CATEGORÍA: ALIMENTACIÓN INTELIGENTE (Dorado Mate)
-  {
-    id: "mix-frutos-secos",
-    category: "alimentacion",
-    name: "Mix de Frutos Secos Premium (Receta Inteligente)",
-    brand: "Selección Propia",
-    badge: "Fórmula Propia",
-    badgeColor: "amber",
-    description: "1200g. Proporción balanceada con precisión nutricional: Maní, Nuez, Castaña de Cajú, Almendra, Pasas Rubias y Morenas, Chips de Banana y Ananá tricolor. Diseñado para cubrir micronutrientes diarios comiendo un puñado al día. Consultanos si querés sumar o quitar ingredientes a tu gusto. Materias primas de calidad aprobadas por la FDA.",
-    variants: [
-      { label: "Bolsa Sellada 1200g (1.2 kg)", price: 22000, value: "1.2 kg" }
-    ],
-    highlight: "100% personalizable a pedido"
+    id: 'calcio-magnesio-zinc',
+    nombre: 'Calcio, Magnesio, Zinc + D3',
+    categoria: 'Salud & Longevidad',
+    imagen: 'assets/productos/CMZ.webp',
+    descripcion: 'Complejo mineral esencial. Apoya la salud ósea, articular y el bienestar general en personas con alta demanda física.',
+    presentaciones: [{ nombre: 'Cápsulas', precio: 24000 }],
+    inStock: true
   },
   {
-    id: "mix-semillas",
-    category: "alimentacion",
-    name: "Mix de Semillas Funcionales",
-    brand: "Selección Propia",
-    badge: "Fibra & Minerales",
-    badgeColor: "amber",
-    description: "500g. Combinación de semillas seleccionadas ricas en fibra soluble, zinc y ácidos grasos esenciales para incorporar en ensaladas, yogures o batidos. Aprobado por la FDA.",
-    variants: [
-      { label: "Paquete 500g", price: 4500, value: "500g" }
-    ],
-    highlight: "Semillas crudas seleccionadas"
+    id: 'vitamina-c',
+    nombre: 'Vitamina C 1000mg',
+    categoria: 'Salud & Longevidad',
+    imagen: 'assets/productos/vitaminaC.webp',
+    descripcion: 'Potente acción antioxidante. Fortalece el sistema inmunológico, disminuye el estrés oxidativo y mejora la absorción del hierro.',
+    presentaciones: [{ nombre: '30 Cápsulas', precio: 18200 }],
+    inStock: true
   },
   {
-    id: "cafe-rdc",
-    category: "alimentacion",
-    name: "Café Tostado Molido Colombia RDC",
-    brand: "RDC Café de Especialidad",
-    badge: "Energía Limpia",
-    badgeColor: "amber",
-    description: "500g. Granos seleccionados de origen colombiano con tueste artesanal medio. Notas equilibradas, aroma intenso y cafeína natural sin quemar ni agregados de azúcar. Aprobado por la FDA.",
-    variants: [
-      { label: "Paquete 500g molido", price: 29800, value: "500g" }
-    ],
-    highlight: "Sin azúcar agregada ni torrado"
+    id: 'cla-1000',
+    nombre: 'CLA 1000',
+    categoria: 'Salud & Longevidad',
+    imagen: 'assets/productos/cla.webp',
+    descripcion: 'Ácido Linoleico Conjugado. Complemento ideal para etapas de definición muscular y optimización del metabolismo.',
+    presentaciones: [{ nombre: 'Cápsulas blandas', precio: 25500 }],
+    inStock: false
   },
   {
-    id: "miel-juricich",
-    category: "alimentacion",
-    name: "Miel Pura de Monte Juricich",
-    brand: "Juricich",
-    badge: "100% Cruda",
-    badgeColor: "amber",
-    description: "950g. Miel de monte cosechada de forma artesanal. Sin pasteurizar, sin jarabe de maíz ni aditivos. Conserva vivas todas sus enzimas bactericidas y antioxidantes. Aprobado por la FDA.",
-    variants: [
-      { label: "Frasco vidrio 950g", price: 9900, value: "950g" }
-    ],
-    highlight: "Pura de floración natural"
+    id: 'vitamina-d3-k2',
+    nombre: 'Vitamina D3 + K2 (MK-7)',
+    categoria: 'Salud & Longevidad',
+    imagen: 'assets/productos/vitaminad3k2.webp',
+    descripcion: '4000 UI de D3 y 180mcg de K2. Fórmula sinérgica para asegurar la absorción y correcta fijación del calcio en los huesos.',
+    presentaciones: [{ nombre: 'Cápsulas blandas', precio: 24900 }],
+    inStock: true
+  },
+  // ALIMENTACIÓN INTELIGENTE
+  {
+    id: 'cafe-rdc',
+    nombre: 'Café RDC Colombia',
+    categoria: 'Alimentación Inteligente',
+    imagen: 'assets/productos/cafe.webp',
+    descripcion: 'Café de especialidad colombiano. Energía limpia para arrancar el día.',
+    presentaciones: [{ nombre: '500g', precio: 29800 }],
+    inStock: true
   },
   {
-    id: "aceite-oliva-libanti",
-    category: "alimentacion",
-    name: "Aceite de Oliva Extra Virgen Libanti",
-    brand: "Libanti Mendoza",
-    badge: "Prensada en Frío",
-    badgeColor: "amber",
-    description: "1 Litro. Primera prensada en frío elaborado en Mendoza. Acidez menor a 0.5%, alto en polifenoles y grasas monoinsaturadas cardiosaludables. Aprobado por la FDA.",
-    variants: [
-      { label: "Botella 1 Litro", price: 24000, value: "1 Litro" }
-    ],
-    highlight: "Acidez < 0.5% - Cosecha Mendocina"
+    id: 'miel-juricich',
+    nombre: 'Miel Pura Juricich',
+    categoria: 'Alimentación Inteligente',
+    imagen: 'assets/productos/miel.webp',
+    descripcion: 'Miel cruda de alta pureza. Endulzante natural ideal para pre-entrenos y recuperación.',
+    presentaciones: [{ nombre: '950g', precio: 9900 }],
+    inStock: true
   },
   {
-    id: "hongos-adaptogenos",
-    category: "alimentacion",
-    name: "Hongos Adaptógenos en Gotero (FungiArtist)",
-    brand: "FungiArtist",
-    badge: "Extracto Doble",
-    badgeColor: "amber",
-    description: "60ml. Tinturas concentradas de doble extracción hidroalcohólica. Regulan el eje del estrés, el descanso o la claridad mental según la especie que elijas. Aprobado por la FDA.",
-    variants: [
-      { label: "Melena de León (Enfoque)", price: 24000, value: "Melena León" },
-      { label: "Cordyceps (Rendimiento)", price: 24000, value: "Cordyceps" },
-      { label: "Reishi (Calma / Sueño)", price: 24000, value: "Reishi" },
-      { label: "Ashwagandha (Cortisol)", price: 24000, value: "Ashwagandha" },
-      { label: "Tremella (Hidratación)", price: 24000, value: "Tremella" }
+    id: 'aceite-oliva',
+    nombre: 'Aceite de Oliva Libanti',
+    categoria: 'Alimentación Inteligente',
+    imagen: 'assets/productos/oliva.webp',
+    descripcion: 'Extra virgen prensado en frío. Grasas saludables esenciales para el sistema hormonal y cardiovascular.',
+    presentaciones: [{ nombre: '1L', precio: 24000 }],
+    inStock: true
+  },
+  {
+    id: 'hongos-adaptogenos',
+    nombre: 'Hongos Adaptógenos FungiArt',
+    categoria: 'Alimentación Inteligente',
+    imagen: 'assets/productos/hongos.webp',
+    descripcion: 'Extractos funcionales para energía y enfoque. Disponibles: Cordyceps, Melena de León, Reishi, Tremella.',
+    presentaciones: [
+      { nombre: 'Cordyceps 60ml', precio: 24000 },
+      { nombre: 'Melena de León 60ml', precio: 24000 },
+      { nombre: 'Reishi 60ml', precio: 24000 },
+      { nombre: 'Tremella 60ml', precio: 24000 }
     ],
-    highlight: "Doble extracción concentrada"
+    inStock: true
+  },
+  {
+    id: 'mix-frutos-secos',
+    nombre: 'Mix de Frutos Secos',
+    categoria: 'Alimentación Inteligente',
+    imagen: 'assets/productos/mix-frutos.webp',
+    descripcion: 'Selección premium de frutos secos. Densidad nutricional pura para energía sostenida.',
+    presentaciones: [{ nombre: 'Estándar', precio: 22000 }],
+    inStock: true
+  },
+  {
+    id: 'mix-personalizado',
+    nombre: 'Mix Personalizado',
+    categoria: 'Alimentación Inteligente',
+    imagen: 'assets/productos/mix-personalizado.webp',
+    descripcion: 'Armá tu propio mix con los ingredientes que prefieras. Adaptado a tus macros.',
+    presentaciones: [{ nombre: 'A medida', precio: 'Variable' }],
+    inStock: true
   }
 ];
+
+// Alias para compatibilidad total
+const PRODUCTS = productos;
+
+// Mapeo semántico de categorías al slug de la UI
+function getCategoryKey(categoria) {
+  if (!categoria) return "rendimiento";
+  const cat = categoria.toLowerCase();
+  if (cat.includes("aliment") || cat.includes("inteligente")) return "alimentacion";
+  if (cat.includes("salud") || cat.includes("longevidad")) return "salud";
+  return "rendimiento";
+}
+
+// Metadata complementaria para diseño visual y badges
+const PRODUCT_METADATA = {
+  creatina: { brand: "Natural Nutrition", badge: "Más Vendido", highlight: "Pureza > 99.85%" },
+  'proteina-vegetal': { brand: "Natural Nutrition", badge: "Proteína Limpia", highlight: "25g Proteína - 0% Azúcar" },
+  'pre-work': { brand: "Natural Nutrition", badge: "Energía Limpia", highlight: "Beta-Alanina + Taurina + Cafeína" },
+  'beta-alanina': { brand: "Natural Nutrition", badge: "Resistencia", highlight: "Retrasa fatiga muscular" },
+  'colageno-hidrolizado': { brand: "Natural Nutrition", badge: "Articulaciones & Piel", highlight: "Colágeno + Vitamina C" },
+  glutamina: { brand: "Natural Nutrition", badge: "Recuperación", highlight: "5g L-Glutamina pura" },
+  'omega-3': { brand: "Natural Nutrition", badge: "IFOS 5-Star", highlight: "360mg EPA / 240mg DHA" },
+  'calcio-magnesio-zinc': { brand: "Natural Nutrition", badge: "Minerales", highlight: "Calcio + Magnesio + Zinc + D3" },
+  'vitamina-c': { brand: "Natural Nutrition", badge: "Inmunidad & Salud", highlight: "1000mg Acción Antioxidante" },
+  'cla-1000': { brand: "Natural Nutrition", badge: "Definición", highlight: "Ácido Linoleico Conjugado" },
+  'vitamina-d3-k2': { brand: "Natural Nutrition", badge: "Sinergia Ósea", highlight: "4000 UI D3 + 180mcg K2" },
+  'cafe-rdc': { brand: "RDC Colombia", badge: "Especialidad", highlight: "Tueste Medio • 100% Arábica" },
+  'miel-juricich': { brand: "Juricich", badge: "100% Pura", highlight: "Cosecha Artesanal de Monte" },
+  'aceite-oliva': { brand: "Libanti Mendoza", badge: "Extra Virgen", highlight: "Prensado en frío • Acidez < 0.5%" },
+  'hongos-adaptogenos': { brand: "FungiArt", badge: "Adaptógenos", highlight: "Extractos Doble Concentración" },
+  'mix-frutos-secos': { brand: "Selección Propia", badge: "Nutrición Densa", highlight: "Receta Balanceada en Micronutrientes" },
+  'mix-personalizado': { brand: "A Medida", badge: "Personalizado", highlight: "Ajustado a tus requerimientos" }
+};
+
+// Helper para procesar dinámicamente el array de objetos presentaciones
+function getProductVariants(product) {
+  if (product.presentaciones && Array.isArray(product.presentaciones) && product.presentaciones.length > 0) {
+    return product.presentaciones.map((p) => {
+      if (typeof p === "object" && p !== null) {
+        return {
+          label: p.nombre,
+          value: p.nombre,
+          price: p.precio,
+          image: p.imagen || product.imagen || product.image
+        };
+      }
+      return {
+        label: String(p),
+        value: String(p),
+        price: 25000,
+        image: product.imagen || product.image
+      };
+    });
+  }
+  if (product.variants && Array.isArray(product.variants) && product.variants.length > 0) {
+    return product.variants;
+  }
+  return [{
+    label: 'Única presentación',
+    value: 'Única presentación',
+    price: 25000,
+    image: product.imagen || product.image
+  }];
+}
 
 // 3. Estado Global de la Aplicación y Carrito
 const STORAGE_KEY = "suplementos_mendoza_cart_v1";
@@ -267,8 +311,12 @@ let state = {
   selectedVariants: {} // Map de productId -> variantIndex
 };
 
-// Formato de Moneda Argentina ($ ARS)
+// Formato de Moneda Argentina ($ ARS) / Manejo de precios variables
 const formatPrice = (amount) => {
+  if (typeof amount === "string") {
+    return amount;
+  }
+  if (typeof amount !== "number" || isNaN(amount)) return "A convenir";
   return new Intl.NumberFormat("es-AR", {
     style: "currency",
     currency: "ARS",
@@ -276,8 +324,8 @@ const formatPrice = (amount) => {
   }).format(amount);
 };
 
-// Inicialización de variantes por defecto
-PRODUCTS.forEach((product) => {
+// Inicialización de variantes por defecto en posición [0]
+productos.forEach((product) => {
   state.selectedVariants[product.id] = 0;
 });
 
@@ -307,12 +355,14 @@ function saveCartToStorage() {
 
 // 4. Generador de Pictogramas e Identidad Gráfica (Mapeo Trizona: Azul / Esmeralda / Ámbar)
 function getProductVisual(product) {
-  const theme = CATEGORY_THEMES[product.category] || CATEGORY_THEMES.rendimiento;
+  const catKey = getCategoryKey(product.categoria || product.category);
+  const theme = CATEGORY_THEMES[catKey] || CATEGORY_THEMES.rendimiento;
   const iconColor = theme.iconColor;
   const strokeColor = theme.strokeColor;
   const shadowRgba = theme.shadowRgba;
 
   switch (product.id) {
+    case "creatina":
     case "creatina-nn":
       return `
         <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -322,12 +372,14 @@ function getProductVisual(product) {
           <path d="M32 26v4M30 28h4" stroke-width="2" />
         </svg>
       `;
+    case "pre-work":
     case "pre-work-nn":
       return `
         <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="34 8 16 34 32 34 28 56 48 26 32 26 34 8" fill="${strokeColor}" fill-opacity="0.2" />
         </svg>
       `;
+    case "proteina-vegetal":
     case "proteina-soja-nn":
       return `
         <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -337,6 +389,7 @@ function getProductVisual(product) {
           <path d="M24 28h16M25 36h14M26 44h12" stroke-width="1.8" opacity="0.5" />
         </svg>
       `;
+    case "colageno-hidrolizado":
     case "colageno-c-nn":
       return `
         <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -344,6 +397,7 @@ function getProductVisual(product) {
           <path d="M24 26l8 12 8-12M32 38v10" />
         </svg>
       `;
+    case "omega-3":
     case "omega-3-nn":
       return `
         <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -351,6 +405,7 @@ function getProductVisual(product) {
           <path d="M24 36c4-6 12-6 16 0" opacity="0.6" />
         </svg>
       `;
+    case "calcio-magnesio-zinc":
     case "cmz-nn":
       return `
         <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -359,6 +414,7 @@ function getProductVisual(product) {
           <circle cx="48" cy="30" r="1.5" fill="currentColor" />
         </svg>
       `;
+    case "vitamina-d3-k2":
     case "vitamina-d3-k2-nn":
     case "hongos-adaptogenos":
       return `
@@ -369,6 +425,7 @@ function getProductVisual(product) {
           <path d="M32 32v12M32 44a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
         </svg>
       `;
+    case "vitamina-c":
     case "vitamina-c-nn":
       return `
         <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -376,20 +433,27 @@ function getProductVisual(product) {
           <path d="M32 20v24M20 32h24" stroke-width="2.5" />
         </svg>
       `;
-    case "mix-frutos-secos":
+    case "beta-alanina":
+    case "beta-alanina-nn":
       return `
         <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <ellipse cx="26" cy="34" rx="12" ry="16" transform="rotate(-15 26 34)" fill="${strokeColor}" fill-opacity="0.18" />
-          <ellipse cx="38" cy="32" rx="10" ry="14" transform="rotate(20 38 32)" fill="${strokeColor}" fill-opacity="0.12" />
-          <path d="M24 22c2 6 4 14 0 22M38 20c-1 5-2 12 1 18" stroke-width="1.8" opacity="0.6" />
+          <polygon points="34 8 16 34 32 34 28 56 48 26 32 26 34 8" fill="${strokeColor}" fill-opacity="0.2" />
         </svg>
       `;
-    case "mix-semillas":
+    case "cla-1000":
+    case "cla-nn":
       return `
         <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M32 12c-8 10-8 20 0 30 8-10 8-20 0-30z" fill="${strokeColor}" fill-opacity="0.2" />
-          <path d="M18 26c-6 7-6 15 0 22 6-7 6-15 0-22z" fill="${strokeColor}" fill-opacity="0.12" />
-          <path d="M46 26c-6 7-6 15 0 22 6-7 6-15 0-22z" fill="${strokeColor}" fill-opacity="0.12" />
+          <circle cx="32" cy="32" r="18" fill="${strokeColor}" fill-opacity="0.15" />
+          <path d="M22 32h20M32 22v20" stroke-width="2" />
+        </svg>
+      `;
+    case "glutamina":
+    case "glutamina-nn":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="18" y="18" width="28" height="28" rx="6" fill="${strokeColor}" fill-opacity="0.15" />
+          <path d="M26 32h12M32 26v12" stroke-width="2" />
         </svg>
       `;
     case "cafe-rdc":
@@ -407,6 +471,7 @@ function getProductVisual(product) {
           <polygon points="32 32 37 35 37 41 32 44 27 41 27 35" fill="none" stroke="currentColor" stroke-width="1.8" />
         </svg>
       `;
+    case "aceite-oliva":
     case "aceite-oliva-libanti":
       return `
         <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -414,6 +479,31 @@ function getProductVisual(product) {
           <path d="M30 14v6h4v-6" />
           <path d="M24 26l4-6h8l4 6v24a4 4 0 0 1-4 4H28a4 4 0 0 1-4-4V26z" fill="${strokeColor}" fill-opacity="0.18" />
           <circle cx="32" cy="38" r="4" fill="${strokeColor}" fill-opacity="0.4" />
+        </svg>
+      `;
+    case "hongos-adaptogenos":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M32 14c-12 0-20 8-20 18h40c0-10-8-18-20-18z" fill="${strokeColor}" fill-opacity="0.18" />
+          <path d="M28 32v18a4 4 0 0 0 8 0V32" fill="${strokeColor}" fill-opacity="0.25" />
+          <circle cx="26" cy="22" r="2.5" fill="currentColor" opacity="0.6" />
+          <circle cx="38" cy="24" r="2" fill="currentColor" opacity="0.6" />
+        </svg>
+      `;
+    case "mix-frutos-secos":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="26" cy="34" rx="12" ry="16" transform="rotate(-15 26 34)" fill="${strokeColor}" fill-opacity="0.18" />
+          <ellipse cx="38" cy="32" rx="10" ry="14" transform="rotate(20 38 32)" fill="${strokeColor}" fill-opacity="0.12" />
+          <path d="M24 22c2 6 4 14 0 22M38 20c-1 5-2 12 1 18" stroke-width="1.8" opacity="0.6" />
+        </svg>
+      `;
+    case "mix-personalizado":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M32 12c-8 10-8 20 0 30 8-10 8-20 0-30z" fill="${strokeColor}" fill-opacity="0.2" />
+          <path d="M18 26c-6 7-6 15 0 22 6-7 6-15 0-22z" fill="${strokeColor}" fill-opacity="0.12" />
+          <path d="M46 26c-6 7-6 15 0 22 6-7 6-15 0-22z" fill="${strokeColor}" fill-opacity="0.12" />
         </svg>
       `;
     default:
@@ -427,14 +517,45 @@ function getProductVisual(product) {
   }
 }
 
+// Helper para renderizar imagen real WebP o fallback a pictograma SVG (Obligatorio loading="lazy")
+function getProductDisplayVisual(product, selectedVarIndex = 0, isModal = false) {
+  const variants = getProductVariants(product);
+  const currentVariant = variants && variants[selectedVarIndex];
+  const imgSrc = (currentVariant && currentVariant.image) || product.imagen || product.image;
+  const productName = product.nombre || product.name;
+
+  if (imgSrc) {
+    const sizeClasses = isModal
+      ? "max-h-56 sm:max-h-64 w-auto object-contain mx-auto relative z-10 drop-shadow-xl"
+      : "max-h-36 w-auto object-contain mx-auto relative z-10 transition-transform duration-500 group-hover:scale-105 drop-shadow-md";
+    const imgId = isModal ? `modal-img-${product.id}` : `card-img-${product.id}`;
+
+    return `
+      <img
+        src="${imgSrc}"
+        alt="${productName}"
+        class="${sizeClasses}"
+        loading="lazy"
+        id="${imgId}"
+      />
+    `;
+  }
+
+  return `
+    <div class="${isModal ? 'transform scale-125' : 'transform transition-transform duration-500 group-hover:scale-110'}">
+      ${getProductVisual(product)}
+    </div>
+  `;
+}
+
 // 5. Renderizado del Catálogo de Productos con Mapeo de 3 Colores
 function renderCatalog() {
   const container = document.getElementById("products-grid");
   if (!container) return;
 
   const filteredProducts = state.activeCategory === "all"
-    ? PRODUCTS
-    : PRODUCTS.filter((p) => p.category === state.activeCategory);
+    ? productos
+    : productos.filter((p) => getCategoryKey(p.categoria || p.category) === state.activeCategory);
 
   if (filteredProducts.length === 0) {
     container.innerHTML = `
@@ -446,13 +567,71 @@ function renderCatalog() {
   }
 
   container.innerHTML = filteredProducts.map((product) => {
+    const catKey = getCategoryKey(product.categoria || product.category);
+    const theme = CATEGORY_THEMES[catKey] || CATEGORY_THEMES.rendimiento;
+    const meta = PRODUCT_METADATA[product.id] || {
+      brand: "Natural Nutrition",
+      badge: product.categoria,
+      highlight: "Distribuidor Oficial NN"
+    };
+
+    const variants = getProductVariants(product);
     const selectedVarIndex = state.selectedVariants[product.id] || 0;
-    const currentVariant = product.variants[selectedVarIndex];
-    const theme = CATEGORY_THEMES[product.category] || CATEGORY_THEMES.rendimiento;
+    const currentVariant = variants[selectedVarIndex] || variants[0];
+
+    const productName = product.nombre || product.name;
+    const productDesc = product.descripcion || product.description;
+    const productBrand = product.brand || meta.brand;
+    const productBadge = product.badge || meta.badge;
+    const productHighlight = product.highlight || meta.highlight;
 
     // Botón principal de llamada a la acción ("Agregar"): Azul Eléctrico sólido y ergonómico
     const btnClass = "bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20";
-    const hasMultipleVariants = product.variants.length > 1;
+    const hasMultipleVariants = variants.length > 1;
+    const isOutOfStock = product.inStock === false;
+
+    // Bloque de Precio o "Sin Stock"
+    const priceBlockHtml = isOutOfStock
+      ? `
+        <div>
+          <span class="text-red-500 font-bold text-lg sm:text-xl font-outfit tracking-tight block">Sin Stock</span>
+        </div>
+      `
+      : `
+        <div>
+          <span class="block text-[10px] uppercase tracking-wider font-semibold text-neutral-500 font-sans">Precio Lista</span>
+          <span class="font-sans font-bold text-2xl text-neutral-50 tracking-tight leading-none" id="price-${product.id}">
+            ${formatPrice(currentVariant.price)}
+          </span>
+        </div>
+      `;
+
+    // Botón Agregar: oculto cuando inStock es false
+    const addBtnHtml = isOutOfStock
+      ? `
+        <button
+          type="button"
+          disabled
+          class="hidden btn-add-cart opacity-50 pointer-events-none cursor-not-allowed"
+          data-product-id="${product.id}"
+          aria-label="${productName} - Sin Stock"
+        >
+          <span>Sin Stock</span>
+        </button>
+      `
+      : `
+        <button
+          type="button"
+          class="btn-add-cart inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl ${btnClass} font-sans font-semibold text-xs whitespace-nowrap transition-all shadow-lg active:scale-95"
+          data-product-id="${product.id}"
+          aria-label="Agregar ${productName} al pedido"
+        >
+          <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+          </svg>
+          <span>+ Agregar</span>
+        </button>
+      `;
 
     return `
       <article
@@ -462,28 +641,26 @@ function renderCatalog() {
         <div>
           <!-- Header de Card: Brand & Badge de Categoría con Color Semántico -->
           <div class="flex items-center justify-between gap-2 mb-3">
-            <span class="font-outfit text-[11px] uppercase tracking-wider font-bold text-neutral-400">${product.brand}</span>
+            <span class="font-outfit text-[11px] uppercase tracking-wider font-bold text-neutral-400">${productBrand}</span>
             <span class="font-outfit px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase border ${theme.badgeClass}">
-              ${product.badge}
+              ${productBadge}
             </span>
           </div>
 
-          <!-- Contenedor Visual con Halo Lumínico y Pictograma -->
-          <div class="relative w-full h-40 rounded-2xl bg-neutral-950/80 border border-white/[0.05] flex items-center justify-center overflow-hidden mb-4 group-hover:border-white/[0.12] transition-colors">
+          <!-- Contenedor Visual con Halo Lumínico y Foto de Producto / Pictograma -->
+          <div class="relative w-full h-44 rounded-2xl bg-neutral-950/80 border border-white/[0.05] flex items-center justify-center overflow-hidden mb-4 group-hover:border-white/[0.12] transition-colors p-3">
             <div class="absolute inset-0 bg-radial ${theme.haloClass} via-transparent to-transparent opacity-80 pointer-events-none"></div>
-            <div class="transform transition-transform duration-500 group-hover:scale-110">
-              ${getProductVisual(product)}
-            </div>
+            ${getProductDisplayVisual(product, selectedVarIndex, false)}
           </div>
 
           <!-- Título del Producto (Outfit) -->
           <h3 class="font-outfit text-xl font-bold text-neutral-50 mb-1.5 leading-snug ${theme.cardTitleHover} transition-colors">
-            ${product.name}
+            ${productName}
           </h3>
 
           <!-- Descripción (Lato) -->
           <p class="font-sans text-xs text-neutral-400 line-clamp-2 leading-relaxed mb-3">
-            ${product.description}
+            ${productDesc}
           </p>
 
           <!-- Highlight / Beneficio Técnico -->
@@ -491,7 +668,7 @@ function renderCatalog() {
             <svg class="w-3.5 h-3.5 ${theme.checkIconColor}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
             </svg>
-            <span>${product.highlight}</span>
+            <span>${productHighlight}</span>
           </div>
         </div>
 
@@ -500,8 +677,8 @@ function renderCatalog() {
           ${hasMultipleVariants ? `
             <div class="space-y-1.5 mb-4 pt-3 border-t border-white/[0.06]">
               <span class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block font-outfit">Elegir presentación:</span>
-              <div class="grid grid-cols-${product.variants.length > 2 ? '3' : '2'} gap-1.5 variant-pill-group" data-product-id="${product.id}">
-                ${product.variants.map((v, idx) => {
+              <div class="grid ${variants.length === 3 ? 'grid-cols-3' : 'grid-cols-2'} gap-1.5 variant-pill-group" data-product-id="${product.id}">
+                ${variants.map((v, idx) => {
                   const isSelected = idx === selectedVarIndex;
                   return `
                     <button
@@ -523,26 +700,10 @@ function renderCatalog() {
             </div>
           `}
 
-          <!-- Footer de Card: Precio y Botón Agregar en Azul Eléctrico -->
+          <!-- Footer de Card: Precio o Sin Stock y Botón Agregar en Azul Eléctrico -->
           <div class="flex items-end justify-between gap-3 pt-2">
-            <div>
-              <span class="block text-[10px] uppercase tracking-wider font-semibold text-neutral-500 font-sans">Precio Lista</span>
-              <span class="font-sans font-bold text-2xl text-neutral-50 tracking-tight leading-none" id="price-${product.id}">
-                ${formatPrice(currentVariant.price)}
-              </span>
-            </div>
-
-            <button
-              type="button"
-              class="btn-add-cart inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl ${btnClass} font-sans font-semibold text-xs whitespace-nowrap transition-all shadow-lg active:scale-95"
-              data-product-id="${product.id}"
-              aria-label="Agregar ${product.name} al pedido"
-            >
-              <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
-              </svg>
-              <span>Agregar</span>
-            </button>
+            ${priceBlockHtml}
+            ${addBtnHtml}
           </div>
         </div>
       </article>
@@ -562,9 +723,20 @@ function attachProductEvents() {
       const variantIdx = parseInt(pill.getAttribute("data-variant-idx"), 10);
       state.selectedVariants[productId] = variantIdx;
 
-      const product = PRODUCTS.find((p) => p.id === productId);
+      const product = productos.find((p) => p.id === productId);
       if (!product) return;
-      const theme = CATEGORY_THEMES[product.category] || CATEGORY_THEMES.rendimiento;
+      const catKey = getCategoryKey(product.categoria || product.category);
+      const theme = CATEGORY_THEMES[catKey] || CATEGORY_THEMES.rendimiento;
+      const variants = getProductVariants(product);
+
+      // Actualizar imagen si la variante tiene imagen asociada
+      const variant = variants[variantIdx];
+      if (variant && variant.image) {
+        const cardImg = document.getElementById(`card-img-${productId}`);
+        if (cardImg) cardImg.src = variant.image;
+        const modalImg = document.getElementById(`modal-img-${productId}`);
+        if (modalImg) modalImg.src = variant.image;
+      }
 
       // Actualizar estilos activos de todos los pills del producto
       const group = pill.closest(".variant-pill-group");
@@ -579,10 +751,12 @@ function attachProductEvents() {
         });
       }
 
-      // Actualizar precio en la card
-      const priceEl = document.getElementById(`price-${productId}`);
-      if (priceEl) {
-        priceEl.textContent = formatPrice(product.variants[variantIdx].price);
+      // Actualizar precio en la card solo si está en stock
+      if (product.inStock !== false && variants[variantIdx]) {
+        const priceEl = document.getElementById(`price-${productId}`);
+        if (priceEl) {
+          priceEl.textContent = formatPrice(variants[variantIdx].price);
+        }
       }
     });
   });
@@ -591,8 +765,15 @@ function attachProductEvents() {
   document.querySelectorAll(".btn-add-cart").forEach((button) => {
     button.addEventListener("click", (e) => {
       e.stopPropagation(); // Evita abrir el modal
+      if (button.disabled || button.classList.contains("pointer-events-none") || button.classList.contains("hidden")) {
+        return;
+      }
       const targetBtn = e.currentTarget;
       const productId = targetBtn.getAttribute("data-product-id");
+      const product = productos.find((p) => p.id === productId);
+      if (product && product.inStock === false) {
+        return;
+      }
 
       addToCart(productId);
 
@@ -617,7 +798,7 @@ function attachProductEvents() {
   // Click en la tarjeta del producto para abrir Modal Aislado
   document.querySelectorAll(".product-card").forEach((card) => {
     card.addEventListener("click", (e) => {
-      if (e.target.closest(".btn-add-cart") || e.target.closest(".variant-pill")) {
+      if (e.target.closest(".btn-add-cart") || e.target.closest(".variant-pill") || e.target.closest("a")) {
         return;
       }
       const productId = card.getAttribute("data-product-id");
@@ -628,11 +809,14 @@ function attachProductEvents() {
 
 // 7. Gestión del Carrito (Acciones)
 function addToCart(productId) {
-  const product = PRODUCTS.find((p) => p.id === productId);
-  if (!product) return;
+  const product = productos.find((p) => p.id === productId);
+  if (!product || product.inStock === false) return;
 
+  const variants = getProductVariants(product);
   const variantIdx = state.selectedVariants[productId] || 0;
-  const variant = product.variants[variantIdx];
+  const variant = variants[variantIdx] || variants[0];
+  const catKey = getCategoryKey(product.categoria || product.category);
+  const meta = PRODUCT_METADATA[product.id] || { brand: "Natural Nutrition" };
 
   // Identificador único por producto y variante seleccionada
   const cartItemId = `${product.id}-${variant.value}`;
@@ -644,9 +828,9 @@ function addToCart(productId) {
     state.cart.push({
       cartItemId,
       id: product.id,
-      category: product.category,
-      name: product.name,
-      brand: product.brand,
+      category: catKey,
+      name: product.nombre || product.name,
+      brand: product.brand || meta.brand,
       selectedVariant: variant,
       quantity: 1
     });
@@ -772,9 +956,13 @@ function renderCartDrawer() {
   emptyState.classList.add("hidden");
   footerContainer.classList.remove("hidden");
 
-  const total = state.cart.reduce((acc, item) => acc + (item.selectedVariant.price * item.quantity), 0);
+  const total = state.cart.reduce((acc, item) => {
+    const p = typeof item.selectedVariant.price === 'number' ? item.selectedVariant.price : 0;
+    return acc + (p * item.quantity);
+  }, 0);
   if (subtotalEl) {
-    subtotalEl.textContent = formatPrice(total);
+    const hasVariable = state.cart.some(item => typeof item.selectedVariant.price !== 'number');
+    subtotalEl.textContent = formatPrice(total) + (hasVariable ? ' + Variable' : '');
   }
 
   itemsContainer.innerHTML = state.cart.map((item) => {
@@ -782,13 +970,17 @@ function renderCartDrawer() {
       ? "border-l-2 border-emerald-500"
       : (item.category === "alimentacion" ? "border-l-2 border-amber-500" : "border-l-2 border-blue-500");
 
+    const priceLabel = typeof item.selectedVariant.price === 'number'
+      ? `${formatPrice(item.selectedVariant.price)} c/u`
+      : formatPrice(item.selectedVariant.price);
+
     return `
       <div class="flex items-center justify-between gap-3 p-3.5 bg-neutral-950/80 rounded-2xl border border-white/[0.08] ${catBorder}">
         <div class="flex-1 min-w-0">
           <h4 class="font-outfit text-sm font-bold text-neutral-100 truncate">${item.name}</h4>
           <span class="text-xs text-neutral-400 block font-sans">${item.selectedVariant.label}</span>
           <span class="font-outfit text-xs font-black text-blue-400 mt-1 block">
-            ${formatPrice(item.selectedVariant.price)} c/u
+            ${priceLabel}
           </span>
         </div>
 
@@ -835,7 +1027,7 @@ function renderCartDrawer() {
 
 // 9. Modal de Producto Aislado
 function openProductModal(productId) {
-  const product = PRODUCTS.find((p) => p.id === productId);
+  const product = productos.find((p) => p.id === productId);
   if (!product) return;
 
   renderProductModal(product);
@@ -878,23 +1070,77 @@ function renderProductModal(product) {
   const body = document.getElementById("product-modal-body");
   if (!body) return;
 
+  const catKey = getCategoryKey(product.categoria || product.category);
+  const theme = CATEGORY_THEMES[catKey] || CATEGORY_THEMES.rendimiento;
+  const meta = PRODUCT_METADATA[product.id] || {
+    brand: "Natural Nutrition",
+    badge: product.categoria,
+    highlight: "Distribuidor Oficial NN"
+  };
+
+  const variants = getProductVariants(product);
   const selectedVarIndex = state.selectedVariants[product.id] || 0;
-  const currentVariant = product.variants[selectedVarIndex];
-  const theme = CATEGORY_THEMES[product.category] || CATEGORY_THEMES.rendimiento;
+  const currentVariant = variants[selectedVarIndex] || variants[0];
+
+  const productName = product.nombre || product.name;
+  const productDesc = product.descripcion || product.description;
+  const productBrand = product.brand || meta.brand;
+  const productBadge = product.badge || meta.badge;
+  const productHighlight = product.highlight || meta.highlight;
 
   const btnClass = "bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/25";
-  const hasMultipleVariants = product.variants.length > 1;
+  const hasMultipleVariants = variants.length > 1;
+  const isOutOfStock = product.inStock === false;
+
+  const modalPriceBlockHtml = isOutOfStock
+    ? `
+      <div class="shrink-0">
+        <span class="text-red-500 font-bold text-xl sm:text-2xl font-outfit tracking-tight block">Sin Stock</span>
+      </div>
+    `
+    : `
+      <div class="shrink-0">
+        <span class="block text-[10px] uppercase tracking-wider font-semibold text-neutral-500 font-sans">Precio Lista</span>
+        <span class="font-sans font-bold text-2xl text-neutral-50" id="modal-price-${product.id}">
+          ${formatPrice(currentVariant.price)}
+        </span>
+      </div>
+    `;
+
+  const modalAddBtnHtml = isOutOfStock
+    ? `
+      <button
+        type="button"
+        disabled
+        id="modal-add-cart-btn"
+        class="hidden opacity-50 pointer-events-none cursor-not-allowed"
+        data-product-id="${product.id}"
+      >
+        <span>Sin Stock</span>
+      </button>
+    `
+    : `
+      <button
+        type="button"
+        id="modal-add-cart-btn"
+        class="inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl ${btnClass} font-sans font-semibold text-xs sm:text-sm whitespace-nowrap shrink-0 transition-all shadow-lg active:scale-95"
+        data-product-id="${product.id}"
+      >
+        <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+        </svg>
+        <span>+ Agregar al Pedido</span>
+      </button>
+    `;
 
   body.innerHTML = `
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-start">
-      <!-- Contenedor Visual con Halo de Categoría -->
+      <!-- Contenedor Visual con Halo de Categoría y Foto de Producto / Pictograma -->
       <div class="aspect-square w-full bg-neutral-950/80 rounded-3xl flex flex-col items-center justify-center border border-white/[0.08] shadow-inner select-none p-6 text-center relative overflow-hidden">
         <div class="absolute inset-0 bg-radial ${theme.haloClass} via-transparent to-transparent opacity-80 pointer-events-none"></div>
-        <div class="transform scale-125">
-          ${getProductVisual(product)}
-        </div>
-        <span class="font-outfit uppercase tracking-widest text-[11px] font-bold text-neutral-400 mt-6 block">
-          ${product.brand}
+        ${getProductDisplayVisual(product, selectedVarIndex, true)}
+        <span class="font-outfit uppercase tracking-widest text-[11px] font-bold text-neutral-400 mt-4 block relative z-10">
+          ${productBrand}
         </span>
       </div>
 
@@ -903,26 +1149,26 @@ function renderProductModal(product) {
         <div>
           <!-- Marca y Badge -->
           <div class="flex items-center justify-between gap-2 mb-2.5">
-            <span class="font-outfit text-xs uppercase tracking-wider font-bold text-neutral-400">${product.brand}</span>
+            <span class="font-outfit text-xs uppercase tracking-wider font-bold text-neutral-400">${productBrand}</span>
             <span class="font-outfit inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider border ${theme.badgeClass}">
-              ${product.badge}
+              ${productBadge}
             </span>
           </div>
 
           <!-- Nombre del producto -->
           <h2 id="modal-product-name" class="font-outfit text-xl sm:text-2xl font-bold text-neutral-100 leading-snug mb-3">
-            ${product.name}
+            ${productName}
           </h2>
 
           <!-- Highlight -->
           <div class="inline-flex items-center gap-1.5 text-xs font-semibold ${theme.highlightClass} px-2.5 py-1 rounded-lg mb-4 border">
             <span class="${theme.checkIconColor}">✓</span>
-            <span>${product.highlight}</span>
+            <span>${productHighlight}</span>
           </div>
 
           <!-- Descripción completa -->
           <div class="text-sm text-neutral-300 leading-relaxed space-y-2 mb-4 font-sans font-normal">
-            <p>${product.description}</p>
+            <p>${productDesc}</p>
           </div>
         </div>
 
@@ -931,8 +1177,8 @@ function renderProductModal(product) {
           ${hasMultipleVariants ? `
             <div class="mb-4">
               <label class="block font-outfit text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2">Elegir presentación:</label>
-              <div class="grid grid-cols-${product.variants.length > 2 ? '3' : '2'} gap-2 modal-pill-group" data-product-id="${product.id}">
-                ${product.variants.map((v, idx) => {
+              <div class="grid ${variants.length === 3 ? 'grid-cols-3' : 'grid-cols-2'} gap-2 modal-pill-group" data-product-id="${product.id}">
+                ${variants.map((v, idx) => {
                   const isSelected = idx === selectedVarIndex;
                   return `
                     <button
@@ -953,26 +1199,10 @@ function renderProductModal(product) {
             </div>
           `}
 
-          <!-- Precio y Botón Agregar "Agregar al Pedido" en Azul Eléctrico -->
+          <!-- Precio o Sin Stock y Botón Agregar "Agregar al Pedido" en Azul Eléctrico -->
           <div class="flex items-center justify-between gap-3 pt-2">
-            <div class="shrink-0">
-              <span class="block text-[10px] uppercase tracking-wider font-semibold text-neutral-500 font-sans">Precio Lista</span>
-              <span class="font-sans font-bold text-2xl text-neutral-50" id="modal-price-${product.id}">
-                ${formatPrice(currentVariant.price)}
-              </span>
-            </div>
-
-            <button
-              type="button"
-              id="modal-add-cart-btn"
-              class="inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl ${btnClass} font-sans font-semibold text-xs sm:text-sm whitespace-nowrap shrink-0 transition-all shadow-lg active:scale-95"
-              data-product-id="${product.id}"
-            >
-              <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
-              </svg>
-              <span>Agregar al Pedido</span>
-            </button>
+            ${modalPriceBlockHtml}
+            ${modalAddBtnHtml}
           </div>
         </div>
       </div>
@@ -987,6 +1217,15 @@ function renderProductModal(product) {
         const variantIdx = parseInt(pill.getAttribute("data-variant-idx"), 10);
         state.selectedVariants[product.id] = variantIdx;
 
+        // Actualizar imagen si la variante tiene imagen específica
+        const variant = variants[variantIdx];
+        if (variant && variant.image) {
+          const cardImg = document.getElementById(`card-img-${product.id}`);
+          if (cardImg) cardImg.src = variant.image;
+          const modalImg = document.getElementById(`modal-img-${product.id}`);
+          if (modalImg) modalImg.src = variant.image;
+        }
+
         // Actualizar visual de pills en modal
         modalPillGroup.querySelectorAll(".modal-variant-pill").forEach((btn) => {
           const btnIdx = parseInt(btn.getAttribute("data-variant-idx"), 10);
@@ -997,27 +1236,29 @@ function renderProductModal(product) {
           }
         });
 
-        // Actualizar precio en modal
-        const modalPrice = document.getElementById(`modal-price-${product.id}`);
-        if (modalPrice) {
-          modalPrice.textContent = formatPrice(product.variants[variantIdx].price);
-        }
+        // Actualizar precio solo si está en stock
+        if (product.inStock !== false && variants[variantIdx]) {
+          const modalPrice = document.getElementById(`modal-price-${product.id}`);
+          if (modalPrice) {
+            modalPrice.textContent = formatPrice(variants[variantIdx].price);
+          }
 
-        // Sincronizar en la tarjeta del catálogo
-        const cardGroup = document.querySelector(`.variant-pill-group[data-product-id="${product.id}"]`);
-        if (cardGroup) {
-          cardGroup.querySelectorAll(".variant-pill").forEach((btn) => {
-            const btnIdx = parseInt(btn.getAttribute("data-variant-idx"), 10);
-            if (btnIdx === variantIdx) {
-              btn.className = `variant-pill py-1.5 px-2 rounded-lg text-[11px] sm:text-xs text-center border transition-all font-outfit truncate ${theme.pillActive}`;
-            } else {
-              btn.className = `variant-pill py-1.5 px-2 rounded-lg text-[11px] sm:text-xs text-center border transition-all font-outfit truncate ${theme.pillInactive}`;
-            }
-          });
-        }
-        const cardPrice = document.getElementById(`price-${product.id}`);
-        if (cardPrice) {
-          cardPrice.textContent = formatPrice(product.variants[variantIdx].price);
+          // Sincronizar en la tarjeta del catálogo
+          const cardGroup = document.querySelector(`.variant-pill-group[data-product-id="${product.id}"]`);
+          if (cardGroup) {
+            cardGroup.querySelectorAll(".variant-pill").forEach((btn) => {
+              const btnIdx = parseInt(btn.getAttribute("data-variant-idx"), 10);
+              if (btnIdx === variantIdx) {
+                btn.className = `variant-pill py-1.5 px-2 rounded-lg text-[11px] sm:text-xs text-center border transition-all font-outfit truncate ${theme.pillActive}`;
+              } else {
+                btn.className = `variant-pill py-1.5 px-2 rounded-lg text-[11px] sm:text-xs text-center border transition-all font-outfit truncate ${theme.pillInactive}`;
+              }
+            });
+          }
+          const cardPrice = document.getElementById(`price-${product.id}`);
+          if (cardPrice) {
+            cardPrice.textContent = formatPrice(variants[variantIdx].price);
+          }
         }
       });
     });
@@ -1025,7 +1266,7 @@ function renderProductModal(product) {
 
   // Listener para botón agregar en modal
   const modalAddBtn = document.getElementById("modal-add-cart-btn");
-  if (modalAddBtn) {
+  if (modalAddBtn && product.inStock !== false) {
     modalAddBtn.addEventListener("click", () => {
       addToCart(product.id);
       const originalHTML = modalAddBtn.innerHTML;
@@ -1050,11 +1291,17 @@ function renderProductModal(product) {
 function buildWhatsAppLink(cartItems, formData) {
   const WHATSAPP_PHONE = "5492613364201";
 
-  const itemsText = cartItems.map((item) =>
-    `• ${item.quantity}x ${item.name} (${item.selectedVariant.label}) - $${(item.selectedVariant.price * item.quantity).toLocaleString("es-AR")}`
-  ).join("\n");
+  const itemsText = cartItems.map((item) => {
+    const isNum = typeof item.selectedVariant.price === 'number';
+    const priceStr = isNum ? `$${(item.selectedVariant.price * item.quantity).toLocaleString("es-AR")}` : `${item.selectedVariant.price} (A convenir)`;
+    return `• ${item.quantity}x ${item.name} (${item.selectedVariant.label}) - ${priceStr}`;
+  }).join("\n");
 
-  const total = cartItems.reduce((acc, item) => acc + (item.selectedVariant.price * item.quantity), 0);
+  const total = cartItems.reduce((acc, item) => {
+    return acc + (typeof item.selectedVariant.price === 'number' ? (item.selectedVariant.price * item.quantity) : 0);
+  }, 0);
+  const hasVariable = cartItems.some(item => typeof item.selectedVariant.price !== 'number');
+  const totalDisplay = hasVariable ? `$${total.toLocaleString("es-AR")} + item(s) a convenir` : `$${total.toLocaleString("es-AR")}`;
 
   const message =
 `🛒 *NUEVO PEDIDO - SUPLEMENTOS MENDOZA*
@@ -1067,7 +1314,7 @@ function buildWhatsAppLink(cartItems, formData) {
 📦 *Detalle del Pedido:*
 ${itemsText}
 
-💰 *TOTAL: $${total.toLocaleString("es-AR")}*
+💰 *TOTAL: ${totalDisplay}*
 ${formData.notes && formData.notes.trim() ? `\n📝 *Notas:* ${formData.notes.trim()}` : ""}
 ------------------------------------------
 _Enviado desde suplementosmendoza.com.ar_`;
