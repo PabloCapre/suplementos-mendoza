@@ -485,8 +485,8 @@ function openDrawer() {
   if (!drawer || !backdrop || !panel) return;
 
   drawer.classList.remove("pointer-events-none");
-  backdrop.classList.remove("opacity-0");
-  backdrop.classList.add("opacity-100");
+  backdrop.classList.remove("opacity-0", "pointer-events-none");
+  backdrop.classList.add("opacity-100", "pointer-events-auto");
   panel.classList.remove("translate-x-full");
   panel.classList.add("translate-x-0");
   document.body.classList.add("overflow-hidden");
@@ -502,8 +502,8 @@ function closeDrawer() {
 
   if (!drawer || !backdrop || !panel) return;
 
-  backdrop.classList.remove("opacity-100");
-  backdrop.classList.add("opacity-0");
+  backdrop.classList.remove("opacity-100", "pointer-events-auto");
+  backdrop.classList.add("opacity-0", "pointer-events-none");
   panel.classList.remove("translate-x-0");
   panel.classList.add("translate-x-full");
   drawer.classList.add("pointer-events-none");
