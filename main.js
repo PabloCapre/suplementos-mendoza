@@ -42,9 +42,10 @@ export const PRODUCTS = [
     brand: "Natural Nutrition",
     badge: "Origen Vegetal",
     badgeColor: "lime",
-    description: "Aislado proteico de alta pureza con aminograma completo. 907 gramos (30 porciones) ideales para síntesis proteica muscular con digestión liviana y sin lactosa.",
+    description: "Aislado proteico de alta pureza con aminograma completo. 907 gramos (30 porciones) ideales para síntesis proteica muscular con digestión liviana y sin lactosa. Incluye 3,8g de BCAAs y 4,4g de Glutamina por cada scoop de 25g.",
     variants: [
-      { label: "Doypack 907g (30 porciones)", price: 47800, value: "907g" }
+      { label: "Cookies & Cream", price: 47800, value: "cookies-cream" },
+      { label: "Milk Shake", price: 47800, value: "milk-shake" }
     ],
     highlight: "Alta pureza, 0% lactosa"
   },
@@ -208,6 +209,7 @@ let state = {
   cart: [],
   activeCategory: "all",
   isDrawerOpen: false,
+  isModalOpen: false,
   selectedVariants: {} // Map de productId -> variantIndex
 };
 
@@ -282,7 +284,7 @@ function renderCatalog() {
     const hasMultipleVariants = product.variants.length > 1;
 
     return `
-      <article class="product-card bg-zinc-900/90 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden" data-product-id="${product.id}">
+      <article class="product-card bg-zinc-900/90 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden cursor-pointer" data-product-id="${product.id}">
         <div>
           <!-- Badge y Marca -->
           <div class="flex items-center justify-between gap-2 mb-3">
@@ -376,6 +378,7 @@ function attachProductEvents() {
   // Botón "Agregar al Pedido"
   document.querySelectorAll(".btn-add-cart").forEach((button) => {
     button.addEventListener("click", (e) => {
+      e.stopPropagation();
       const targetBtn = e.currentTarget;
       const productId = targetBtn.getAttribute("data-product-id");
       addToCart(productId);
@@ -393,6 +396,17 @@ function attachProductEvents() {
         targetBtn.innerHTML = originalHTML;
         targetBtn.classList.remove("bg-emerald-400");
       }, 900);
+    });
+  });
+
+  // Click en la tarjeta del producto para abrir Modal
+  document.querySelectorAll(".product-card").forEach((card) => {
+    card.addEventListener("click", (e) => {
+      if (e.target.closest(".btn-add-cart") || e.target.closest(".variant-select")) {
+        return;
+      }
+      const productId = card.getAttribute("data-product-id");
+      openProductModal(productId);
     });
   });
 }
@@ -507,7 +521,9 @@ function closeDrawer() {
   panel.classList.remove("translate-x-0");
   panel.classList.add("translate-x-full");
   drawer.classList.add("pointer-events-none");
-  document.body.classList.remove("overflow-hidden");
+  if (!state.isModalOpen) {
+    document.body.classList.remove("overflow-hidden");
+  }
 }
 
 function renderCartDrawer() {
@@ -581,6 +597,192 @@ function renderCartDrawer() {
       removeCartItem(btn.getAttribute("data-cart-id"));
     });
   });
+// 6.5 Modal de Detalle de Producto Aislado
+function openProductModal(productId) {
+  const product = PRODUCTS.find((p) => p.id === productId);
+  if (!product) return;
+
+  renderProductModal(product);
+
+  const modal = document.getElementById("product-modal");
+  const backdrop = document.getElementById("product-modal-backdrop");
+  const card = document.getElementById("product-modal-card");
+
+  if (!modal || !backdrop || !card) return;
+
+  state.isModalOpen = true;
+  modal.classList.remove("pointer-events-none", "opacity-0");
+  backdrop.classList.remove("pointer-events-none");
+  backdrop.classList.add("pointer-events-auto");
+  card.classList.remove("scale-95");
+  card.classList.add("scale-100");
+  document.body.classList.add("overflow-hidden");
+}
+
+function closeProductModal() {
+  state.isModalOpen = false;
+  const modal = document.getElementById("product-modal");
+  const backdrop = document.getElementById("product-modal-backdrop");
+  const card = document.getElementById("product-modal-card");
+
+  if (!modal || !backdrop || !card) return;
+
+  modal.classList.add("opacity-0", "pointer-events-none");
+  backdrop.classList.remove("pointer-events-auto");
+  backdrop.classList.add("pointer-events-none");
+  card.classList.remove("scale-100");
+  card.classList.add("scale-95");
+
+  if (!state.isDrawerOpen) {
+    document.body.classList.remove("overflow-hidden");
+  }
+}
+
+function renderProductModal(product) {
+  const body = document.getElementById("product-modal-body");
+  if (!body) return;
+
+  const selectedVarIndex = state.selectedVariants[product.id] || 0;
+  const currentVariant = product.variants[selectedVarIndex];
+
+  let badgeClass = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+  if (product.badgeColor === "amber") {
+    badgeClass = "bg-amber-500/10 text-amber-400 border-amber-500/20";
+  } else if (product.badgeColor === "lime") {
+    badgeClass = "bg-lime-500/10 text-lime-400 border-lime-500/20";
+  }
+
+  const hasMultipleVariants = product.variants.length > 1;
+
+  body.innerHTML = `
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-start">
+      <!-- Contenedor de imagen cuadrado (proporción 1:1, fondo gris oscuro bg-zinc-800 con texto centrado "Product Image") -->
+      <div class="aspect-square w-full bg-zinc-800 rounded-2xl flex flex-col items-center justify-center border border-zinc-700/60 shadow-inner select-none p-4 text-center">
+        <svg class="w-12 h-12 text-zinc-600 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <span class="text-zinc-400 font-semibold text-sm sm:text-base tracking-wide">Product Image</span>
+      </div>
+
+      <!-- Información completa sin truncar -->
+      <div class="flex flex-col justify-between h-full space-y-4">
+        <div>
+          <!-- Marca y Badge -->
+          <div class="flex items-center justify-between gap-2 mb-2.5">
+            <span class="text-xs uppercase tracking-wider font-semibold text-zinc-400">${product.brand}</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${badgeClass}">
+              ${product.badge}
+            </span>
+          </div>
+
+          <!-- Nombre del producto -->
+          <h2 id="modal-product-name" class="text-xl sm:text-2xl font-bold text-zinc-100 leading-snug mb-3">
+            ${product.name}
+          </h2>
+
+          <!-- Highlight -->
+          <div class="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-300 bg-zinc-800/80 px-2.5 py-1 rounded-md mb-4 border border-zinc-700/50">
+            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>${product.highlight}</span>
+          </div>
+
+          <!-- Descripción completa sin truncar -->
+          <div class="text-sm text-zinc-300 leading-relaxed space-y-2 mb-4 font-normal">
+            <p>${product.description}</p>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-zinc-800">
+          <!-- Selector de variantes / presentación -->
+          ${hasMultipleVariants ? `
+            <div class="mb-4">
+              <label for="modal-variant-select" class="block text-xs font-medium text-zinc-400 mb-1.5">Elegir presentación / sabor:</label>
+              <select id="modal-variant-select" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs sm:text-sm text-zinc-200 focus:outline-none focus:border-emerald-500 transition-colors" data-product-id="${product.id}">
+                ${product.variants.map((v, idx) => `
+                  <option value="${idx}" ${idx === selectedVarIndex ? "selected" : ""}>
+                    ${v.label} - ${formatPrice(v.price)}
+                  </option>
+                `).join("")}
+              </select>
+            </div>
+          ` : `
+            <div class="text-xs text-zinc-400 mb-4 font-medium">
+              Presentación: <span class="text-zinc-200 font-semibold">${currentVariant.label}</span>
+            </div>
+          `}
+
+          <!-- Precio y Botón Agregar -->
+          <div class="flex items-center justify-between gap-3 pt-2">
+            <div>
+              <span class="block text-xs text-zinc-500 uppercase tracking-wider font-semibold">Precio</span>
+              <span class="text-2xl font-bold text-zinc-100" id="modal-price-${product.id}">
+                ${formatPrice(currentVariant.price)}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              id="modal-add-cart-btn"
+              class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-xs sm:text-sm transition-all shadow-md shadow-emerald-500/10 active:scale-95"
+              data-product-id="${product.id}"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+              </svg>
+              <span>Agregar al Pedido</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Listener para selector de variante en modal
+  const modalSelect = document.getElementById("modal-variant-select");
+  if (modalSelect) {
+    modalSelect.addEventListener("change", (e) => {
+      const variantIdx = parseInt(e.target.value, 10);
+      state.selectedVariants[product.id] = variantIdx;
+
+      // Actualizar precio en modal
+      const modalPrice = document.getElementById(`modal-price-${product.id}`);
+      if (modalPrice) {
+        modalPrice.textContent = formatPrice(product.variants[variantIdx].price);
+      }
+
+      // Sincronizar en la tarjeta del catálogo
+      const cardSelect = document.querySelector(`.variant-select[data-product-id="${product.id}"]`);
+      if (cardSelect) {
+        cardSelect.value = variantIdx;
+      }
+      const cardPrice = document.getElementById(`price-${product.id}`);
+      if (cardPrice) {
+        cardPrice.textContent = formatPrice(product.variants[variantIdx].price);
+      }
+    });
+  }
+
+  // Listener para botón agregar en modal
+  const modalAddBtn = document.getElementById("modal-add-cart-btn");
+  if (modalAddBtn) {
+    modalAddBtn.addEventListener("click", () => {
+      addToCart(product.id);
+      const originalHTML = modalAddBtn.innerHTML;
+      modalAddBtn.innerHTML = `
+        <svg class="w-4 h-4 text-zinc-950" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+        </svg>
+        <span>¡Agregado al Pedido!</span>
+      `;
+      modalAddBtn.classList.add("bg-emerald-400");
+      setTimeout(() => {
+        modalAddBtn.innerHTML = originalHTML;
+        modalAddBtn.classList.remove("bg-emerald-400");
+      }, 900);
+    });
+  }
 }
 
 // 7. Serializador Oficial a WhatsApp según dev-brief.md
@@ -653,10 +855,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cerrar Drawer con tecla Escape
+  // Cerrar Modal de Producto
+  const closeProductModalBtn = document.getElementById("close-product-modal-btn");
+  const productModalBackdrop = document.getElementById("product-modal-backdrop");
+  if (closeProductModalBtn) closeProductModalBtn.addEventListener("click", closeProductModal);
+  if (productModalBackdrop) productModalBackdrop.addEventListener("click", closeProductModal);
+
+  // Cerrar Drawer o Modal con tecla Escape
   window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && state.isDrawerOpen) {
-      closeDrawer();
+    if (e.key === "Escape") {
+      if (state.isModalOpen) {
+        closeProductModal();
+      } else if (state.isDrawerOpen) {
+        closeDrawer();
+      }
     }
   });
 
