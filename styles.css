@@ -1,0 +1,75 @@
+/* styles.css - Suplementos Mendoza
+ * Estilos complementarios y animaciones para Tailwind CSS
+ * Basado estrictamente en los tokens de dev-brief.md
+ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: #09090b; /* bg-zinc-950 */
+    color: #f4f4f5; /* text-zinc-100 */
+    overflow-x: hidden;
+  }
+}
+
+/* Scrollbar personalizada minimalista */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+/* Animaciones y utilidades de microinteracción */
+@keyframes cartPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+.cart-bump {
+  animation: cartPulse 300ms ease-in-out;
+}
+
+/* Transición suave para el Drawer lateral */
+.drawer-backdrop {
+  transition: opacity 0.25s ease-in-out;
+}
+
+.drawer-panel {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Aspect ratio y presentación de cards */
+.product-card {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(63, 63, 70, 0.9);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* Acordeón FAQ transición */
+.faq-content {
+  transition: max-height 0.3s ease-out, opacity 0.25s ease-out;
+}
