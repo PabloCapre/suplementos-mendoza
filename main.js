@@ -1,19 +1,73 @@
 /**
  * main.js - Suplementos Mendoza
  * Lógica modular del catálogo, carrito reactivo y serialización WhatsApp
- * Basado estrictamente en las especificaciones de dev-brief.md
+ * Basado estrictamente en design-system.md: High-Performance Science x Pure Vitality x Real Food
+ * Sistema Trizona de 3 Categorías:
+ * - Rendimiento & Fuerza (Azul Eléctrico: blue-600 / #2563eb)
+ * - Salud & Longevidad (Verde Esmeralda: emerald-600 / #059669)
+ * - Alimentación Inteligente (Dorado Mate: amber-600 / #d97706)
+ * Código JavaScript nativo para navegador (sin bundlers ni sintaxis export)
  */
 
-// 1. Catálogo Oficial extraído textualmente de dev-brief.md
+// 1. Configuración de Temas de Categoría
+const CATEGORY_THEMES = {
+  rendimiento: {
+    name: "Rendimiento & Fuerza",
+    badgeClass: "bg-blue-600/15 text-blue-400 border-blue-600/30",
+    highlightClass: "text-blue-300 bg-blue-950/40 border-blue-800/40",
+    checkIconColor: "text-blue-400",
+    haloClass: "from-blue-600/15",
+    cardHoverBorder: "hover:border-blue-500/40",
+    cardTitleHover: "group-hover:text-blue-400",
+    pillActive: "bg-blue-600 text-white border-blue-600 shadow-sm shadow-blue-600/20 font-bold",
+    pillInactive: "bg-neutral-950 border-white/[0.08] text-neutral-300 hover:border-blue-500/30 font-medium",
+    tabActive: "bg-blue-600 text-white font-bold shadow-md shadow-blue-600/25",
+    iconColor: "text-blue-400",
+    strokeColor: "#3b82f6",
+    shadowRgba: "rgba(37,99,235,0.25)"
+  },
+  salud: {
+    name: "Salud & Longevidad",
+    badgeClass: "bg-emerald-600/15 text-emerald-400 border-emerald-600/30",
+    highlightClass: "text-emerald-300 bg-emerald-950/40 border-emerald-800/40",
+    checkIconColor: "text-emerald-400",
+    haloClass: "from-emerald-600/15",
+    cardHoverBorder: "hover:border-emerald-500/40",
+    cardTitleHover: "group-hover:text-emerald-400",
+    pillActive: "bg-emerald-600 text-white border-emerald-600 shadow-sm shadow-emerald-600/20 font-bold",
+    pillInactive: "bg-neutral-950 border-white/[0.08] text-neutral-300 hover:border-emerald-500/30 font-medium",
+    tabActive: "bg-emerald-600 text-white font-bold shadow-md shadow-emerald-600/25",
+    iconColor: "text-emerald-400",
+    strokeColor: "#10b981",
+    shadowRgba: "rgba(5,150,105,0.25)"
+  },
+  alimentacion: {
+    name: "Alimentación Inteligente",
+    badgeClass: "bg-amber-600/15 text-amber-400 border-amber-600/30",
+    highlightClass: "text-amber-300 bg-amber-950/40 border-amber-800/40",
+    checkIconColor: "text-amber-400",
+    haloClass: "from-amber-600/15",
+    cardHoverBorder: "hover:border-amber-500/40",
+    cardTitleHover: "group-hover:text-amber-400",
+    pillActive: "bg-amber-600 text-white border-amber-600 shadow-sm shadow-amber-600/20 font-bold",
+    pillInactive: "bg-neutral-950 border-white/[0.08] text-neutral-300 hover:border-amber-500/30 font-medium",
+    tabActive: "bg-amber-600 text-white font-bold shadow-md shadow-amber-600/25",
+    iconColor: "text-amber-400",
+    strokeColor: "#f59e0b",
+    shadowRgba: "rgba(217,119,6,0.25)"
+  }
+};
+
+// 2. Catálogo Oficial extraído textualmente de dev-brief.md
 const PRODUCTS = [
-  // CATEGORÍA: RENDIMIENTO & FUERZA
+  // CATEGORÍA: RENDIMIENTO & FUERZA (Azul Eléctrico)
   {
     id: "creatina-nn",
     category: "rendimiento",
     name: "Creatina Pura Micronizada",
     brand: "Natural Nutrition",
     badge: "Más Vendido",
-    badgeColor: "emerald",
+    badgeColor: "blue",
     description: "100% monohidrato micronizado de máxima biodisponibilidad. Aumenta la fuerza muscular, la recuperación y el volumen celular sin retención hídrica subcutánea. Cuenta con el sello aval del \"Proyecto Suplementos\" de Pablo Pizurno. Certificado Sin TACC y aprobado por la FDA.",
     variants: [
       { label: "600g (120 porciones)", price: 45000, value: "600g" },
@@ -28,7 +82,7 @@ const PRODUCTS = [
     name: "Pre-Work Explosivo",
     brand: "Natural Nutrition",
     badge: "Energía Limpia",
-    badgeColor: "amber",
+    badgeColor: "blue",
     description: "Complejo sinérgico de Beta-alanina, Taurina y Cafeína pura. Reduce la acumulación de ácido láctico y optimiza el enfoque mental durante el entrenamiento de alta intensidad. Certificado Sin TACC y aprobado por la FDA.",
     variants: [
       { label: "Pote 300g (Polvo)", price: 34300, value: "300g" }
@@ -41,16 +95,16 @@ const PRODUCTS = [
     name: "Proteína de Soja Aislada",
     brand: "Natural Nutrition",
     badge: "Origen Vegetal",
-    badgeColor: "lime",
+    badgeColor: "blue",
     description: "Aislado proteico 100% vegano de alta pureza con aminograma completo. 907 gramos (30 porciones) ideales para síntesis proteica muscular con digestión liviana y sin lactosa. Incluye 3,8g de BCAAs y 4,4g de Glutamina por cada scoop de 25g. Aprobado por la FDA.",
     variants: [
-      { label: "Cookies & Cream", price: 47800, value: "cookies-cream" },
-      { label: "Milk Shake", price: 47800, value: "milk-shake" }
+      { label: "Cookies & Cream", price: 47800, value: "Cookies" },
+      { label: "Milk Shake", price: 47800, value: "Milkshake" }
     ],
     highlight: "Alta pureza, 0% lactosa"
   },
 
-  // CATEGORÍA: SALUD & LONGEVIDAD
+  // CATEGORÍA: SALUD & LONGEVIDAD (Verde Esmeralda)
   {
     id: "colageno-c-nn",
     category: "salud",
@@ -73,7 +127,7 @@ const PRODUCTS = [
     badgeColor: "emerald",
     description: "Ácidos grasos esenciales EPA y DHA purificados. Potente regulador antiinflamatorio sistémico, protector de la salud cardiovascular y función cognitiva. Cuenta con certificado libre de metales pesados y mercurio. Aprobado por la FDA.",
     variants: [
-      { label: "Frasco 60 cápsulas blandas", price: 33900, value: "60caps" }
+      { label: "Frasco 60 cápsulas blandas", price: 33900, value: "60 caps" }
     ],
     highlight: "Alto contenido de EPA y DHA"
   },
@@ -83,10 +137,10 @@ const PRODUCTS = [
     name: "CMZ + Vitamina D3",
     brand: "Natural Nutrition",
     badge: "Recuperación Nocturna",
-    badgeColor: "amber",
+    badgeColor: "emerald",
     description: "Fórmula quelatada de Calcio, Magnesio y Zinc combinada con Vitamina D3. Promueve el descanso profundo, el balance hormonal y la relajación neuromuscular. Aprobado por la FDA.",
     variants: [
-      { label: "Frasco 60 cápsulas", price: 24000, value: "60caps" }
+      { label: "Frasco 60 cápsulas", price: 24000, value: "60 caps" }
     ],
     highlight: "Minerales biodisponibles"
   },
@@ -96,7 +150,7 @@ const PRODUCTS = [
     name: "Vitamina D3 + K2 en Aceite MCT",
     brand: "Natural Nutrition",
     badge: "Sinergia Celular",
-    badgeColor: "amber",
+    badgeColor: "emerald",
     description: "Dúo sinérgico formulado en base de triglicéridos de cadena media (aceite de coco MCT). La Vitamina K2 asegura que el calcio movilizado por la D3 se fije en los huesos y no en las arterias. Certificado Sin TACC y aprobado por la FDA.",
     variants: [
       { label: "Gotero sublingual 30ml", price: 19700, value: "30ml" }
@@ -117,17 +171,17 @@ const PRODUCTS = [
     highlight: "Dosis terapéutica concentrada"
   },
 
-  // CATEGORÍA: ALIMENTACIÓN INTELIGENTE
+  // CATEGORÍA: ALIMENTACIÓN INTELIGENTE (Dorado Mate)
   {
     id: "mix-frutos-secos",
     category: "alimentacion",
     name: "Mix de Frutos Secos Premium (Receta Inteligente)",
     brand: "Selección Propia",
     badge: "Fórmula Propia",
-    badgeColor: "lime",
+    badgeColor: "amber",
     description: "1200g. Proporción balanceada con precisión nutricional: Maní, Nuez, Castaña de Cajú, Almendra, Pasas Rubias y Morenas, Chips de Banana y Ananá tricolor. Diseñado para cubrir micronutrientes diarios comiendo un puñado al día. Consultanos si querés sumar o quitar ingredientes a tu gusto. Materias primas de calidad aprobadas por la FDA.",
     variants: [
-      { label: "Bolsa Sellada 1200g (1.2 kg)", price: 22000, value: "1200g" }
+      { label: "Bolsa Sellada 1200g (1.2 kg)", price: 22000, value: "1.2 kg" }
     ],
     highlight: "100% personalizable a pedido"
   },
@@ -137,7 +191,7 @@ const PRODUCTS = [
     name: "Mix de Semillas Funcionales",
     brand: "Selección Propia",
     badge: "Fibra & Minerales",
-    badgeColor: "lime",
+    badgeColor: "amber",
     description: "500g. Combinación de semillas seleccionadas ricas en fibra soluble, zinc y ácidos grasos esenciales para incorporar en ensaladas, yogures o batidos. Aprobado por la FDA.",
     variants: [
       { label: "Paquete 500g", price: 4500, value: "500g" }
@@ -176,10 +230,10 @@ const PRODUCTS = [
     name: "Aceite de Oliva Extra Virgen Libanti",
     brand: "Libanti Mendoza",
     badge: "Prensada en Frío",
-    badgeColor: "lime",
+    badgeColor: "amber",
     description: "1 Litro. Primera prensada en frío elaborado en Mendoza. Acidez menor a 0.5%, alto en polifenoles y grasas monoinsaturadas cardiosaludables. Aprobado por la FDA.",
     variants: [
-      { label: "Botella 1 Litro", price: 24000, value: "1L" }
+      { label: "Botella 1 Litro", price: 24000, value: "1 Litro" }
     ],
     highlight: "Acidez < 0.5% - Cosecha Mendocina"
   },
@@ -189,20 +243,20 @@ const PRODUCTS = [
     name: "Hongos Adaptógenos en Gotero (FungiArtist)",
     brand: "FungiArtist",
     badge: "Extracto Doble",
-    badgeColor: "emerald",
+    badgeColor: "amber",
     description: "60ml. Tinturas concentradas de doble extracción hidroalcohólica. Regulan el eje del estrés, el descanso o la claridad mental según la especie que elijas. Aprobado por la FDA.",
     variants: [
-      { label: "Melena de León (Enfoque y Memoria) - 60ml", price: 24000, value: "melena" },
-      { label: "Cordyceps (Rendimiento Físico y VO2 Max) - 60ml", price: 24000, value: "cordyceps" },
-      { label: "Reishi (Calma y Calidad del Sueño) - 60ml", price: 24000, value: "reishi" },
-      { label: "Ashwagandha (Modulación de Cortisol) - 60ml", price: 24000, value: "ashwagandha" },
-      { label: "Tremella (Hidratación Celular y Piel) - 60ml", price: 24000, value: "tremella" }
+      { label: "Melena de León (Enfoque)", price: 24000, value: "Melena León" },
+      { label: "Cordyceps (Rendimiento)", price: 24000, value: "Cordyceps" },
+      { label: "Reishi (Calma / Sueño)", price: 24000, value: "Reishi" },
+      { label: "Ashwagandha (Cortisol)", price: 24000, value: "Ashwagandha" },
+      { label: "Tremella (Hidratación)", price: 24000, value: "Tremella" }
     ],
     highlight: "Doble extracción concentrada"
   }
 ];
 
-// 2. Estado Global de la Aplicación y Carrito
+// 3. Estado Global de la Aplicación y Carrito
 const STORAGE_KEY = "suplementos_mendoza_cart_v1";
 
 let state = {
@@ -251,7 +305,129 @@ function saveCartToStorage() {
   updateCartBadge();
 }
 
-// 3. Renderizado del Catálogo de Productos
+// 4. Generador de Pictogramas e Identidad Gráfica (Mapeo Trizona: Azul / Esmeralda / Ámbar)
+function getProductVisual(product) {
+  const theme = CATEGORY_THEMES[product.category] || CATEGORY_THEMES.rendimiento;
+  const iconColor = theme.iconColor;
+  const strokeColor = theme.strokeColor;
+  const shadowRgba = theme.shadowRgba;
+
+  switch (product.id) {
+    case "creatina-nn":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 16h28v6H18z" fill="${strokeColor}" fill-opacity="0.15" />
+          <rect x="14" y="22" width="36" height="34" rx="6" />
+          <path d="M22 34h20M22 42h14" stroke-width="2" opacity="0.6" />
+          <path d="M32 26v4M30 28h4" stroke-width="2" />
+        </svg>
+      `;
+    case "pre-work-nn":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="34 8 16 34 32 34 28 56 48 26 32 26 34 8" fill="${strokeColor}" fill-opacity="0.2" />
+        </svg>
+      `;
+    case "proteina-soja-nn":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 14h20l3 42H19l3-42z" fill="${strokeColor}" fill-opacity="0.15" />
+          <path d="M18 10h28v4H18z" />
+          <path d="M29 6h6v4h-6z" />
+          <path d="M24 28h16M25 36h14M26 44h12" stroke-width="1.8" opacity="0.5" />
+        </svg>
+      `;
+    case "colageno-c-nn":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="32" r="18" fill="${strokeColor}" fill-opacity="0.15" />
+          <path d="M24 26l8 12 8-12M32 38v10" />
+        </svg>
+      `;
+    case "omega-3-nn":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="20" y="16" width="24" height="32" rx="12" transform="rotate(-30 32 32)" fill="${strokeColor}" fill-opacity="0.18" />
+          <path d="M24 36c4-6 12-6 16 0" opacity="0.6" />
+        </svg>
+      `;
+    case "cmz-nn":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M38 14a18 18 0 1 0 12 28 20 20 0 0 1-12-28z" fill="${strokeColor}" fill-opacity="0.18" />
+          <circle cx="44" cy="20" r="2" fill="currentColor" />
+          <circle cx="48" cy="30" r="1.5" fill="currentColor" />
+        </svg>
+      `;
+    case "vitamina-d3-k2-nn":
+    case "hongos-adaptogenos":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M28 8h8v6h-8z" />
+          <path d="M30 14v6h4v-6" />
+          <path d="M22 24h20v26a4 4 0 0 1-4 4H26a4 4 0 0 1-4-4V24z" fill="${strokeColor}" fill-opacity="0.15" />
+          <path d="M32 32v12M32 44a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
+        </svg>
+      `;
+    case "vitamina-c-nn":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="32" r="18" fill="${strokeColor}" fill-opacity="0.15" />
+          <path d="M32 20v24M20 32h24" stroke-width="2.5" />
+        </svg>
+      `;
+    case "mix-frutos-secos":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="26" cy="34" rx="12" ry="16" transform="rotate(-15 26 34)" fill="${strokeColor}" fill-opacity="0.18" />
+          <ellipse cx="38" cy="32" rx="10" ry="14" transform="rotate(20 38 32)" fill="${strokeColor}" fill-opacity="0.12" />
+          <path d="M24 22c2 6 4 14 0 22M38 20c-1 5-2 12 1 18" stroke-width="1.8" opacity="0.6" />
+        </svg>
+      `;
+    case "mix-semillas":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M32 12c-8 10-8 20 0 30 8-10 8-20 0-30z" fill="${strokeColor}" fill-opacity="0.2" />
+          <path d="M18 26c-6 7-6 15 0 22 6-7 6-15 0-22z" fill="${strokeColor}" fill-opacity="0.12" />
+          <path d="M46 26c-6 7-6 15 0 22 6-7 6-15 0-22z" fill="${strokeColor}" fill-opacity="0.12" />
+        </svg>
+      `;
+    case "cafe-rdc":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="32" cy="32" rx="16" ry="20" transform="rotate(25 32 32)" fill="${strokeColor}" fill-opacity="0.18" />
+          <path d="M26 18c8 4 6 18 14 26" stroke-width="2" />
+        </svg>
+      `;
+    case "miel-juricich":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 18h20v6H22z" />
+          <rect x="18" y="24" width="28" height="28" rx="6" fill="${strokeColor}" fill-opacity="0.18" />
+          <polygon points="32 32 37 35 37 41 32 44 27 41 27 35" fill="none" stroke="currentColor" stroke-width="1.8" />
+        </svg>
+      `;
+    case "aceite-oliva-libanti":
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M28 8h8v6h-8z" />
+          <path d="M30 14v6h4v-6" />
+          <path d="M24 26l4-6h8l4 6v24a4 4 0 0 1-4 4H28a4 4 0 0 1-4-4V26z" fill="${strokeColor}" fill-opacity="0.18" />
+          <circle cx="32" cy="38" r="4" fill="${strokeColor}" fill-opacity="0.4" />
+        </svg>
+      `;
+    default:
+      return `
+        <svg class="w-16 h-16 ${iconColor} drop-shadow-[0_0_12px_${shadowRgba}]" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="18" y="16" width="28" height="34" rx="6" fill="${strokeColor}" fill-opacity="0.18" />
+          <path d="M24 10h16v6H24z" />
+          <path d="M32 26v14M25 33h14" />
+        </svg>
+      `;
+  }
+}
+
+// 5. Renderizado del Catálogo de Productos con Mapeo de 3 Colores
 function renderCatalog() {
   const container = document.getElementById("products-grid");
   if (!container) return;
@@ -262,7 +438,7 @@ function renderCatalog() {
 
   if (filteredProducts.length === 0) {
     container.innerHTML = `
-      <div class="col-span-full py-16 text-center text-zinc-500">
+      <div class="col-span-full py-16 text-center text-neutral-500 font-sans">
         No se encontraron productos en esta categoría.
       </div>
     `;
@@ -272,77 +448,97 @@ function renderCatalog() {
   container.innerHTML = filteredProducts.map((product) => {
     const selectedVarIndex = state.selectedVariants[product.id] || 0;
     const currentVariant = product.variants[selectedVarIndex];
+    const theme = CATEGORY_THEMES[product.category] || CATEGORY_THEMES.rendimiento;
 
-    // Estilos de badge según dev-brief.md
-    let badgeClass = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
-    if (product.badgeColor === "amber") {
-      badgeClass = "bg-amber-500/10 text-amber-400 border-amber-500/20";
-    } else if (product.badgeColor === "lime") {
-      badgeClass = "bg-lime-500/10 text-lime-400 border-lime-500/20";
-    }
-
+    // Botón principal de llamada a la acción ("Agregar"): Azul Eléctrico sólido y ergonómico
+    const btnClass = "bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20";
     const hasMultipleVariants = product.variants.length > 1;
 
     return `
-      <article class="product-card bg-zinc-900/90 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between relative overflow-hidden cursor-pointer" data-product-id="${product.id}">
+      <article
+        class="product-card group relative bg-neutral-900/60 hover:bg-neutral-900/90 border border-white/[0.08] ${theme.cardHoverBorder} rounded-3xl p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-black/70 hover:-translate-y-1 overflow-hidden backdrop-blur-sm cursor-pointer select-none"
+        data-product-id="${product.id}"
+      >
         <div>
-          <!-- Badge y Marca -->
+          <!-- Header de Card: Brand & Badge de Categoría con Color Semántico -->
           <div class="flex items-center justify-between gap-2 mb-3">
-            <span class="text-xs uppercase tracking-wider font-semibold text-zinc-400">${product.brand}</span>
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${badgeClass}">
+            <span class="font-outfit text-[11px] uppercase tracking-wider font-bold text-neutral-400">${product.brand}</span>
+            <span class="font-outfit px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase border ${theme.badgeClass}">
               ${product.badge}
             </span>
           </div>
 
-          <!-- Título -->
-          <h3 class="text-lg font-bold text-zinc-100 mb-2 leading-snug">
+          <!-- Contenedor Visual con Halo Lumínico y Pictograma -->
+          <div class="relative w-full h-40 rounded-2xl bg-neutral-950/80 border border-white/[0.05] flex items-center justify-center overflow-hidden mb-4 group-hover:border-white/[0.12] transition-colors">
+            <div class="absolute inset-0 bg-radial ${theme.haloClass} via-transparent to-transparent opacity-80 pointer-events-none"></div>
+            <div class="transform transition-transform duration-500 group-hover:scale-110">
+              ${getProductVisual(product)}
+            </div>
+          </div>
+
+          <!-- Título del Producto (Outfit) -->
+          <h3 class="font-outfit text-xl font-bold text-neutral-50 mb-1.5 leading-snug ${theme.cardTitleHover} transition-colors">
             ${product.name}
           </h3>
 
-          <!-- Descripción -->
-          <p class="text-sm text-zinc-400 line-clamp-3 mb-4 leading-relaxed">
+          <!-- Descripción (Lato) -->
+          <p class="font-sans text-xs text-neutral-400 line-clamp-2 leading-relaxed mb-3">
             ${product.description}
           </p>
 
-          <!-- Highlight / Atributo Clave -->
-          <div class="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-300 bg-zinc-800/60 px-2.5 py-1 rounded-md mb-4">
-            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          <!-- Highlight / Beneficio Técnico -->
+          <div class="inline-flex items-center gap-1.5 text-[11px] font-semibold ${theme.highlightClass} border px-2.5 py-1 rounded-lg mb-4 w-fit">
+            <svg class="w-3.5 h-3.5 ${theme.checkIconColor}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
             </svg>
-            ${product.highlight}
+            <span>${product.highlight}</span>
           </div>
         </div>
 
-        <div class="pt-4 border-t border-zinc-800/80">
-          <!-- Selector de Variantes (si tiene más de 1) -->
+        <div>
+          <!-- Selector Táctil de Variantes (Pill Switchers con estilo de Categoría) -->
           ${hasMultipleVariants ? `
-            <div class="mb-3">
-              <label class="block text-xs font-medium text-zinc-400 mb-1.5">Elegir presentación:</label>
-              <select class="variant-select w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-200 focus:outline-none focus:border-emerald-500 transition-colors" data-product-id="${product.id}">
-                ${product.variants.map((v, idx) => `
-                  <option value="${idx}" ${idx === selectedVarIndex ? "selected" : ""}>
-                    ${v.label} - ${formatPrice(v.price)}
-                  </option>
-                `).join("")}
-              </select>
+            <div class="space-y-1.5 mb-4 pt-3 border-t border-white/[0.06]">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block font-outfit">Elegir presentación:</span>
+              <div class="grid grid-cols-${product.variants.length > 2 ? '3' : '2'} gap-1.5 variant-pill-group" data-product-id="${product.id}">
+                ${product.variants.map((v, idx) => {
+                  const isSelected = idx === selectedVarIndex;
+                  return `
+                    <button
+                      type="button"
+                      class="variant-pill py-1.5 px-2 rounded-lg text-[11px] sm:text-xs text-center border transition-all font-outfit truncate ${isSelected ? theme.pillActive : theme.pillInactive}"
+                      data-product-id="${product.id}"
+                      data-variant-idx="${idx}"
+                      title="${v.label}"
+                    >
+                      ${v.value || v.label}
+                    </button>
+                  `;
+                }).join("")}
+              </div>
             </div>
           ` : `
-            <div class="text-xs text-zinc-400 mb-3 font-medium">
-              Presentación: <span class="text-zinc-200">${currentVariant.label}</span>
+            <div class="text-xs text-neutral-400 mb-4 pt-3 border-t border-white/[0.06] font-medium font-sans">
+              Presentación: <span class="text-neutral-200 font-semibold">${currentVariant.label}</span>
             </div>
           `}
 
-          <!-- Precio y Botón Agregar -->
-          <div class="flex items-center justify-between gap-3 mt-1">
+          <!-- Footer de Card: Precio y Botón Agregar en Azul Eléctrico -->
+          <div class="flex items-end justify-between gap-3 pt-2">
             <div>
-              <span class="block text-xs text-zinc-500 uppercase tracking-wider font-semibold">Precio</span>
-              <span class="text-xl font-bold text-zinc-100" id="price-${product.id}">
+              <span class="block text-[10px] uppercase tracking-wider font-semibold text-neutral-500 font-sans">Precio Lista</span>
+              <span class="font-sans font-bold text-2xl text-neutral-50 tracking-tight leading-none" id="price-${product.id}">
                 ${formatPrice(currentVariant.price)}
               </span>
             </div>
 
-            <button type="button" class="btn-add-cart inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-xs sm:text-sm transition-all shadow-md shadow-emerald-500/10 active:scale-95" data-product-id="${product.id}">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button
+              type="button"
+              class="btn-add-cart inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl ${btnClass} font-sans font-semibold text-xs whitespace-nowrap transition-all shadow-lg active:scale-95"
+              data-product-id="${product.id}"
+              aria-label="Agregar ${product.name} al pedido"
+            >
+              <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
               </svg>
               <span>Agregar</span>
@@ -356,53 +552,72 @@ function renderCatalog() {
   attachProductEvents();
 }
 
-// 4. Manejo de Eventos del Catálogo
+// 6. Manejo de Eventos del Catálogo (Pill Switchers, Agregar, Modal)
 function attachProductEvents() {
-  // Selector de variantes
-  document.querySelectorAll(".variant-select").forEach((select) => {
-    select.addEventListener("change", (e) => {
-      const productId = e.target.getAttribute("data-product-id");
-      const variantIdx = parseInt(e.target.value, 10);
+  // Selector táctil de variantes (Pill Switchers)
+  document.querySelectorAll(".variant-pill").forEach((pill) => {
+    pill.addEventListener("click", (e) => {
+      e.stopPropagation(); // Evita abrir el modal al clickear una variante
+      const productId = pill.getAttribute("data-product-id");
+      const variantIdx = parseInt(pill.getAttribute("data-variant-idx"), 10);
       state.selectedVariants[productId] = variantIdx;
 
       const product = PRODUCTS.find((p) => p.id === productId);
-      if (product) {
-        const priceEl = document.getElementById(`price-${productId}`);
-        if (priceEl) {
-          priceEl.textContent = formatPrice(product.variants[variantIdx].price);
-        }
+      if (!product) return;
+      const theme = CATEGORY_THEMES[product.category] || CATEGORY_THEMES.rendimiento;
+
+      // Actualizar estilos activos de todos los pills del producto
+      const group = pill.closest(".variant-pill-group");
+      if (group) {
+        group.querySelectorAll(".variant-pill").forEach((btn) => {
+          const btnIdx = parseInt(btn.getAttribute("data-variant-idx"), 10);
+          if (btnIdx === variantIdx) {
+            btn.className = `variant-pill py-1.5 px-2 rounded-lg text-[11px] sm:text-xs text-center border transition-all font-outfit truncate ${theme.pillActive}`;
+          } else {
+            btn.className = `variant-pill py-1.5 px-2 rounded-lg text-[11px] sm:text-xs text-center border transition-all font-outfit truncate ${theme.pillInactive}`;
+          }
+        });
+      }
+
+      // Actualizar precio en la card
+      const priceEl = document.getElementById(`price-${productId}`);
+      if (priceEl) {
+        priceEl.textContent = formatPrice(product.variants[variantIdx].price);
       }
     });
   });
 
-  // Botón "Agregar al Pedido"
+  // Botón "Agregar" con microinteracción visual
   document.querySelectorAll(".btn-add-cart").forEach((button) => {
     button.addEventListener("click", (e) => {
-      e.stopPropagation();
+      e.stopPropagation(); // Evita abrir el modal
       const targetBtn = e.currentTarget;
       const productId = targetBtn.getAttribute("data-product-id");
+
       addToCart(productId);
 
       // Microinteracción en el botón
       const originalHTML = targetBtn.innerHTML;
       targetBtn.innerHTML = `
-        <svg class="w-4 h-4 text-zinc-950" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-4 h-4 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
         </svg>
-        <span>¡Sumado!</span>
+        <span class="whitespace-nowrap">¡Agregado!</span>
       `;
-      targetBtn.classList.add("bg-emerald-400");
+      targetBtn.classList.remove("bg-blue-600");
+      targetBtn.classList.add("bg-blue-500");
       setTimeout(() => {
         targetBtn.innerHTML = originalHTML;
-        targetBtn.classList.remove("bg-emerald-400");
+        targetBtn.classList.remove("bg-blue-500");
+        targetBtn.classList.add("bg-blue-600");
       }, 900);
     });
   });
 
-  // Click en la tarjeta del producto para abrir Modal
+  // Click en la tarjeta del producto para abrir Modal Aislado
   document.querySelectorAll(".product-card").forEach((card) => {
     card.addEventListener("click", (e) => {
-      if (e.target.closest(".btn-add-cart") || e.target.closest(".variant-select")) {
+      if (e.target.closest(".btn-add-cart") || e.target.closest(".variant-pill")) {
         return;
       }
       const productId = card.getAttribute("data-product-id");
@@ -411,7 +626,7 @@ function attachProductEvents() {
   });
 }
 
-// 5. Gestión del Carrito (Acciones)
+// 7. Gestión del Carrito (Acciones)
 function addToCart(productId) {
   const product = PRODUCTS.find((p) => p.id === productId);
   if (!product) return;
@@ -419,7 +634,7 @@ function addToCart(productId) {
   const variantIdx = state.selectedVariants[productId] || 0;
   const variant = product.variants[variantIdx];
 
-  // Identificador único por producto y variante
+  // Identificador único por producto y variante seleccionada
   const cartItemId = `${product.id}-${variant.value}`;
   const existingItemIndex = state.cart.findIndex((item) => item.cartItemId === cartItemId);
 
@@ -429,6 +644,7 @@ function addToCart(productId) {
     state.cart.push({
       cartItemId,
       id: product.id,
+      category: product.category,
       name: product.name,
       brand: product.brand,
       selectedVariant: variant,
@@ -478,12 +694,12 @@ function triggerCartAnimation() {
   const btn = document.getElementById("open-cart-btn");
   if (badge) {
     badge.classList.remove("cart-bump");
-    void badge.offsetWidth; // Force reflow
+    void badge.offsetWidth; // Forzar reflujo
     badge.classList.add("cart-bump");
   }
   if (btn) {
-    btn.classList.add("border-emerald-500/50");
-    setTimeout(() => btn.classList.remove("border-emerald-500/50"), 400);
+    btn.classList.add("border-blue-500/60");
+    setTimeout(() => btn.classList.remove("border-blue-500/60"), 400);
   }
 }
 
@@ -500,7 +716,7 @@ function updateCartBadge() {
   }
 }
 
-// 6. Drawer y Modal del Carrito
+// 8. Drawer y Modal del Carrito
 function openDrawer() {
   state.isDrawerOpen = true;
   const drawer = document.getElementById("cart-drawer");
@@ -532,6 +748,7 @@ function closeDrawer() {
   panel.classList.remove("translate-x-0", "pointer-events-auto");
   panel.classList.add("translate-x-full", "pointer-events-none");
   drawer.classList.add("pointer-events-none");
+
   if (!state.isModalOpen) {
     document.body.classList.remove("overflow-hidden");
   }
@@ -560,35 +777,41 @@ function renderCartDrawer() {
     subtotalEl.textContent = formatPrice(total);
   }
 
-  itemsContainer.innerHTML = state.cart.map((item) => `
-    <div class="flex items-center justify-between gap-3 p-3.5 bg-zinc-950/80 rounded-xl border border-zinc-800/80">
-      <div class="flex-1 min-w-0">
-        <h4 class="text-sm font-semibold text-zinc-100 truncate">${item.name}</h4>
-        <span class="text-xs text-zinc-400 block">${item.selectedVariant.label}</span>
-        <span class="text-xs font-bold text-emerald-400 mt-1 block">
-          ${formatPrice(item.selectedVariant.price)} c/u
-        </span>
-      </div>
+  itemsContainer.innerHTML = state.cart.map((item) => {
+    const catBorder = item.category === "salud"
+      ? "border-l-2 border-emerald-500"
+      : (item.category === "alimentacion" ? "border-l-2 border-amber-500" : "border-l-2 border-blue-500");
 
-      <!-- Controles de Cantidad -->
-      <div class="flex items-center gap-1.5 bg-zinc-900 border border-zinc-700/80 rounded-lg p-1">
-        <button type="button" class="btn-qty-minus w-6 h-6 flex items-center justify-center text-zinc-300 hover:text-white rounded hover:bg-zinc-800 transition" data-cart-id="${item.cartItemId}" aria-label="Disminuir cantidad">
-          -
-        </button>
-        <span class="text-xs font-bold text-zinc-100 px-1.5 min-w-[1.25rem] text-center">${item.quantity}</span>
-        <button type="button" class="btn-qty-plus w-6 h-6 flex items-center justify-center text-zinc-300 hover:text-white rounded hover:bg-zinc-800 transition" data-cart-id="${item.cartItemId}" aria-label="Aumentar cantidad">
-          +
+    return `
+      <div class="flex items-center justify-between gap-3 p-3.5 bg-neutral-950/80 rounded-2xl border border-white/[0.08] ${catBorder}">
+        <div class="flex-1 min-w-0">
+          <h4 class="font-outfit text-sm font-bold text-neutral-100 truncate">${item.name}</h4>
+          <span class="text-xs text-neutral-400 block font-sans">${item.selectedVariant.label}</span>
+          <span class="font-outfit text-xs font-black text-blue-400 mt-1 block">
+            ${formatPrice(item.selectedVariant.price)} c/u
+          </span>
+        </div>
+
+        <!-- Controles de Cantidad -->
+        <div class="flex items-center gap-1.5 bg-neutral-900 border border-white/[0.08] rounded-xl p-1">
+          <button type="button" class="btn-qty-minus w-6 h-6 flex items-center justify-center text-neutral-300 hover:text-white rounded-lg hover:bg-white/[0.08] transition" data-cart-id="${item.cartItemId}" aria-label="Disminuir cantidad">
+            -
+          </button>
+          <span class="font-outfit text-xs font-bold text-neutral-100 px-1.5 min-w-[1.25rem] text-center">${item.quantity}</span>
+          <button type="button" class="btn-qty-plus w-6 h-6 flex items-center justify-center text-neutral-300 hover:text-white rounded-lg hover:bg-white/[0.08] transition" data-cart-id="${item.cartItemId}" aria-label="Aumentar cantidad">
+            +
+          </button>
+        </div>
+
+        <!-- Botón Eliminar -->
+        <button type="button" class="btn-remove-item text-neutral-500 hover:text-red-400 p-1.5 rounded-lg transition hover:bg-white/[0.05]" data-cart-id="${item.cartItemId}" aria-label="Eliminar producto">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
         </button>
       </div>
-
-      <!-- Botón Eliminar -->
-      <button type="button" class="btn-remove-item text-zinc-500 hover:text-red-400 p-1.5 rounded-lg transition" data-cart-id="${item.cartItemId}" aria-label="Eliminar producto">
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-        </svg>
-      </button>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 
   // Eventos de botones dentro del drawer
   itemsContainer.querySelectorAll(".btn-qty-minus").forEach((btn) => {
@@ -610,7 +833,7 @@ function renderCartDrawer() {
   });
 }
 
-// 6.5 Modal de Detalle de Producto Aislado
+// 9. Modal de Producto Aislado
 function openProductModal(productId) {
   const product = PRODUCTS.find((p) => p.id === productId);
   if (!product) return;
@@ -657,80 +880,84 @@ function renderProductModal(product) {
 
   const selectedVarIndex = state.selectedVariants[product.id] || 0;
   const currentVariant = product.variants[selectedVarIndex];
+  const theme = CATEGORY_THEMES[product.category] || CATEGORY_THEMES.rendimiento;
 
-  let badgeClass = "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
-  if (product.badgeColor === "amber") {
-    badgeClass = "bg-amber-500/10 text-amber-400 border-amber-500/20";
-  } else if (product.badgeColor === "lime") {
-    badgeClass = "bg-lime-500/10 text-lime-400 border-lime-500/20";
-  }
-
+  const btnClass = "bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/25";
   const hasMultipleVariants = product.variants.length > 1;
 
   body.innerHTML = `
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-start">
-      <!-- Contenedor de imagen cuadrado (proporción 1:1, fondo gris oscuro bg-zinc-800 con texto centrado "Product Image") -->
-      <div class="aspect-square w-full bg-zinc-800 rounded-2xl flex flex-col items-center justify-center border border-zinc-700/60 shadow-inner select-none p-4 text-center">
-        <svg class="w-12 h-12 text-zinc-600 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-        <span class="text-zinc-400 font-semibold text-sm sm:text-base tracking-wide">Product Image</span>
+      <!-- Contenedor Visual con Halo de Categoría -->
+      <div class="aspect-square w-full bg-neutral-950/80 rounded-3xl flex flex-col items-center justify-center border border-white/[0.08] shadow-inner select-none p-6 text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-radial ${theme.haloClass} via-transparent to-transparent opacity-80 pointer-events-none"></div>
+        <div class="transform scale-125">
+          ${getProductVisual(product)}
+        </div>
+        <span class="font-outfit uppercase tracking-widest text-[11px] font-bold text-neutral-400 mt-6 block">
+          ${product.brand}
+        </span>
       </div>
 
-      <!-- Información completa sin truncar -->
+      <!-- Información Completa -->
       <div class="flex flex-col justify-between h-full space-y-4">
         <div>
           <!-- Marca y Badge -->
           <div class="flex items-center justify-between gap-2 mb-2.5">
-            <span class="text-xs uppercase tracking-wider font-semibold text-zinc-400">${product.brand}</span>
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${badgeClass}">
+            <span class="font-outfit text-xs uppercase tracking-wider font-bold text-neutral-400">${product.brand}</span>
+            <span class="font-outfit inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider border ${theme.badgeClass}">
               ${product.badge}
             </span>
           </div>
 
           <!-- Nombre del producto -->
-          <h2 id="modal-product-name" class="text-xl sm:text-2xl font-bold text-zinc-100 leading-snug mb-3">
+          <h2 id="modal-product-name" class="font-outfit text-xl sm:text-2xl font-bold text-neutral-100 leading-snug mb-3">
             ${product.name}
           </h2>
 
           <!-- Highlight -->
-          <div class="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-300 bg-zinc-800/80 px-2.5 py-1 rounded-md mb-4 border border-zinc-700/50">
-            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
+          <div class="inline-flex items-center gap-1.5 text-xs font-semibold ${theme.highlightClass} px-2.5 py-1 rounded-lg mb-4 border">
+            <span class="${theme.checkIconColor}">✓</span>
             <span>${product.highlight}</span>
           </div>
 
-          <!-- Descripción completa sin truncar -->
-          <div class="text-sm text-zinc-300 leading-relaxed space-y-2 mb-4 font-normal">
+          <!-- Descripción completa -->
+          <div class="text-sm text-neutral-300 leading-relaxed space-y-2 mb-4 font-sans font-normal">
             <p>${product.description}</p>
           </div>
         </div>
 
-        <div class="pt-4 border-t border-zinc-800">
-          <!-- Selector de variantes / presentación -->
+        <div class="pt-4 border-t border-white/[0.08]">
+          <!-- Selector Táctil de Variantes en Modal -->
           ${hasMultipleVariants ? `
             <div class="mb-4">
-              <label for="modal-variant-select" class="block text-xs font-medium text-zinc-400 mb-1.5">Elegir presentación / sabor:</label>
-              <select id="modal-variant-select" class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-2 text-xs sm:text-sm text-zinc-200 focus:outline-none focus:border-emerald-500 transition-colors" data-product-id="${product.id}">
-                ${product.variants.map((v, idx) => `
-                  <option value="${idx}" ${idx === selectedVarIndex ? "selected" : ""}>
-                    ${v.label} - ${formatPrice(v.price)}
-                  </option>
-                `).join("")}
-              </select>
+              <label class="block font-outfit text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2">Elegir presentación:</label>
+              <div class="grid grid-cols-${product.variants.length > 2 ? '3' : '2'} gap-2 modal-pill-group" data-product-id="${product.id}">
+                ${product.variants.map((v, idx) => {
+                  const isSelected = idx === selectedVarIndex;
+                  return `
+                    <button
+                      type="button"
+                      class="modal-variant-pill py-2 px-2.5 rounded-xl text-xs text-center border transition-all font-outfit truncate ${isSelected ? theme.pillActive : theme.pillInactive}"
+                      data-product-id="${product.id}"
+                      data-variant-idx="${idx}"
+                    >
+                      ${v.value || v.label}
+                    </button>
+                  `;
+                }).join("")}
+              </div>
             </div>
           ` : `
-            <div class="text-xs text-zinc-400 mb-4 font-medium">
-              Presentación: <span class="text-zinc-200 font-semibold">${currentVariant.label}</span>
+            <div class="text-xs text-neutral-400 mb-4 font-medium font-sans">
+              Presentación: <span class="text-neutral-200 font-semibold">${currentVariant.label}</span>
             </div>
           `}
 
-          <!-- Precio y Botón Agregar -->
+          <!-- Precio y Botón Agregar "Agregar al Pedido" en Azul Eléctrico -->
           <div class="flex items-center justify-between gap-3 pt-2">
-            <div>
-              <span class="block text-xs text-zinc-500 uppercase tracking-wider font-semibold">Precio</span>
-              <span class="text-2xl font-bold text-zinc-100" id="modal-price-${product.id}">
+            <div class="shrink-0">
+              <span class="block text-[10px] uppercase tracking-wider font-semibold text-neutral-500 font-sans">Precio Lista</span>
+              <span class="font-sans font-bold text-2xl text-neutral-50" id="modal-price-${product.id}">
                 ${formatPrice(currentVariant.price)}
               </span>
             </div>
@@ -738,10 +965,10 @@ function renderProductModal(product) {
             <button
               type="button"
               id="modal-add-cart-btn"
-              class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-xs sm:text-sm transition-all shadow-md shadow-emerald-500/10 active:scale-95"
+              class="inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl ${btnClass} font-sans font-semibold text-xs sm:text-sm whitespace-nowrap shrink-0 transition-all shadow-lg active:scale-95"
               data-product-id="${product.id}"
             >
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
               </svg>
               <span>Agregar al Pedido</span>
@@ -752,28 +979,47 @@ function renderProductModal(product) {
     </div>
   `;
 
-  // Listener para selector de variante en modal
-  const modalSelect = document.getElementById("modal-variant-select");
-  if (modalSelect) {
-    modalSelect.addEventListener("change", (e) => {
-      const variantIdx = parseInt(e.target.value, 10);
-      state.selectedVariants[product.id] = variantIdx;
+  // Listener para los pills dentro del modal
+  const modalPillGroup = body.querySelector(".modal-pill-group");
+  if (modalPillGroup) {
+    modalPillGroup.querySelectorAll(".modal-variant-pill").forEach((pill) => {
+      pill.addEventListener("click", () => {
+        const variantIdx = parseInt(pill.getAttribute("data-variant-idx"), 10);
+        state.selectedVariants[product.id] = variantIdx;
 
-      // Actualizar precio en modal
-      const modalPrice = document.getElementById(`modal-price-${product.id}`);
-      if (modalPrice) {
-        modalPrice.textContent = formatPrice(product.variants[variantIdx].price);
-      }
+        // Actualizar visual de pills en modal
+        modalPillGroup.querySelectorAll(".modal-variant-pill").forEach((btn) => {
+          const btnIdx = parseInt(btn.getAttribute("data-variant-idx"), 10);
+          if (btnIdx === variantIdx) {
+            btn.className = `modal-variant-pill py-2 px-2.5 rounded-xl text-xs text-center border transition-all font-outfit truncate ${theme.pillActive}`;
+          } else {
+            btn.className = `modal-variant-pill py-2 px-2.5 rounded-xl text-xs text-center border transition-all font-outfit truncate ${theme.pillInactive}`;
+          }
+        });
 
-      // Sincronizar en la tarjeta del catálogo
-      const cardSelect = document.querySelector(`.variant-select[data-product-id="${product.id}"]`);
-      if (cardSelect) {
-        cardSelect.value = variantIdx;
-      }
-      const cardPrice = document.getElementById(`price-${product.id}`);
-      if (cardPrice) {
-        cardPrice.textContent = formatPrice(product.variants[variantIdx].price);
-      }
+        // Actualizar precio en modal
+        const modalPrice = document.getElementById(`modal-price-${product.id}`);
+        if (modalPrice) {
+          modalPrice.textContent = formatPrice(product.variants[variantIdx].price);
+        }
+
+        // Sincronizar en la tarjeta del catálogo
+        const cardGroup = document.querySelector(`.variant-pill-group[data-product-id="${product.id}"]`);
+        if (cardGroup) {
+          cardGroup.querySelectorAll(".variant-pill").forEach((btn) => {
+            const btnIdx = parseInt(btn.getAttribute("data-variant-idx"), 10);
+            if (btnIdx === variantIdx) {
+              btn.className = `variant-pill py-1.5 px-2 rounded-lg text-[11px] sm:text-xs text-center border transition-all font-outfit truncate ${theme.pillActive}`;
+            } else {
+              btn.className = `variant-pill py-1.5 px-2 rounded-lg text-[11px] sm:text-xs text-center border transition-all font-outfit truncate ${theme.pillInactive}`;
+            }
+          });
+        }
+        const cardPrice = document.getElementById(`price-${product.id}`);
+        if (cardPrice) {
+          cardPrice.textContent = formatPrice(product.variants[variantIdx].price);
+        }
+      });
     });
   }
 
@@ -784,21 +1030,23 @@ function renderProductModal(product) {
       addToCart(product.id);
       const originalHTML = modalAddBtn.innerHTML;
       modalAddBtn.innerHTML = `
-        <svg class="w-4 h-4 text-zinc-950" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-4 h-4 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
         </svg>
-        <span>¡Agregado al Pedido!</span>
+        <span class="whitespace-nowrap">¡Agregado al Pedido!</span>
       `;
-      modalAddBtn.classList.add("bg-emerald-400");
+      modalAddBtn.classList.remove("bg-blue-600");
+      modalAddBtn.classList.add("bg-blue-500");
       setTimeout(() => {
         modalAddBtn.innerHTML = originalHTML;
-        modalAddBtn.classList.remove("bg-emerald-400");
+        modalAddBtn.classList.remove("bg-blue-500");
+        modalAddBtn.classList.add("bg-blue-600");
       }, 900);
     });
   }
 }
 
-// 7. Serializador Oficial a WhatsApp según dev-brief.md
+// 10. Serializador Oficial a WhatsApp según dev-brief.md
 function buildWhatsAppLink(cartItems, formData) {
   const WHATSAPP_PHONE = "5492613364201";
 
@@ -827,25 +1075,32 @@ _Enviado desde suplementosmendoza.com.ar_`;
   return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
 }
 
-// 8. Inicialización General y Listeners Globales
+// 11. Inicialización General y Listeners Globales
 document.addEventListener("DOMContentLoaded", () => {
   loadCartFromStorage();
   renderCatalog();
 
-  // Filtros de Categorías
+  // Filtros de Categorías (Dock Switcher de 3 Categorías)
   const filterButtons = document.querySelectorAll(".category-tab");
   filterButtons.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const category = e.currentTarget.getAttribute("data-category");
       state.activeCategory = category;
 
-      // Actualizar estilos activos de pestañas
+      // Resetear estilos de todos los botones de filtro
       filterButtons.forEach((b) => {
-        b.classList.remove("bg-emerald-500", "text-zinc-950", "font-bold");
-        b.classList.add("bg-zinc-900", "text-zinc-400", "font-medium");
+        b.className = "category-tab px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all bg-transparent text-neutral-400 font-medium hover:text-white hover:bg-white/[0.04] font-outfit";
       });
-      e.currentTarget.classList.add("bg-emerald-500", "text-zinc-950", "font-bold");
-      e.currentTarget.classList.remove("bg-zinc-900", "text-zinc-400", "font-medium");
+
+      // Aplicar color activo correspondiente
+      if (category === "salud") {
+        e.currentTarget.className = "category-tab px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all bg-emerald-600 text-white font-bold shadow-md shadow-emerald-600/25 font-outfit";
+      } else if (category === "alimentacion") {
+        e.currentTarget.className = "category-tab px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all bg-amber-600 text-white font-bold shadow-md shadow-amber-600/25 font-outfit";
+      } else {
+        // "rendimiento" o "all"
+        e.currentTarget.className = "category-tab px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all bg-blue-600 text-white font-bold shadow-md shadow-blue-600/25 font-outfit";
+      }
 
       renderCatalog();
     });

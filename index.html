@@ -8,7 +8,7 @@
   <meta name="description" content="Distribuidor oficial de Natural Nutrition en Mendoza. Creatina pura, proteínas y alimentos inteligentes. Envíos en Gran Mendoza. Pedí directo por WhatsApp." />
   <meta name="robots" content="index, follow" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#09090b" />
+  <meta name="theme-color" content="#08090A" />
   <link rel="canonical" href="https://suplementosmendoza.com.ar/" />
 
   <!-- Open Graph / Redes / WhatsApp Previews -->
@@ -21,10 +21,10 @@
   <meta property="og:site_name" content="Suplementos Mendoza" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Preconnect Fuentes para CWV LCP -->
+  <!-- Preconnect Fuentes para CWV LCP (Outfit + Lato según design-system.md) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS CDN para renderizado inmediato -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -34,15 +34,28 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+            sans: ['"Lato"', 'system-ui', '-apple-system', 'sans-serif'],
+            outfit: ['"Outfit"', 'sans-serif'],
+            display: ['"Outfit"', 'sans-serif'],
           },
           colors: {
-            zinc: {
-              950: '#09090b',
-              900: '#18181b',
-              850: '#202024',
-              800: '#27272a',
-              700: '#3f3f46',
+            rendimiento: {
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            },
+            salud: {
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+            },
+            alimentacion: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
             }
           }
         }
@@ -109,48 +122,56 @@
   <!-- Estilos complementarios -->
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-emerald-500 selection:text-zinc-950">
+<body class="bg-[#08090A] text-neutral-100 font-sans antialiased selection:bg-blue-600 selection:text-white">
 
-  <!-- 3.1 Barra Superior Informativa (Top Announcement Bar) -->
-  <div class="bg-zinc-900 border-b border-zinc-800 text-xs py-2 px-4 text-center text-zinc-400 font-medium">
-    📍 Distribuidor Oficial Natural Nutrition en Mendoza | Envíos a domicilio en Gran Mendoza y puntos de retiro
+  <!-- 3.1 Barra Superior Informativa (Top Live Bar con pulso en vivo) -->
+  <div class="bg-[#0c0d10] border-b border-white/[0.06] text-xs py-2 px-4 text-center text-neutral-300 font-medium">
+    <div class="max-w-7xl mx-auto flex items-center justify-center gap-2">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+      </span>
+      <span class="font-outfit tracking-wider text-[11px] uppercase font-semibold text-neutral-300">
+        Distribuidor Oficial Natural Nutrition Mendoza <span class="text-neutral-600 px-1">•</span> Stock Local Inmediato <span class="text-neutral-600 px-1">•</span> Envíos en Gran Mendoza
+      </span>
+    </div>
   </div>
 
   <!-- 3.2 Header / Navegación -->
-  <header class="sticky top-0 z-40 backdrop-blur-md bg-zinc-950/80 border-b border-zinc-800/80 px-4 md:px-8 py-3.5 transition-all">
+  <header class="sticky top-0 z-40 backdrop-blur-xl bg-[#08090A]/85 border-b border-white/[0.08] px-4 md:px-8 py-3.5 transition-all">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
       <!-- Logo Brand -->
       <a href="#" class="flex flex-col group">
-        <span class="text-base sm:text-lg font-extrabold tracking-tight text-zinc-100 group-hover:text-emerald-400 transition-colors">
+        <span class="font-outfit text-base sm:text-lg font-black tracking-tight text-neutral-100 group-hover:text-blue-400 transition-colors">
           SUPLEMENTOS MENDOZA
         </span>
-        <span class="text-[10px] tracking-widest uppercase font-semibold text-emerald-400/90 -mt-1">
+        <span class="font-outfit text-[10px] tracking-widest uppercase font-bold text-blue-500 -mt-1">
           DISTRIBUIDOR OFICIAL NN
         </span>
       </a>
 
       <!-- Enlaces Desktop -->
-      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-300" aria-label="Navegación principal">
-        <a href="#catalogo" class="hover:text-emerald-400 transition-colors">Catálogo</a>
-        <a href="#origen" class="hover:text-emerald-400 transition-colors">Filosofía</a>
-        <a href="#mayoristas" class="hover:text-emerald-400 transition-colors">Gimnasios & Mayoristas</a>
-        <a href="#faq" class="hover:text-emerald-400 transition-colors">Preguntas Frecuentes</a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-neutral-300" aria-label="Navegación principal">
+        <a href="#catalogo" class="hover:text-blue-400 transition-colors">Catálogo</a>
+        <a href="#origen" class="hover:text-blue-400 transition-colors">Filosofía</a>
+        <a href="#mayoristas" class="hover:text-blue-400 transition-colors">Gimnasios & Mayoristas</a>
+        <a href="#faq" class="hover:text-blue-400 transition-colors">Preguntas Frecuentes</a>
       </nav>
 
       <!-- Botón Carrito Flotante -->
       <button
         id="open-cart-btn"
         type="button"
-        class="relative flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/80 px-4 py-2 rounded-full text-sm font-medium text-zinc-200 transition-all active:scale-95"
+        class="relative flex items-center gap-2 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 px-4 py-2 rounded-full text-xs font-semibold text-neutral-200 transition-all active:scale-95"
         aria-label="Abrir panel de pedido"
       >
-        <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
         </svg>
-        <span>Tu Pedido</span>
+        <span class="font-outfit tracking-wide">Tu Pedido</span>
         <span
           id="cart-badge"
-          class="hidden bg-emerald-500 text-zinc-950 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center -mr-1"
+          class="hidden bg-blue-600 text-white font-black text-[11px] w-5 h-5 rounded-full flex items-center justify-center -mr-1 shadow-md shadow-blue-600/30"
         >
           0
         </span>
@@ -161,58 +182,59 @@
   <main>
     <!-- 3.3 Hero Section -->
     <section class="relative pt-12 pb-20 px-4 md:px-8 max-w-7xl mx-auto overflow-hidden">
-      <!-- Glow ambiental sutil -->
-      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+      <!-- Atmósfera Lumínica con Doble Gradiente Suave (Sin deslumbramiento) -->
+      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-gradient-to-tr from-blue-600/15 via-blue-700/10 to-transparent blur-[140px] rounded-full pointer-events-none -z-10"></div>
+      <div class="absolute top-1/3 left-1/4 w-64 h-64 bg-amber-500/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
 
       <div class="flex flex-col items-center text-center">
         <!-- Eyebrow Tag -->
-        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-6">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold font-outfit uppercase tracking-wider bg-blue-600/10 text-blue-400 border border-blue-600/30 mb-6">
           <span>⚡</span>
           <span>SUPLEMENTACIÓN LIMPIA & ALIMENTACIÓN CONSCIENTE</span>
         </div>
 
-        <!-- H1 Principal -->
-        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-zinc-100 max-w-4xl leading-tight">
-          Suplementación deportiva y comida real en Mendoza. Calidad de fábrica, sin vueltas ni precios inflados por la marca.
+        <!-- H1 Principal en Blanco Sólido para Máxima Legibilidad -->
+        <h1 class="font-outfit text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white max-w-4xl leading-[1.15]">
+          Suplementación deportiva y comida real en Mendoza. Pureza de fábrica, sin vueltas ni precios inflados.
         </h1>
 
         <!-- Subtítulo -->
-        <p class="text-base sm:text-lg text-zinc-400 max-w-2xl mt-5 leading-relaxed">
-          Somos distribuidores oficiales de Natural Nutrition en Gran Mendoza y seleccionamos suplementos y alimentos reales. Creatina pura, proteínas limpias y frutos secos para maximizar el rendimiento diario.
+        <p class="text-base sm:text-lg text-neutral-400 max-w-2xl mt-5 leading-relaxed font-sans font-normal">
+          Distribuidores oficiales de <strong class="text-neutral-200 font-semibold">Natural Nutrition</strong> en Gran Mendoza. Creatina 100% pura, proteínas limpias y frutos secos balanceados para maximizar el rendimiento diario.
         </p>
 
-        <!-- Botones de Acción (CTAs) -->
+        <!-- Botones de Acción (CTAs con tipografía base sans y peso moderado) -->
         <div class="flex flex-col sm:flex-row items-center gap-3.5 mt-8 w-full sm:w-auto">
           <a
             href="#catalogo"
-            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold transition-all shadow-lg shadow-emerald-500/10 active:scale-95"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-sans font-semibold text-sm transition-all shadow-lg shadow-blue-600/25 active:scale-95"
           >
             <span>Explorar Catálogo y Armar Pedido</span>
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
             </svg>
           </a>
           <a
             href="#mayoristas"
-            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 font-medium transition-all"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 border border-white/10 text-neutral-200 font-sans font-semibold text-sm transition-all"
           >
             <span>Venta Mayorista para Gimnasios</span>
           </a>
         </div>
 
-        <!-- Micro-Trust Badges -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 mt-12 pt-8 border-t border-zinc-800/80 w-full max-w-3xl text-xs text-zinc-400">
-          <div class="flex items-center justify-center gap-2">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>Distribución oficial directa de fábrica</span>
+        <!-- Micro-Trust Badges con Glassmorphism -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-12 pt-8 border-t border-white/[0.08] w-full max-w-3xl text-xs text-neutral-300">
+          <div class="bg-white/[0.03] border border-white/[0.08] rounded-xl p-3 flex items-center justify-center gap-2.5 backdrop-blur-sm">
+            <span class="text-blue-400 font-black">✓</span>
+            <span class="font-medium">Distribución oficial directa de fábrica</span>
           </div>
-          <div class="flex items-center justify-center gap-2">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>Calidad y pureza comprobada en laboratorio</span>
+          <div class="bg-white/[0.03] border border-white/[0.08] rounded-xl p-3 flex items-center justify-center gap-2.5 backdrop-blur-sm">
+            <span class="text-blue-400 font-black">✓</span>
+            <span class="font-medium">Calidad y pureza de laboratorio</span>
           </div>
-          <div class="flex items-center justify-center gap-2">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>Envíos coordinados en Gran Mendoza</span>
+          <div class="bg-white/[0.03] border border-white/[0.08] rounded-xl p-3 flex items-center justify-center gap-2.5 backdrop-blur-sm">
+            <span class="text-blue-400 font-black">✓</span>
+            <span class="font-medium">Envíos coordinados en Gran Mendoza</span>
           </div>
         </div>
       </div>
@@ -222,39 +244,39 @@
     <section id="catalogo" class="py-16 px-4 md:px-8 max-w-7xl mx-auto scroll-mt-20">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div>
-          <span class="text-xs font-semibold tracking-wider text-emerald-400 uppercase">Catálogo Activo</span>
-          <h2 class="text-2xl sm:text-3xl font-bold text-zinc-100 mt-1">
+          <span class="font-outfit text-xs font-bold tracking-wider text-blue-400 uppercase">Catálogo Activo</span>
+          <h2 class="font-outfit text-2xl sm:text-3xl font-bold text-neutral-100 mt-1">
             Suplementación y Comida Real
           </h2>
-          <p class="text-sm text-zinc-400 mt-1">Elegí la presentación, sumá a tu pedido y coordiná el despacho por WhatsApp.</p>
+          <p class="text-sm text-neutral-400 mt-1">Elegí la presentación, sumá a tu pedido y coordiná el despacho por WhatsApp.</p>
         </div>
 
-        <!-- Filtros de Pestañas (Tabs) -->
-        <div class="flex items-center gap-1.5 overflow-x-auto pb-2 md:pb-0 scrollbar-none" role="tablist">
+        <!-- Filtros de Pestañas (Dock Switcher - 3 Categorías) -->
+        <div class="bg-neutral-900/80 p-1.5 rounded-2xl border border-white/[0.08] backdrop-blur-md flex items-center gap-1.5 overflow-x-auto pb-2 md:pb-1.5 scrollbar-none" role="tablist">
           <button
             type="button"
-            class="category-tab px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all bg-emerald-500 text-zinc-950 font-bold"
+            class="category-tab px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all bg-blue-600 text-white font-bold shadow-md shadow-blue-600/25 font-outfit"
             data-category="all"
           >
             Todos los Productos
           </button>
           <button
             type="button"
-            class="category-tab px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all bg-zinc-900 text-zinc-400 font-medium hover:text-zinc-200"
+            class="category-tab px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all bg-transparent text-neutral-400 font-medium hover:text-white hover:bg-white/[0.04] font-outfit"
             data-category="rendimiento"
           >
             🏋️ Rendimiento & Fuerza
           </button>
           <button
             type="button"
-            class="category-tab px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all bg-zinc-900 text-zinc-400 font-medium hover:text-zinc-200"
+            class="category-tab px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all bg-transparent text-neutral-400 font-medium hover:text-white hover:bg-white/[0.04] font-outfit"
             data-category="salud"
           >
             🌿 Salud & Longevidad
           </button>
           <button
             type="button"
-            class="category-tab px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all bg-zinc-900 text-zinc-400 font-medium hover:text-zinc-200"
+            class="category-tab px-3.5 py-2 rounded-xl text-xs whitespace-nowrap transition-all bg-transparent text-neutral-400 font-medium hover:text-white hover:bg-white/[0.04] font-outfit"
             data-category="alimentacion"
           >
             🥜 Alimentación Inteligente
@@ -269,63 +291,72 @@
     </section>
 
     <!-- 3.6 Sección: Filosofía & Criterio de Selección (El Origen) -->
-    <section id="origen" class="py-20 px-4 md:px-8 border-t border-zinc-800 bg-zinc-950 scroll-mt-16">
+    <section id="origen" class="py-20 px-4 md:px-8 border-t border-white/[0.08] bg-[#08090A] scroll-mt-16">
       <div class="max-w-4xl mx-auto">
-        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-zinc-900 text-zinc-400 border border-zinc-800 mb-4">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold font-outfit uppercase tracking-wider bg-white/[0.04] text-neutral-300 border border-white/10 mb-4">
           <span>TRANSPARENCIA & COMIDA REAL</span>
         </div>
-        <h2 class="text-2xl sm:text-4xl font-bold text-zinc-100 tracking-tight leading-snug">
+        <h2 class="font-outfit text-2xl sm:text-4xl font-extrabold text-neutral-100 tracking-tight leading-snug">
           No vendemos lo que está de moda.<br>Vendemos lo que nosotros mismos consumimos.
         </h2>
 
-        <div class="space-y-5 text-base sm:text-lg text-zinc-300 mt-8 leading-relaxed font-normal">
+        <div class="space-y-5 text-base sm:text-lg text-neutral-300 mt-8 leading-relaxed font-normal">
           <p>
             Suplementos Mendoza nació de un proceso propio. Pasé años probando marcas, analizando etiquetas y buscando una nutrición que realmente optimizara mi salud, mi energía física y mi claridad mental sin pagar sobreprecios ridículos por marketing vacío. Cuando encontré lo que funcionaba, empecé a recomendárselo a las personas que más cuido: mi familia, mis amigos y mis compañeros de entrenamiento.
           </p>
           <p>
-            Elegí convertirme en distribuidor oficial de Natural Nutrition porque fabrican en el país con materias primas de pureza demostrada, sin agregados innecesarios y con una relación calidad/precio que respeta tu bolsillo, priorizando la calidad de vida y el bienestar real de todos nuestros clientes.
+            Elegí convertirme en distribuidor oficial de <strong class="text-white font-semibold">Natural Nutrition</strong> porque fabrican en el país con materias primas de pureza demostrada, sin agregados innecesarios y con una relación calidad/precio que respeta tu bolsillo, priorizando la calidad de vida y el bienestar real de todos nuestros clientes.
           </p>
-          <p id="alimentacion">
-            La línea de alimentación inteligente no es un relleno de catálogo: es un servicio de comida real. El mix de frutos secos lo formulé con proporciones precisas para abastecer de micronutrientes diarios al cuerpo con solo un puñado al día. Sumamos miel cruda sin glucosa comercial, café de especialidad de origen puro y adaptógenos naturales porque creemos que la suplementación sin comida real no tiene sentido.
-          </p>
+          <!-- Destacado Dorado Mate para Comida Real -->
+          <div class="border-l-2 border-amber-500 pl-4 py-2 bg-amber-500/[0.04] rounded-r-xl" id="alimentacion">
+            <p class="text-amber-100/90 font-medium">
+              La línea de alimentación inteligente no es un relleno de catálogo: es un servicio de comida real. El mix de frutos secos lo formulé con proporciones precisas para abastecer de micronutrientes diarios al cuerpo con solo un puñado al día. Sumamos miel cruda sin glucosa comercial, café de especialidad de origen puro y adaptógenos naturales porque creemos que la suplementación sin comida real no tiene sentido.
+            </p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- 3.7 Sección B2B: Gimnasios, Boxes & Centros de Bienestar -->
     <section id="mayoristas" class="py-16 px-4 md:px-8 max-w-7xl mx-auto scroll-mt-16">
-      <div class="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden">
-        <!-- Acento estético -->
-        <div class="absolute -top-12 -right-12 w-64 h-64 bg-emerald-500/10 blur-[90px] rounded-full pointer-events-none"></div>
+      <div class="bg-gradient-to-b from-neutral-900/90 via-neutral-900/60 to-[#08090A] border border-white/[0.08] rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden">
+        <!-- Acento estético azul eléctrico -->
+        <div class="absolute -top-12 -right-12 w-64 h-64 bg-blue-600/10 blur-[90px] rounded-full pointer-events-none"></div>
 
         <div class="max-w-3xl">
-          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-4">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold font-outfit uppercase tracking-wider bg-blue-600/10 text-blue-400 border border-blue-600/25 mb-4">
             CANAL MAYORISTA & PUNTOS DE VENTA
           </span>
-          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-zinc-100 tracking-tight leading-snug">
+          <h2 class="font-outfit text-2xl sm:text-3xl lg:text-4xl font-extrabold text-neutral-100 tracking-tight leading-snug">
             ¿Tenés un Gimnasio, Centro de Bienestar, Nutrición o Espacio Wellness en Mendoza?
           </h2>
-          <p class="text-base text-zinc-400 mt-4 leading-relaxed">
+          <p class="text-base text-neutral-400 mt-4 leading-relaxed">
             Incorporá la línea oficial de Natural Nutrition y alimentos inteligentes en tu espacio con stock inmediato en Mendoza, sin pagar fletes desde Buenos Aires ni lidiar con compras mínimas inalcanzables.
           </p>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
-            <div class="p-4 bg-zinc-950/70 border border-zinc-800/80 rounded-2xl">
-              <h3 class="text-sm font-bold text-zinc-100 mb-1">Margen Comercial Competitivo</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed">
+            <div class="p-5 bg-neutral-950/80 border border-white/[0.08] rounded-2xl hover:border-blue-500/30 transition-all">
+              <h3 class="font-outfit text-sm font-bold text-neutral-100 mb-1.5 flex items-center gap-1.5">
+                <span class="text-blue-500 font-black">•</span> Margen Comercial Competitivo
+              </h3>
+              <p class="text-xs text-neutral-400 leading-relaxed font-sans">
                 Precios directos de fábrica para que tu establecimiento genere ingresos reales por venta cruzada.
               </p>
             </div>
-            <div class="p-4 bg-zinc-950/70 border border-zinc-800/80 rounded-2xl">
-              <h3 class="text-sm font-bold text-zinc-100 mb-1">Stock Local Permanente</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed">
+            <div class="p-5 bg-neutral-950/80 border border-white/[0.08] rounded-2xl hover:border-blue-500/30 transition-all">
+              <h3 class="font-outfit text-sm font-bold text-neutral-100 mb-1.5 flex items-center gap-1.5">
+                <span class="text-blue-500 font-black">•</span> Stock Local Permanente
+              </h3>
+              <p class="text-xs text-neutral-400 leading-relaxed font-sans">
                 Olvidate de esperar 10 días a que llegue una encomienda nacional. Abastecimiento ágil en el Gran Mendoza.
               </p>
             </div>
-            <div class="p-4 bg-zinc-950/70 border border-zinc-800/80 rounded-2xl">
-              <h3 class="text-sm font-bold text-zinc-100 mb-1">Criterio según tu Disciplina</h3>
-              <p class="text-xs text-zinc-400 leading-relaxed">
-                Te asesoramos sobre qué productos tienen mayor rotación en tu comunidad (Creatina y Pre-Work para gimnasios; Colágeno, Adaptógenos y Snacks inteligentes para yoga y centros de salud).
+            <div class="p-5 bg-neutral-950/80 border border-white/[0.08] rounded-2xl hover:border-blue-500/30 transition-all">
+              <h3 class="font-outfit text-sm font-bold text-neutral-100 mb-1.5 flex items-center gap-1.5">
+                <span class="text-blue-500 font-black">•</span> Criterio según tu Disciplina
+              </h3>
+              <p class="text-xs text-neutral-400 leading-relaxed font-sans">
+                Te asesoramos sobre qué productos tienen mayor rotación en tu comunidad (Creatina y Pre-Work para gimnasios; Colágeno, Adaptógenos y Snacks para yoga y salud).
               </p>
             </div>
           </div>
@@ -335,7 +366,7 @@
               href="https://wa.me/5492613364201?text=Hola!%20Tengo%20un%20gimnasio/espacio%20en%20Mendoza%20y%20me%20gustar%C3%ADa%20recibir%20la%20lista%20de%20precios%20mayorista%20y%20condiciones%20de%20Natural%20Nutrition."
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold transition-all shadow-lg shadow-emerald-500/10 active:scale-95 text-sm"
+              class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-sans font-semibold transition-all shadow-lg shadow-blue-600/20 active:scale-95 text-sm"
             >
               <span>Solicitar Catálogo Mayorista para Gimnasios 💬</span>
             </a>
@@ -345,96 +376,96 @@
     </section>
 
     <!-- 3.8 Sección: Preguntas Frecuentes (FAQ) -->
-    <section id="faq" class="py-16 px-4 md:px-8 max-w-4xl mx-auto border-t border-zinc-800 scroll-mt-16">
+    <section id="faq" class="py-16 px-4 md:px-8 max-w-4xl mx-auto border-t border-white/[0.08] scroll-mt-16">
       <div class="text-center mb-10">
-        <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Resolución de Dudas</span>
-        <h2 class="text-2xl sm:text-3xl font-bold text-zinc-100 mt-1">
+        <span class="font-outfit text-xs font-bold text-blue-400 uppercase tracking-wider">Resolución de Dudas</span>
+        <h2 class="font-outfit text-2xl sm:text-3xl font-bold text-neutral-100 mt-1">
           Preguntas Frecuentes sobre Compras y Envíos en Mendoza
         </h2>
       </div>
 
       <div class="space-y-3">
         <!-- FAQ 1 -->
-        <div class="border border-zinc-800 bg-zinc-900/50 rounded-2xl overflow-hidden">
+        <div class="border border-white/[0.08] bg-neutral-900/50 rounded-2xl overflow-hidden hover:border-white/15 transition-all">
           <button
             type="button"
-            class="faq-toggle w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-zinc-100 hover:text-emerald-400 transition-colors"
+            class="faq-toggle w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base font-outfit text-neutral-100 hover:text-blue-400 transition-colors"
             aria-expanded="false"
           >
             <span>¿Cómo coordino el pago y la entrega de mi pedido?</span>
-            <svg class="faq-icon w-5 h-5 text-zinc-400 transition-transform duration-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="faq-icon w-5 h-5 text-neutral-400 transition-transform duration-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          <div class="hidden pointer-events-none px-5 pb-5 text-sm text-zinc-400 leading-relaxed border-t border-zinc-800/50 pt-3">
+          <div class="hidden pointer-events-none px-5 pb-5 text-sm text-neutral-300 leading-relaxed border-t border-white/[0.06] pt-3 font-sans">
             El proceso es directo, ágil y sin intermediarios burocráticos. Una vez que armás tu selección de nutrición real y suplementos deportivos en la web, hacés clic en "Confirmar Pedido por WhatsApp". Se genera al instante un mensaje estructurado con el desglose exacto de tus productos y variantes directo a nuestra línea de atención personalizada. Por allí coordinamos el medio de pago que te resulte más práctico (transferencia bancaria inmediata vía Mercado Pago / CBU sin comisiones extra, o efectivo contra entrega) y acordamos el día y franja horaria precisa en que recibirás tu pedido en mano, brindándote tranquilidad total en cada etapa de tu compra.
           </div>
         </div>
 
         <!-- FAQ 2 -->
-        <div class="border border-zinc-800 bg-zinc-900/50 rounded-2xl overflow-hidden">
+        <div class="border border-white/[0.08] bg-neutral-900/50 rounded-2xl overflow-hidden hover:border-white/15 transition-all">
           <button
             type="button"
-            class="faq-toggle w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-zinc-100 hover:text-emerald-400 transition-colors"
+            class="faq-toggle w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base font-outfit text-neutral-100 hover:text-blue-400 transition-colors"
             aria-expanded="false"
           >
             <span>¿A qué zonas de Mendoza llegan con los envíos?</span>
-            <svg class="faq-icon w-5 h-5 text-zinc-400 transition-transform duration-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="faq-icon w-5 h-5 text-neutral-400 transition-transform duration-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          <div class="hidden pointer-events-none px-5 pb-5 text-sm text-zinc-400 leading-relaxed border-t border-zinc-800/50 pt-3">
+          <div class="hidden pointer-events-none px-5 pb-5 text-sm text-neutral-300 leading-relaxed border-t border-white/[0.06] pt-3 font-sans">
             Disponemos de logística propia de envíos locales rápidos y seguros en todo el Gran Mendoza: abarcamos Ciudad de Mendoza, Godoy Cruz, Guaymallén, Las Heras, Luján de Cuyo y Maipú. Recibís tus productos en la comodidad de tu hogar o lugar de entrenamiento con total puntualidad para que nunca te falte tu suplementación. Si pasás por el centro o preferís optimizar tus tiempos, también coordinamos puntos de retiro estratégicos sin costo adicional. Si te encontrás en zonas más alejadas o en otros departamentos de Mendoza, consultanos por WhatsApp para coordinar despachos especiales.
           </div>
         </div>
 
         <!-- FAQ 3 -->
-        <div class="border border-zinc-800 bg-zinc-900/50 rounded-2xl overflow-hidden">
+        <div class="border border-white/[0.08] bg-neutral-900/50 rounded-2xl overflow-hidden hover:border-white/15 transition-all">
           <button
             type="button"
-            class="faq-toggle w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-zinc-100 hover:text-emerald-400 transition-colors"
+            class="faq-toggle w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base font-outfit text-neutral-100 hover:text-blue-400 transition-colors"
             aria-expanded="false"
           >
             <span>¿La creatina y los suplementos de Natural Nutrition son 100% puros?</span>
-            <svg class="faq-icon w-5 h-5 text-zinc-400 transition-transform duration-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="faq-icon w-5 h-5 text-neutral-400 transition-transform duration-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          <div class="hidden pointer-events-none px-5 pb-5 text-sm text-zinc-400 leading-relaxed border-t border-zinc-800/50 pt-3">
+          <div class="hidden pointer-events-none px-5 pb-5 text-sm text-neutral-300 leading-relaxed border-t border-white/[0.06] pt-3 font-sans">
             Garantizamos pureza total y trazabilidad comprobada. Como distribuidores oficiales de Natural Nutrition en Mendoza, trabajamos exclusivamente con productos elaborados en plantas habilitadas bajo rigurosos estándares de control de calidad. La Creatina Monohidrato es 100% pura y micronizada de grado farmacéutico, completamente libre de azúcares, carbohidratos ocultos, sodio añadido, maltodextrina o agentes de carga artificiales. Esta pureza garantiza una absorción biológica superior, previene malestares gástricos y asegura una nutrición deportiva real que potencia la fuerza, la síntesis muscular y la longevidad celular sin sobreprecios de marketing.
           </div>
         </div>
 
         <!-- FAQ 4 -->
-        <div class="border border-zinc-800 bg-zinc-900/50 rounded-2xl overflow-hidden">
+        <div class="border border-white/[0.08] bg-neutral-900/50 rounded-2xl overflow-hidden hover:border-white/15 transition-all">
           <button
             type="button"
-            class="faq-toggle w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-zinc-100 hover:text-emerald-400 transition-colors"
+            class="faq-toggle w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base font-outfit text-neutral-100 hover:text-blue-400 transition-colors"
             aria-expanded="false"
           >
             <span>¿Puedo personalizar los ingredientes del mix de frutos secos?</span>
-            <svg class="faq-icon w-5 h-5 text-zinc-400 transition-transform duration-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="faq-icon w-5 h-5 text-neutral-400 transition-transform duration-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          <div class="hidden pointer-events-none px-5 pb-5 text-sm text-zinc-400 leading-relaxed border-t border-zinc-800/50 pt-3">
+          <div class="hidden pointer-events-none px-5 pb-5 text-sm text-neutral-300 leading-relaxed border-t border-white/[0.06] pt-3 font-sans">
             Sí, la personalización es uno de nuestros pilares de bienestar y comida real. Formulamos nuestro Mix de Frutos Secos Premium con proporciones de máxima densidad biológica (nueces mariposa, almendras nonpareil, castañas de cajú tostadas, maní sin sal, frutas desecadas y pasas seleccionadas) pensado para cubrir tus requerimientos diarios de ácidos grasos saludables, magnesio y antioxidantes con solo un puñado al día. Si tenés alguna restricción alimentaria (por ejemplo dietas Keto/Low Carb libres de frutas deshidratadas o pasas) o deseás potenciar frutos específicos, solo tenés que aclararlo en el campo de observaciones o por WhatsApp al coordinar tu pedido.
           </div>
         </div>
 
         <!-- FAQ 5 -->
-        <div class="border border-zinc-800 bg-zinc-900/50 rounded-2xl overflow-hidden">
+        <div class="border border-white/[0.08] bg-neutral-900/50 rounded-2xl overflow-hidden hover:border-white/15 transition-all">
           <button
             type="button"
-            class="faq-toggle w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-zinc-100 hover:text-emerald-400 transition-colors"
+            class="faq-toggle w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base font-outfit text-neutral-100 hover:text-blue-400 transition-colors"
             aria-expanded="false"
           >
             <span>¿Qué medios de pago aceptan?</span>
-            <svg class="faq-icon w-5 h-5 text-zinc-400 transition-transform duration-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="faq-icon w-5 h-5 text-neutral-400 transition-transform duration-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          <div class="hidden pointer-events-none px-5 pb-5 text-sm text-zinc-400 leading-relaxed border-t border-zinc-800/50 pt-3">
+          <div class="hidden pointer-events-none px-5 pb-5 text-sm text-neutral-300 leading-relaxed border-t border-white/[0.06] pt-3 font-sans">
             Para ofrecerte máxima flexibilidad y seguridad económica, aceptamos transferencias electrónicas inmediatas (a través de Mercado Pago, billeteras digitales y cualquier cuenta bancaria mediante alias, CBU y CVU oficial sin costos adicionales), así como pago en efectivo contra entrega en mano al momento de recibir tus productos en tu domicilio en Gran Mendoza. Siempre te brindamos el comprobante correspondiente y la tranquilidad de operar con un canal oficial comprometido con la transparencia y el cuidado de tu presupuesto.
           </div>
         </div>
@@ -443,11 +474,11 @@
   </main>
 
   <!-- 3.9 Footer (Pie de Página) -->
-  <footer class="bg-zinc-900/90 border-t border-zinc-800 py-12 px-4 md:px-8 text-sm text-zinc-400">
+  <footer class="bg-[#0c0d10] border-t border-white/[0.08] py-12 px-4 md:px-8 text-sm text-neutral-400">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
       <div>
-        <span class="text-base font-bold text-zinc-100 block">Suplementos Mendoza</span>
-        <p class="text-xs text-zinc-400 mt-1 max-w-sm">
+        <span class="font-outfit text-base font-bold text-neutral-100 block">Suplementos Mendoza</span>
+        <p class="text-xs text-neutral-400 mt-1 max-w-sm font-sans">
           Distribuidor Oficial Natural Nutrition. Suplementación deportiva limpia y alimentación consciente en la provincia de Mendoza.
         </p>
       </div>
@@ -458,23 +489,23 @@
           href="https://wa.me/5492613364201"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-1.5 hover:text-emerald-400 transition-colors"
+          class="flex items-center gap-1.5 hover:text-blue-400 transition-colors"
         >
-          <span class="text-emerald-400">📲</span>
+          <span class="text-blue-400">📲</span>
           <span>WhatsApp: +54 9 261 336-4201</span>
         </a>
         <a
           href="https://www.instagram.com/suplementos.mendoza/"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-1.5 hover:text-emerald-400 transition-colors"
+          class="flex items-center gap-1.5 hover:text-blue-400 transition-colors"
         >
           <span>📸</span>
           <span>Instagram: @suplementos.mendoza</span>
         </a>
         <a
           href="mailto:suplenaturalmendoza@gmail.com"
-          class="flex items-center gap-1.5 hover:text-emerald-400 transition-colors"
+          class="flex items-center gap-1.5 hover:text-blue-400 transition-colors"
         >
           <span>✉️</span>
           <span>suplenaturalmendoza@gmail.com</span>
@@ -482,9 +513,9 @@
       </div>
     </div>
 
-    <div class="max-w-7xl mx-auto mt-8 pt-6 border-t border-zinc-800/80 flex flex-col sm:flex-row justify-between items-center text-xs text-zinc-500 gap-2">
+    <div class="max-w-7xl mx-auto mt-8 pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row justify-between items-center text-xs text-neutral-500 gap-2">
       <p>© 2026 Suplementos Mendoza. Todos los derechos reservados.</p>
-      <p>Diseñado y desarrollado por <a href="#" class="text-emerald-500 hover:text-emerald-400 font-semibold transition-colors">WAFLERS</a>.</p>
+      <p>Diseñado y desarrollado por <a href="#" class="text-blue-400 hover:text-blue-300 font-semibold transition-colors">WAFLERS</a>.</p>
     </div>
   </footer>
 
@@ -499,24 +530,24 @@
     <!-- Backdrop oscuro con blur -->
     <div
       id="cart-backdrop"
-      class="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-none"
+      class="absolute inset-0 bg-black/80 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-none"
     ></div>
 
     <!-- Panel deslizable derecho -->
     <aside
       id="cart-panel"
-      class="absolute top-0 right-0 bottom-0 w-full max-w-md bg-zinc-900 border-l border-zinc-800 flex flex-col shadow-2xl translate-x-full transition-transform duration-300 pointer-events-none"
+      class="absolute top-0 right-0 bottom-0 w-full max-w-md bg-[#0C0E11] border-l border-white/[0.08] flex flex-col shadow-2xl translate-x-full transition-transform duration-300 pointer-events-none text-neutral-100"
     >
       <!-- Header del Drawer -->
-      <div class="p-5 border-b border-zinc-800 flex items-center justify-between">
+      <div class="p-5 border-b border-white/[0.08] flex items-center justify-between">
         <div>
-          <h2 id="drawer-title" class="text-lg font-bold text-zinc-100">Tu Pedido</h2>
-          <p class="text-xs text-zinc-400">Revisá tus productos y coordinamos la entrega por WhatsApp</p>
+          <h2 id="drawer-title" class="font-outfit text-lg font-bold text-neutral-100">Tu Pedido</h2>
+          <p class="text-xs text-neutral-400">Revisá tus productos y coordinamos la entrega por WhatsApp</p>
         </div>
         <button
           id="close-cart-btn"
           type="button"
-          class="p-2 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition"
+          class="p-2 text-neutral-400 hover:text-white rounded-lg hover:bg-neutral-800 transition"
           aria-label="Cerrar panel de pedido"
         >
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -527,19 +558,19 @@
 
       <!-- Estado Vacío -->
       <div id="drawer-empty-state" class="hidden flex-1 p-8 flex flex-col items-center justify-center text-center">
-        <div class="w-16 h-16 rounded-full bg-zinc-800/80 flex items-center justify-center text-zinc-500 mb-4">
+        <div class="w-16 h-16 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-neutral-400 mb-4">
           <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
           </svg>
         </div>
-        <h3 class="text-base font-semibold text-zinc-200">Tu pedido todavía está vacío.</h3>
-        <p class="text-xs text-zinc-400 mt-1 max-w-xs">
+        <h3 class="font-outfit text-base font-semibold text-neutral-200">Tu pedido todavía está vacío.</h3>
+        <p class="text-xs text-neutral-400 mt-1 max-w-xs font-sans">
           Seleccioná los suplementos o alimentos que necesitás del catálogo para comenzar.
         </p>
         <button
           id="btn-empty-catalog"
           type="button"
-          class="mt-6 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 text-xs font-bold transition"
+          class="mt-6 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-sans text-xs font-semibold transition shadow-md shadow-blue-600/20"
         >
           Ver Catálogo
         </button>
@@ -557,7 +588,7 @@
           <button
             id="clear-cart-btn"
             type="button"
-            class="text-xs text-zinc-500 hover:text-red-400 transition-colors flex items-center gap-1.5 py-1 px-2 rounded hover:bg-zinc-800/40"
+            class="text-xs text-neutral-500 hover:text-red-400 transition-colors flex items-center gap-1.5 py-1 px-2 rounded hover:bg-white/[0.05]"
             aria-label="Vaciar carrito de compras"
           >
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -568,23 +599,23 @@
         </div>
 
         <!-- Formulario Express y Subtotal -->
-        <div class="p-5 border-t border-zinc-800 bg-zinc-950/60 mt-auto">
+        <div class="p-5 border-t border-white/[0.08] bg-[#08090A] mt-auto">
           <!-- Subtotal y Envío -->
-          <div class="space-y-1 mb-5 pb-4 border-b border-zinc-800/80 text-sm">
-            <div class="flex justify-between items-center text-zinc-400 text-xs">
+          <div class="space-y-1 mb-5 pb-4 border-b border-white/[0.06] text-sm">
+            <div class="flex justify-between items-center text-neutral-400 text-xs font-sans">
               <span>Envío:</span>
-              <span class="text-zinc-300">A coordinar según zona en Gran Mendoza</span>
+              <span class="text-neutral-300 font-medium">A coordinar en Gran Mendoza</span>
             </div>
-            <div class="flex justify-between items-center text-base font-bold text-zinc-100 pt-1">
-              <span>Subtotal estimado:</span>
-              <span id="drawer-subtotal" class="text-emerald-400 text-xl font-extrabold">$0</span>
+            <div class="flex justify-between items-center text-base font-bold text-neutral-100 pt-1">
+              <span class="font-outfit">Subtotal estimado:</span>
+              <span id="drawer-subtotal" class="font-sans text-blue-400 text-2xl font-bold">$0</span>
             </div>
           </div>
 
           <!-- Formulario de Checkout Express -->
           <form id="checkout-form" class="space-y-3.5">
             <div>
-              <label for="checkout-name" class="block text-xs font-medium text-zinc-300 mb-1">
+              <label for="checkout-name" class="block text-xs font-medium text-neutral-300 mb-1">
                 Tu Nombre y Apellido *
               </label>
               <input
@@ -592,12 +623,12 @@
                 id="checkout-name"
                 required
                 placeholder="Ej: Martín Rossi"
-                class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-emerald-500 transition"
+                class="w-full bg-neutral-900 border border-neutral-700/80 rounded-xl px-3 py-2 text-xs text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-blue-500 transition"
               />
             </div>
 
             <div>
-              <label for="checkout-phone" class="block text-xs font-medium text-zinc-300 mb-1">
+              <label for="checkout-phone" class="block text-xs font-medium text-neutral-300 mb-1">
                 Tu WhatsApp de Contacto *
               </label>
               <input
@@ -605,30 +636,30 @@
                 id="checkout-phone"
                 required
                 placeholder="Ej: 261 555-0123"
-                class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-emerald-500 transition"
+                class="w-full bg-neutral-900 border border-neutral-700/80 rounded-xl px-3 py-2 text-xs text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-blue-500 transition"
               />
             </div>
 
             <!-- Modalidad de Entrega -->
             <div>
-              <label class="block text-xs font-medium text-zinc-300 mb-1.5">
+              <label class="block text-xs font-medium text-neutral-300 mb-1.5">
                 Modalidad de Entrega *
               </label>
               <div class="grid grid-cols-2 gap-2 text-xs">
-                <label class="flex items-center gap-2 p-2 bg-zinc-900 border border-zinc-800 rounded-lg cursor-pointer hover:border-zinc-700">
-                  <input type="radio" name="deliveryType" value="envio" checked class="text-emerald-500 focus:ring-0" />
-                  <span class="text-zinc-200">Envío a domicilio</span>
+                <label class="flex items-center gap-2 p-2 bg-neutral-900 border border-white/[0.08] rounded-xl cursor-pointer hover:border-white/20 transition-colors">
+                  <input type="radio" name="deliveryType" value="envio" checked class="text-blue-600 focus:ring-0" />
+                  <span class="text-neutral-200">Envío a domicilio</span>
                 </label>
-                <label class="flex items-center gap-2 p-2 bg-zinc-900 border border-zinc-800 rounded-lg cursor-pointer hover:border-zinc-700">
-                  <input type="radio" name="deliveryType" value="retiro" class="text-emerald-500 focus:ring-0" />
-                  <span class="text-zinc-200">Retiro acordado</span>
+                <label class="flex items-center gap-2 p-2 bg-neutral-900 border border-white/[0.08] rounded-xl cursor-pointer hover:border-white/20 transition-colors">
+                  <input type="radio" name="deliveryType" value="retiro" class="text-blue-600 focus:ring-0" />
+                  <span class="text-neutral-200">Retiro acordado</span>
                 </label>
               </div>
             </div>
 
             <!-- Dirección / Zona (Condicional) -->
             <div id="address-field-container">
-              <label for="checkout-address" class="block text-xs font-medium text-zinc-300 mb-1">
+              <label for="checkout-address" class="block text-xs font-medium text-neutral-300 mb-1">
                 Dirección / Barrio / Localidad (Gran Mendoza) *
               </label>
               <input
@@ -636,49 +667,49 @@
                 id="checkout-address"
                 required
                 placeholder="Ej: Godoy Cruz, calle Belgrano 450"
-                class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-emerald-500 transition"
+                class="w-full bg-neutral-900 border border-neutral-700/80 rounded-xl px-3 py-2 text-xs text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-blue-500 transition"
               />
             </div>
 
             <!-- Forma de Pago Preferida -->
             <div>
-              <label class="block text-xs font-medium text-zinc-300 mb-1.5">
+              <label class="block text-xs font-medium text-neutral-300 mb-1.5">
                 Forma de Pago Preferida *
               </label>
               <div class="grid grid-cols-2 gap-2 text-xs">
-                <label class="flex items-center gap-2 p-2 bg-zinc-900 border border-zinc-800 rounded-lg cursor-pointer hover:border-zinc-700">
-                  <input type="radio" name="paymentMethod" value="transferencia" checked class="text-emerald-500 focus:ring-0" />
-                  <span class="text-zinc-200">Transferencia</span>
+                <label class="flex items-center gap-2 p-2 bg-neutral-900 border border-white/[0.08] rounded-xl cursor-pointer hover:border-white/20 transition-colors">
+                  <input type="radio" name="paymentMethod" value="transferencia" checked class="text-blue-600 focus:ring-0" />
+                  <span class="text-neutral-200">Transferencia</span>
                 </label>
-                <label class="flex items-center gap-2 p-2 bg-zinc-900 border border-zinc-800 rounded-lg cursor-pointer hover:border-zinc-700">
-                  <input type="radio" name="paymentMethod" value="efectivo" class="text-emerald-500 focus:ring-0" />
-                  <span class="text-zinc-200">Efectivo contra entrega</span>
+                <label class="flex items-center gap-2 p-2 bg-neutral-900 border border-white/[0.08] rounded-xl cursor-pointer hover:border-white/20 transition-colors">
+                  <input type="radio" name="paymentMethod" value="efectivo" class="text-blue-600 focus:ring-0" />
+                  <span class="text-neutral-200">Efectivo contra entrega</span>
                 </label>
               </div>
             </div>
 
             <!-- Notas Opcionales -->
             <div>
-              <label for="checkout-notes" class="block text-xs font-medium text-zinc-300 mb-1">
+              <label for="checkout-notes" class="block text-xs font-medium text-neutral-300 mb-1">
                 Notas o modificaciones especiales (Opcional)
               </label>
               <textarea
                 id="checkout-notes"
                 rows="2"
                 placeholder="Ej: Quiero el mix de frutos secos sin pasas de uva / Entregar por la tarde"
-                class="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-emerald-500 transition"
+                class="w-full bg-neutral-900 border border-neutral-700/80 rounded-xl px-3 py-2 text-xs text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-blue-500 transition"
               ></textarea>
             </div>
 
             <!-- Botón Confirmar WhatsApp -->
             <button
               type="submit"
-              class="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/10 active:scale-95 transition-all mt-4"
+              class="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-sans font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-600/25 active:scale-95 transition-all mt-4"
             >
               <span>Confirmar Pedido por WhatsApp 📲</span>
             </button>
 
-            <p class="text-[11px] text-zinc-500 text-center leading-tight">
+            <p class="text-[11px] text-neutral-500 text-center leading-tight">
               Al presionar se abrirá tu WhatsApp con el detalle listo para enviar. No requerimos registro ni tarjeta de crédito.
             </p>
           </form>
@@ -698,19 +729,19 @@
     <!-- Backdrop con blur -->
     <div
       id="product-modal-backdrop"
-      class="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity duration-300 pointer-events-none"
+      class="absolute inset-0 bg-black/85 backdrop-blur-md transition-opacity duration-300 pointer-events-none"
     ></div>
 
     <!-- Contenedor del Modal -->
     <div
       id="product-modal-card"
-      class="relative w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-2xl transition-all duration-300 transform scale-95 max-h-[90vh] overflow-y-auto pointer-events-none"
+      class="relative w-full max-w-2xl bg-[#0E1013] border border-white/[0.08] rounded-3xl p-6 sm:p-8 shadow-2xl transition-all duration-300 transform scale-95 max-h-[90vh] overflow-y-auto pointer-events-none text-neutral-100"
     >
       <!-- Botón Cerrar (X) -->
       <button
         id="close-product-modal-btn"
         type="button"
-        class="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white rounded-xl hover:bg-zinc-800 transition-colors z-20"
+        class="absolute top-4 right-4 p-2 text-neutral-400 hover:text-white rounded-xl hover:bg-white/[0.06] transition-colors z-20"
         aria-label="Cerrar modal de producto"
       >
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
