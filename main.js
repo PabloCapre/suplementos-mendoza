@@ -5,7 +5,7 @@
  */
 
 // 1. Catálogo Oficial extraído textualmente de dev-brief.md
-export const PRODUCTS = [
+const PRODUCTS = [
   // CATEGORÍA: RENDIMIENTO & FUERZA
   {
     id: "creatina-nn",
@@ -14,7 +14,7 @@ export const PRODUCTS = [
     brand: "Natural Nutrition",
     badge: "Más Vendido",
     badgeColor: "emerald",
-    description: "100% monohidrato micronizado de máxima biodisponibilidad. Aumenta la fuerza muscular, la recuperación y el volumen celular sin retención hídrica subcutánea.",
+    description: "100% monohidrato micronizado de máxima biodisponibilidad. Aumenta la fuerza muscular, la recuperación y el volumen celular sin retención hídrica subcutánea. Cuenta con el sello aval del \"Proyecto Suplementos\" de Pablo Pizurno. Certificado Sin TACC y aprobado por la FDA.",
     variants: [
       { label: "600g (120 porciones)", price: 45000, value: "600g" },
       { label: "350g (75 porciones)", price: 33000, value: "350g" },
@@ -29,7 +29,7 @@ export const PRODUCTS = [
     brand: "Natural Nutrition",
     badge: "Energía Limpia",
     badgeColor: "amber",
-    description: "Complejo sinérgico de Beta-alanina, Taurina y Cafeína pura. Reduce la acumulación de ácido láctico y optimiza el enfoque mental durante el entrenamiento de alta intensidad.",
+    description: "Complejo sinérgico de Beta-alanina, Taurina y Cafeína pura. Reduce la acumulación de ácido láctico y optimiza el enfoque mental durante el entrenamiento de alta intensidad. Certificado Sin TACC y aprobado por la FDA.",
     variants: [
       { label: "Pote 300g (Polvo)", price: 34300, value: "300g" }
     ],
@@ -42,7 +42,7 @@ export const PRODUCTS = [
     brand: "Natural Nutrition",
     badge: "Origen Vegetal",
     badgeColor: "lime",
-    description: "Aislado proteico de alta pureza con aminograma completo. 907 gramos (30 porciones) ideales para síntesis proteica muscular con digestión liviana y sin lactosa. Incluye 3,8g de BCAAs y 4,4g de Glutamina por cada scoop de 25g.",
+    description: "Aislado proteico 100% vegano de alta pureza con aminograma completo. 907 gramos (30 porciones) ideales para síntesis proteica muscular con digestión liviana y sin lactosa. Incluye 3,8g de BCAAs y 4,4g de Glutamina por cada scoop de 25g. Aprobado por la FDA.",
     variants: [
       { label: "Cookies & Cream", price: 47800, value: "cookies-cream" },
       { label: "Milk Shake", price: 47800, value: "milk-shake" }
@@ -58,7 +58,7 @@ export const PRODUCTS = [
     brand: "Natural Nutrition",
     badge: "Articulaciones & Piel",
     badgeColor: "emerald",
-    description: "Péptidos de colágeno hidrolizado potenciados con ácido ascórbico para facilitar la fijación en cartílagos, tendones, ligamentos y elasticidad de la piel.",
+    description: "Péptidos de colágeno hidrolizado potenciados con ácido ascórbico para facilitar la fijación en cartílagos, tendones, ligamentos y elasticidad de la piel. Certificado Sin TACC y aprobado por la FDA.",
     variants: [
       { label: "Pote 300g", price: 31000, value: "300g" }
     ],
@@ -71,7 +71,7 @@ export const PRODUCTS = [
     brand: "Natural Nutrition",
     badge: "Cardio & Cerebro",
     badgeColor: "emerald",
-    description: "Ácidos grasos esenciales EPA y DHA purificados. Potente regulador antiinflamatorio sistémico, protector de la salud cardiovascular y función cognitiva.",
+    description: "Ácidos grasos esenciales EPA y DHA purificados. Potente regulador antiinflamatorio sistémico, protector de la salud cardiovascular y función cognitiva. Cuenta con certificado libre de metales pesados y mercurio. Aprobado por la FDA.",
     variants: [
       { label: "Frasco 60 cápsulas blandas", price: 33900, value: "60caps" }
     ],
@@ -84,7 +84,7 @@ export const PRODUCTS = [
     brand: "Natural Nutrition",
     badge: "Recuperación Nocturna",
     badgeColor: "amber",
-    description: "Fórmula quelatada de Calcio, Magnesio y Zinc combinada con Vitamina D3. Promueve el descanso profundo, el balance hormonal y la relajación neuromuscular.",
+    description: "Fórmula quelatada de Calcio, Magnesio y Zinc combinada con Vitamina D3. Promueve el descanso profundo, el balance hormonal y la relajación neuromuscular. Aprobado por la FDA.",
     variants: [
       { label: "Frasco 60 cápsulas", price: 24000, value: "60caps" }
     ],
@@ -97,7 +97,7 @@ export const PRODUCTS = [
     brand: "Natural Nutrition",
     badge: "Sinergia Celular",
     badgeColor: "amber",
-    description: "Dúo sinérgico formulado en base de triglicéridos de cadena media (aceite de coco MCT). La Vitamina K2 asegura que el calcio movilizado por la D3 se fije en los huesos y no en las arterias.",
+    description: "Dúo sinérgico formulado en base de triglicéridos de cadena media (aceite de coco MCT). La Vitamina K2 asegura que el calcio movilizado por la D3 se fije en los huesos y no en las arterias. Certificado Sin TACC y aprobado por la FDA.",
     variants: [
       { label: "Gotero sublingual 30ml", price: 19700, value: "30ml" }
     ],
@@ -110,7 +110,7 @@ export const PRODUCTS = [
     brand: "Natural Nutrition",
     badge: "Inmunidad & Antioxidante",
     badgeColor: "emerald",
-    description: "Ácido ascórbico puro en dosis terapéutica de 1000mg. Combate el estrés oxidativo celular y refuerza las defensas del sistema inmunitario.",
+    description: "Ácido ascórbico puro en dosis terapéutica de 1000mg. Combate el estrés oxidativo celular y refuerza las defensas del sistema inmunitario. Certificado Sin TACC y aprobado por la FDA.",
     variants: [
       { label: "Frasco de comprimidos", price: 18200, value: "1000mg" }
     ],
@@ -125,7 +125,7 @@ export const PRODUCTS = [
     brand: "Selección Propia",
     badge: "Fórmula Propia",
     badgeColor: "lime",
-    description: "1200g. Proporción balanceada con precisión nutricional: Maní, Nuez, Castaña de Cajú, Almendra, Pasas Rubias y Morenas, Chips de Banana y Ananá tricolor. Diseñado para cubrir micronutrientes diarios comiendo un puñado al día. Consultanos si querés sumar o quitar ingredientes a tu gusto.",
+    description: "1200g. Proporción balanceada con precisión nutricional: Maní, Nuez, Castaña de Cajú, Almendra, Pasas Rubias y Morenas, Chips de Banana y Ananá tricolor. Diseñado para cubrir micronutrientes diarios comiendo un puñado al día. Consultanos si querés sumar o quitar ingredientes a tu gusto. Materias primas de calidad aprobadas por la FDA.",
     variants: [
       { label: "Bolsa Sellada 1200g (1.2 kg)", price: 22000, value: "1200g" }
     ],
@@ -138,7 +138,7 @@ export const PRODUCTS = [
     brand: "Selección Propia",
     badge: "Fibra & Minerales",
     badgeColor: "lime",
-    description: "500g. Combinación de semillas seleccionadas ricas en fibra soluble, zinc y ácidos grasos esenciales para incorporar en ensaladas, yogures o batidos.",
+    description: "500g. Combinación de semillas seleccionadas ricas en fibra soluble, zinc y ácidos grasos esenciales para incorporar en ensaladas, yogures o batidos. Aprobado por la FDA.",
     variants: [
       { label: "Paquete 500g", price: 4500, value: "500g" }
     ],
@@ -151,7 +151,7 @@ export const PRODUCTS = [
     brand: "RDC Café de Especialidad",
     badge: "Energía Limpia",
     badgeColor: "amber",
-    description: "500g. Granos seleccionados de origen colombiano con tueste artesanal medio. Notas equilibradas, aroma intenso y cafeína natural sin quemar ni agregados de azúcar.",
+    description: "500g. Granos seleccionados de origen colombiano con tueste artesanal medio. Notas equilibradas, aroma intenso y cafeína natural sin quemar ni agregados de azúcar. Aprobado por la FDA.",
     variants: [
       { label: "Paquete 500g molido", price: 29800, value: "500g" }
     ],
@@ -164,7 +164,7 @@ export const PRODUCTS = [
     brand: "Juricich",
     badge: "100% Cruda",
     badgeColor: "amber",
-    description: "950g. Miel de monte cosechada de forma artesanal. Sin pasteurizar, sin jarabe de maíz ni aditivos. Conserva vivas todas sus enzimas bactericidas y antioxidantes.",
+    description: "950g. Miel de monte cosechada de forma artesanal. Sin pasteurizar, sin jarabe de maíz ni aditivos. Conserva vivas todas sus enzimas bactericidas y antioxidantes. Aprobado por la FDA.",
     variants: [
       { label: "Frasco vidrio 950g", price: 9900, value: "950g" }
     ],
@@ -177,7 +177,7 @@ export const PRODUCTS = [
     brand: "Libanti Mendoza",
     badge: "Prensada en Frío",
     badgeColor: "lime",
-    description: "1 Litro. Primera prensada en frío elaborado en Mendoza. Acidez menor a 0.5%, alto en polifenoles y grasas monoinsaturadas cardiosaludables.",
+    description: "1 Litro. Primera prensada en frío elaborado en Mendoza. Acidez menor a 0.5%, alto en polifenoles y grasas monoinsaturadas cardiosaludables. Aprobado por la FDA.",
     variants: [
       { label: "Botella 1 Litro", price: 24000, value: "1L" }
     ],
@@ -190,7 +190,7 @@ export const PRODUCTS = [
     brand: "FungiArtist",
     badge: "Extracto Doble",
     badgeColor: "emerald",
-    description: "60ml. Tinturas concentradas de doble extracción hidroalcohólica. Regulan el eje del estrés, el descanso o la claridad mental según la especie que elijas.",
+    description: "60ml. Tinturas concentradas de doble extracción hidroalcohólica. Regulan el eje del estrés, el descanso o la claridad mental según la especie que elijas. Aprobado por la FDA.",
     variants: [
       { label: "Melena de León (Enfoque y Memoria) - 60ml", price: 24000, value: "melena" },
       { label: "Cordyceps (Rendimiento Físico y VO2 Max) - 60ml", price: 24000, value: "cordyceps" },
@@ -461,6 +461,17 @@ function removeCartItem(cartItemId) {
   renderCartDrawer();
 }
 
+function clearCart() {
+  state.cart = [];
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch (e) {
+    console.error("Error al vaciar carrito:", e);
+  }
+  updateCartBadge();
+  renderCartDrawer();
+}
+
 // Microanimación en el badge de navegación
 function triggerCartAnimation() {
   const badge = document.getElementById("cart-badge");
@@ -501,8 +512,8 @@ function openDrawer() {
   drawer.classList.remove("pointer-events-none");
   backdrop.classList.remove("opacity-0", "pointer-events-none");
   backdrop.classList.add("opacity-100", "pointer-events-auto");
-  panel.classList.remove("translate-x-full");
-  panel.classList.add("translate-x-0");
+  panel.classList.remove("translate-x-full", "pointer-events-none");
+  panel.classList.add("translate-x-0", "pointer-events-auto");
   document.body.classList.add("overflow-hidden");
 
   renderCartDrawer();
@@ -518,8 +529,8 @@ function closeDrawer() {
 
   backdrop.classList.remove("opacity-100", "pointer-events-auto");
   backdrop.classList.add("opacity-0", "pointer-events-none");
-  panel.classList.remove("translate-x-0");
-  panel.classList.add("translate-x-full");
+  panel.classList.remove("translate-x-0", "pointer-events-auto");
+  panel.classList.add("translate-x-full", "pointer-events-none");
   drawer.classList.add("pointer-events-none");
   if (!state.isModalOpen) {
     document.body.classList.remove("overflow-hidden");
@@ -597,6 +608,8 @@ function renderCartDrawer() {
       removeCartItem(btn.getAttribute("data-cart-id"));
     });
   });
+}
+
 // 6.5 Modal de Detalle de Producto Aislado
 function openProductModal(productId) {
   const product = PRODUCTS.find((p) => p.id === productId);
@@ -614,8 +627,8 @@ function openProductModal(productId) {
   modal.classList.remove("pointer-events-none", "opacity-0");
   backdrop.classList.remove("pointer-events-none");
   backdrop.classList.add("pointer-events-auto");
-  card.classList.remove("scale-95");
-  card.classList.add("scale-100");
+  card.classList.remove("scale-95", "pointer-events-none");
+  card.classList.add("scale-100", "pointer-events-auto");
   document.body.classList.add("overflow-hidden");
 }
 
@@ -630,8 +643,8 @@ function closeProductModal() {
   modal.classList.add("opacity-0", "pointer-events-none");
   backdrop.classList.remove("pointer-events-auto");
   backdrop.classList.add("pointer-events-none");
-  card.classList.remove("scale-100");
-  card.classList.add("scale-95");
+  card.classList.remove("scale-100", "pointer-events-auto");
+  card.classList.add("scale-95", "pointer-events-none");
 
   if (!state.isDrawerOpen) {
     document.body.classList.remove("overflow-hidden");
@@ -786,7 +799,7 @@ function renderProductModal(product) {
 }
 
 // 7. Serializador Oficial a WhatsApp según dev-brief.md
-export function buildWhatsAppLink(cartItems, formData) {
+function buildWhatsAppLink(cartItems, formData) {
   const WHATSAPP_PHONE = "5492613364201";
 
   const itemsText = cartItems.map((item) =>
@@ -854,6 +867,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (catEl) catEl.scrollIntoView({ behavior: "smooth" });
     });
   }
+
+  // Vaciar Carrito
+  const clearCartBtn = document.getElementById("clear-cart-btn");
+  if (clearCartBtn) clearCartBtn.addEventListener("click", clearCart);
 
   // Cerrar Modal de Producto
   const closeProductModalBtn = document.getElementById("close-product-modal-btn");
@@ -944,7 +961,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (otherBtn !== btn) {
           otherBtn.setAttribute("aria-expanded", "false");
           if (otherBtn.nextElementSibling) {
-            otherBtn.nextElementSibling.classList.add("hidden");
+            otherBtn.nextElementSibling.classList.add("hidden", "pointer-events-none");
+            otherBtn.nextElementSibling.classList.remove("pointer-events-auto");
           }
           const otherIcon = otherBtn.querySelector(".faq-icon");
           if (otherIcon) otherIcon.style.transform = "rotate(0deg)";
@@ -954,11 +972,13 @@ document.addEventListener("DOMContentLoaded", () => {
       // Alternar actual
       if (isExpanded) {
         btn.setAttribute("aria-expanded", "false");
-        content.classList.add("hidden");
+        content.classList.add("hidden", "pointer-events-none");
+        content.classList.remove("pointer-events-auto");
         if (icon) icon.style.transform = "rotate(0deg)";
       } else {
         btn.setAttribute("aria-expanded", "true");
-        content.classList.remove("hidden");
+        content.classList.remove("hidden", "pointer-events-none");
+        content.classList.add("pointer-events-auto");
         if (icon) icon.style.transform = "rotate(180deg)";
       }
     });
