@@ -66,7 +66,7 @@ const productos = [
     nombre: 'Creatina Monohidrato Pura',
     categoria: 'Rendimiento & Fuerza',
     imagen: 'assets/productos/creatina.webp',
-    descripcion: '100% monohidrato. Aumenta fuerza y potencia sin retención hídrica. Pureza superior al 99.85%, avalado por el <a href="https://www.instagram.com/p/DDhoT2gx5qB/" target="_blank" class="text-blue-400 underline">Proyecto Suplementos</a>.',
+    descripcion: '100% monohidrato micronizado. Fuerza extrema y potencia sin retención hídrica. Pureza >99.85%, avalada por el <a href="https://www.instagram.com/p/DDhoT2gx5qB/" target="_blank" class="text-blue-400 underline">Proyecto Suplementos</a>.',
     presentaciones: [
       { nombre: '600g', precio: 49000 },
       { nombre: '350g', precio: 33000 },
@@ -79,7 +79,7 @@ const productos = [
     nombre: 'Proteína Vegetal Aislada',
     categoria: 'Rendimiento & Fuerza',
     imagen: 'assets/productos/proteina-cookies.webp',
-    descripcion: '25g de proteína y 3.8g de BCAAs por porción. Cero azúcares añadidos. Digestión liviana. Sabores: Cookies / Milkshake.',
+    descripcion: '25g de proteína aislada y 3.8g de BCAAs por porción. Cero azúcares. Digestión ultra liviana para una recuperación muscular impecable.',
     presentaciones: [
       { nombre: '907g (Cookies)', precio: 47800 },
       { nombre: '907g (Milkshake)', precio: 47800 }
@@ -91,7 +91,7 @@ const productos = [
     nombre: 'Pre-Work Explosivo',
     categoria: 'Rendimiento & Fuerza',
     imagen: 'assets/productos/prework.webp',
-    descripcion: 'Complejo de Beta-alanina, Taurina y Cafeína. Energía y enfoque extremo para entrenamientos de alta intensidad. Sabores: Limón / Frutos del Bosque.',
+    descripcion: 'Energía explosiva y enfoque total. Beta-alanina, Taurina y Cafeína para romper tus límites y retrasar la fatiga extrema.',
     presentaciones: [
       { nombre: '300g (Limón)', precio: 34300 },
       { nombre: '300g (Bosque)', precio: 34300 }
@@ -103,17 +103,53 @@ const productos = [
     nombre: 'Beta Alanina Pura',
     categoria: 'Rendimiento & Fuerza',
     imagen: 'assets/productos/betaalanina.webp',
-    descripcion: 'Retrasa la fatiga muscular y aumenta la resistencia. El aliado indispensable para sumar repeticiones y entrenar al fallo.',
+    descripcion: 'El aliado estratégico para entrenar al fallo. Retrasa la fatiga láctica y maximiza la resistencia en rutinas de alta intensidad.',
     presentaciones: [{ nombre: '150g', precio: 16800 }],
     inStock: false
   },
   // SALUD & LONGEVIDAD
   {
+    id: 'omega-3',
+    nombre: 'Omega 3 (IFOS 5-Star)',
+    categoria: 'Salud & Longevidad',
+    imagen: 'assets/productos/omega3.webp',
+    descripcion: 'Certificación internacional IFOS. Máxima pureza en EPA (360mg) y DHA (240mg) para blindar tu salud cardiovascular y cognitiva.',
+    presentaciones: [{ nombre: '60 Cápsulas', precio: 36900 }],
+    inStock: true
+  },
+  {
+    id: 'vitamina-d3-k2',
+    nombre: 'Vitamina D3 + K2 (MK-7)',
+    categoria: 'Salud & Longevidad',
+    imagen: 'assets/productos/vitaminad3k2.webp',
+    descripcion: 'Fórmula sinérgica de 4000 UI D3 + K2 MK-7. Garantiza la absorción del calcio y su correcta fijación directa en el tejido óseo.',
+    presentaciones: [{ nombre: 'Cápsulas blandas', precio: 24900 }],
+    inStock: true
+  },
+  {
+    id: 'calcio-magnesio-zinc',
+    nombre: 'Calcio, Magnesio, Zinc + D3',
+    categoria: 'Salud & Longevidad',
+    imagen: 'assets/productos/CMZ.webp',
+    descripcion: 'El complejo mineral definitivo. Soporte estructural clave para salud ósea, articular y bienestar integral bajo alta demanda física.',
+    presentaciones: [{ nombre: 'Cápsulas', precio: 24000 }],
+    inStock: true
+  },
+  {
+    id: 'vitamina-c',
+    nombre: 'Vitamina C 1000mg',
+    categoria: 'Salud & Longevidad',
+    imagen: 'assets/productos/vitaminaC.webp',
+    descripcion: '1000mg de defensa antioxidante pura. Refuerza tu sistema inmunológico y combate el estrés oxidativo post-entrenamiento.',
+    presentaciones: [{ nombre: '30 Cápsulas', precio: 18200 }],
+    inStock: true
+  },
+  {
     id: 'colageno-hidrolizado',
     nombre: 'Colágeno Hidrolizado + Vit C',
     categoria: 'Salud & Longevidad',
     imagen: 'assets/productos/colageno-hidrolizado.webp',
-    descripcion: 'Péptidos de colágeno optimizados con Vitamina C. Protege articulaciones y mejora la elasticidad. Sabores: Arándanos / Naranja.',
+    descripcion: 'Péptidos hidrolizados optimizados. Protección articular profunda, recuperación de cartílagos y máxima elasticidad de los tejidos.',
     presentaciones: [
       { nombre: '300g (Arándanos)', precio: 36500 },
       { nombre: '300g (Naranja)', precio: 36500 }
@@ -125,89 +161,53 @@ const productos = [
     nombre: 'L-Glutamina Pura',
     categoria: 'Salud & Longevidad',
     imagen: 'assets/productos/glutamina.webp',
-    descripcion: '5g de L-Glutamina de alta pureza por porción. Fundamental para optimizar la recuperación muscular y evitar el catabolismo.',
+    descripcion: '5g de aminoácido clave por porción. Frena el catabolismo muscular y acelera drásticamente la recuperación tras el esfuerzo.',
     presentaciones: [{ nombre: '150g', precio: 16800 }],
     inStock: false
-  },
-  {
-    id: 'omega-3',
-    nombre: 'Omega 3 (IFOS 5-Star)',
-    categoria: 'Salud & Longevidad',
-    imagen: 'assets/productos/omega3.webp',
-    descripcion: 'Aceite de pescado con certificación internacional IFOS. Aporta 360mg EPA y 240mg DHA para máxima protección cardiovascular.',
-    presentaciones: [{ nombre: '60 Cápsulas', precio: 36900 }],
-    inStock: true
-  },
-  {
-    id: 'calcio-magnesio-zinc',
-    nombre: 'Calcio, Magnesio, Zinc + D3',
-    categoria: 'Salud & Longevidad',
-    imagen: 'assets/productos/CMZ.webp',
-    descripcion: 'Complejo mineral esencial. Apoya la salud ósea, articular y el bienestar general en personas con alta demanda física.',
-    presentaciones: [{ nombre: 'Cápsulas', precio: 24000 }],
-    inStock: true
-  },
-  {
-    id: 'vitamina-c',
-    nombre: 'Vitamina C 1000mg',
-    categoria: 'Salud & Longevidad',
-    imagen: 'assets/productos/vitaminaC.webp',
-    descripcion: 'Potente acción antioxidante. Fortalece el sistema inmunológico, disminuye el estrés oxidativo y mejora la absorción del hierro.',
-    presentaciones: [{ nombre: '30 Cápsulas', precio: 18200 }],
-    inStock: true
   },
   {
     id: 'cla-1000',
     nombre: 'CLA 1000',
     categoria: 'Salud & Longevidad',
     imagen: 'assets/productos/cla.webp',
-    descripcion: 'Ácido Linoleico Conjugado. Complemento ideal para etapas de definición muscular y optimización del metabolismo.',
+    descripcion: 'Ácido Linoleico Conjugado. Tu complemento metabólico estratégico para etapas de definición y recomposición corporal.',
     presentaciones: [{ nombre: 'Cápsulas blandas', precio: 25500 }],
     inStock: false
-  },
-  {
-    id: 'vitamina-d3-k2',
-    nombre: 'Vitamina D3 + K2 (MK-7)',
-    categoria: 'Salud & Longevidad',
-    imagen: 'assets/productos/vitaminad3k2.webp',
-    descripcion: '4000 UI de D3 y 180mcg de K2. Fórmula sinérgica para asegurar la absorción y correcta fijación del calcio en los huesos.',
-    presentaciones: [{ nombre: 'Cápsulas blandas', precio: 24900 }],
-    inStock: true
   },
   // ALIMENTACIÓN INTELIGENTE
   {
     id: 'cafe-rdc',
     nombre: 'Café RDC Colombia',
     categoria: 'Alimentación Inteligente',
-    imagen: 'assets/productos/cafe.webp',
-    descripcion: 'Café de especialidad colombiano. Energía limpia para arrancar el día.',
+    imagen: 'assets/productos/cafe-rdc.webp',
+    descripcion: 'Café de especialidad origen Colombia. Energía limpia, intensa y sin caídas abruptas para dominar el arranque del día.',
     presentaciones: [{ nombre: '500g', precio: 29800 }],
-    inStock: true
-  },
-  {
-    id: 'miel-juricich',
-    nombre: 'Miel Pura Juricich',
-    categoria: 'Alimentación Inteligente',
-    imagen: 'assets/productos/miel.webp',
-    descripcion: 'Miel cruda de alta pureza. Endulzante natural ideal para pre-entrenos y recuperación.',
-    presentaciones: [{ nombre: '950g', precio: 9900 }],
     inStock: true
   },
   {
     id: 'aceite-oliva',
     nombre: 'Aceite de Oliva Libanti',
     categoria: 'Alimentación Inteligente',
-    imagen: 'assets/productos/oliva.webp',
-    descripcion: 'Extra virgen prensado en frío. Grasas saludables esenciales para el sistema hormonal y cardiovascular.',
+    imagen: 'assets/productos/aceite-libanti.webp',
+    descripcion: 'Extra virgen prensado en frío. Fuente suprema de grasas saludables esenciales para optimizar tu entorno hormonal y cardiovascular.',
     presentaciones: [{ nombre: '1L', precio: 24000 }],
+    inStock: true
+  },
+  {
+    id: 'mix-frutos-secos',
+    nombre: 'Mix de Frutos Secos',
+    categoria: 'Alimentación Inteligente',
+    imagen: 'assets/productos/frutos-secos.webp',
+    descripcion: 'Selección premium natural. Densidad nutricional pura, sin agregados, para mantener energía y saciedad a lo largo de la jornada.',
+    presentaciones: [{ nombre: 'Estándar', precio: 22000 }],
     inStock: true
   },
   {
     id: 'hongos-adaptogenos',
     nombre: 'Hongos Adaptógenos FungiArt',
     categoria: 'Alimentación Inteligente',
-    imagen: 'assets/productos/hongos.webp',
-    descripcion: 'Extractos funcionales para energía y enfoque. Disponibles: Cordyceps, Melena de León, Reishi, Tremella.',
+    imagen: 'assets/productos/adaptogenos.webp',
+    descripcion: 'Extractos funcionales puros. Energía adaptógena y enfoque mental sostenido sin alterar negativamente el sistema nervioso.',
     presentaciones: [
       { nombre: 'Cordyceps 60ml', precio: 24000 },
       { nombre: 'Melena de León 60ml', precio: 24000 },
@@ -217,21 +217,21 @@ const productos = [
     inStock: true
   },
   {
-    id: 'mix-frutos-secos',
-    nombre: 'Mix de Frutos Secos',
+    id: 'miel-juricich',
+    nombre: 'Miel Pura Juricich',
     categoria: 'Alimentación Inteligente',
-    imagen: 'assets/productos/mix-frutos.webp',
-    descripcion: 'Selección premium de frutos secos. Densidad nutricional pura para energía sostenida.',
-    presentaciones: [{ nombre: 'Estándar', precio: 22000 }],
+    imagen: 'assets/productos/miel.webp',
+    descripcion: 'Miel cruda 100% pura. El carbohidrato de rápida asimilación ideal para tus pre-entrenos y reposición de glucógeno.',
+    presentaciones: [{ nombre: '950g', precio: 9900 }],
     inStock: true
   },
   {
     id: 'mix-personalizado',
     nombre: 'Mix Personalizado',
     categoria: 'Alimentación Inteligente',
-    imagen: 'assets/productos/mix-personalizado.webp',
-    descripcion: 'Armá tu propio mix con los ingredientes que prefieras. Adaptado a tus macros.',
-    presentaciones: [{ nombre: 'A medida', precio: 'Variable' }],
+    imagen: 'assets/productos/frutos-secos.webp',
+    descripcion: 'Nutrición a tu medida exacta. Diseñamos el balance de frutos e ingredientes que se ajusta perfectamente a tus macros.',
+    presentaciones: [{ nombre: 'A medida', precio: 'Consultar' }],
     inStock: true
   }
 ];
@@ -274,11 +274,15 @@ function getProductVariants(product) {
   if (product.presentaciones && Array.isArray(product.presentaciones) && product.presentaciones.length > 0) {
     return product.presentaciones.map((p) => {
       if (typeof p === "object" && p !== null) {
+        let variantImg = p.imagen || product.imagen || product.image;
+        if (!p.imagen && product.id === 'proteina-vegetal' && p.nombre && p.nombre.toLowerCase().includes('milkshake')) {
+          variantImg = 'assets/productos/proteina-milk-shake.webp';
+        }
         return {
           label: p.nombre,
           value: p.nombre,
           price: p.precio,
-          image: p.imagen || product.imagen || product.image
+          image: variantImg
         };
       }
       return {
@@ -629,7 +633,7 @@ function renderCatalog() {
           <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
           </svg>
-          <span>+ Agregar</span>
+          <span>Agregar</span>
         </button>
       `;
 
@@ -1129,7 +1133,7 @@ function renderProductModal(product) {
         <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
         </svg>
-        <span>+ Agregar al Pedido</span>
+        <span>Agregar al Pedido</span>
       </button>
     `;
 
