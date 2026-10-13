@@ -427,7 +427,8 @@ async function fetchCatalogFromGoogleSheets() {
   }
 
   try {
-    const response = await fetch(GOOGLE_SHEETS_CSV_URL);
+    const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBrNhGexyD4c1axzU9uvzUWfalYSPNPGz_NMf8NEXOrtIB0HkNuSPrl1jBoO0ps8RgN4md4Xg6zCGd/pub?gid=0&single=true&output=csv' + '&t=' + new Date().getTime();
+    const response = await fetch(urlCSV);
     if (!response.ok) {
       throw new Error(`Error de respuesta HTTP: ${response.status} ${response.statusText}`);
     }
