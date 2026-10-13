@@ -58,8 +58,11 @@ const CATEGORY_THEMES = {
   }
 };
 
-// 2. Catálogo Oficial con Precios Dinámicos por Presentación
-const productos = [
+// 2. Arquitectura de Catálogo Dinámico con Google Sheets DB
+const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBrNhGexyD4c1axzU9uvzUWfalYSPNPGz_NMf8NEXOrtIB0HkNuSPrl1jBoO0ps8RgN4md4Xg6zCGd/pub?gid=0&single=true&output=csv";
+
+// Definiciones maestras de productos, metadatos y mapeo de presentaciones al Sheet
+const PRODUCT_DEFINITIONS = [
   // RENDIMIENTO & FUERZA
   {
     id: 'creatina',
@@ -68,11 +71,10 @@ const productos = [
     imagen: 'assets/productos/creatina.webp',
     descripcion: '100% monohidrato micronizado. Fuerza extrema y potencia sin retención hídrica. Pureza >99.85%, avalada por el <a href="https://www.instagram.com/p/DDhoT2gx5qB/" target="_blank" class="text-blue-400 underline">Proyecto Suplementos</a>.',
     presentaciones: [
-      { nombre: '600g', precio: 49000 },
-      { nombre: '350g', precio: 33000 },
-      { nombre: '150g', precio: 16500 }
-    ],
-    inStock: true
+      { nombre: '600g', sheetMatch: ['CREATINA 600'], precio: 49000 },
+      { nombre: '350g', sheetMatch: ['CREATINA 350'], precio: 33000 },
+      { nombre: '150g', sheetMatch: ['CREATINA 150'], precio: 16500 }
+    ]
   },
   {
     id: 'proteina-vegetal',
@@ -81,10 +83,9 @@ const productos = [
     imagen: 'assets/productos/proteina-cookies.webp',
     descripcion: '25g de proteína aislada y 3.8g de BCAAs por porción. Cero azúcares. Digestión ultra liviana para una recuperación muscular impecable.',
     presentaciones: [
-      { nombre: '907g (Cookies)', precio: 47800 },
-      { nombre: '907g (Milkshake)', precio: 47800 }
-    ],
-    inStock: true
+      { nombre: '907g (Cookies)', sheetMatch: ['PROTEINA COOKIES AND CREAM', 'PROTEINA COOKIES'], precio: 47800 },
+      { nombre: '907g (Milkshake)', sheetMatch: ['PROTEINA MILK SHAKE', 'PROTEINA MILKSHAKE'], precio: 47800, imagen: 'assets/productos/proteina-milk-shake.webp' }
+    ]
   },
   {
     id: 'pre-work',
@@ -93,10 +94,9 @@ const productos = [
     imagen: 'assets/productos/prework.webp',
     descripcion: 'Energía explosiva y enfoque total. Beta-alanina, Taurina y Cafeína para romper tus límites y retrasar la fatiga extrema.',
     presentaciones: [
-      { nombre: '300g (Limón)', precio: 34300 },
-      { nombre: '300g (Bosque)', precio: 34300 }
-    ],
-    inStock: true
+      { nombre: '300g (Limón)', sheetMatch: ['PREWORK LIMON', 'PRE-WORK LIMON'], precio: 34300 },
+      { nombre: '300g (Bosque)', sheetMatch: ['PREWORK FRUTOS DEL BOSQUE', 'PREWORK BOSQUE'], precio: 34300 }
+    ]
   },
   {
     id: 'beta-alanina',
@@ -104,8 +104,9 @@ const productos = [
     categoria: 'Rendimiento & Fuerza',
     imagen: 'assets/productos/betaalanina.webp',
     descripcion: 'El aliado estratégico para entrenar al fallo. Retrasa la fatiga láctica y maximiza la resistencia en rutinas de alta intensidad.',
-    presentaciones: [{ nombre: '150g', precio: 16800 }],
-    inStock: false
+    presentaciones: [
+      { nombre: '150g', sheetMatch: ['BETA-ALANINA 150G', 'BETA-ALANINA', 'BETA ALANINA'], precio: 16800 }
+    ]
   },
   // SALUD & LONGEVIDAD
   {
@@ -114,17 +115,9 @@ const productos = [
     categoria: 'Salud & Longevidad',
     imagen: 'assets/productos/omega3.webp',
     descripcion: 'Certificación internacional IFOS. Máxima pureza en EPA (360mg) y DHA (240mg) para blindar tu salud cardiovascular y cognitiva.',
-    presentaciones: [{ nombre: '60 Cápsulas', precio: 36900 }],
-    inStock: true
-  },
-  {
-    id: 'vitamina-d3-k2',
-    nombre: 'Vitamina D3 + K2 (MK-7)',
-    categoria: 'Salud & Longevidad',
-    imagen: 'assets/productos/vitaminad3k2.webp',
-    descripcion: 'Fórmula sinérgica de 4000 UI D3 + K2 MK-7. Garantiza la absorción del calcio y su correcta fijación directa en el tejido óseo.',
-    presentaciones: [{ nombre: 'Cápsulas blandas', precio: 24900 }],
-    inStock: true
+    presentaciones: [
+      { nombre: '60 Cápsulas', sheetMatch: ['OMEGA 3'], precio: 36900 }
+    ]
   },
   {
     id: 'calcio-magnesio-zinc',
@@ -132,8 +125,9 @@ const productos = [
     categoria: 'Salud & Longevidad',
     imagen: 'assets/productos/CMZ.webp',
     descripcion: 'El complejo mineral definitivo. Soporte estructural clave para salud ósea, articular y bienestar integral bajo alta demanda física.',
-    presentaciones: [{ nombre: 'Cápsulas', precio: 24000 }],
-    inStock: true
+    presentaciones: [
+      { nombre: 'Cápsulas', sheetMatch: ['CMZ', 'CALCIO MAGNESIO ZINC'], precio: 24000 }
+    ]
   },
   {
     id: 'vitamina-c',
@@ -141,8 +135,9 @@ const productos = [
     categoria: 'Salud & Longevidad',
     imagen: 'assets/productos/vitaminaC.webp',
     descripcion: '1000mg de defensa antioxidante pura. Refuerza tu sistema inmunológico y combate el estrés oxidativo post-entrenamiento.',
-    presentaciones: [{ nombre: '30 Cápsulas', precio: 18200 }],
-    inStock: true
+    presentaciones: [
+      { nombre: '30 Cápsulas', sheetMatch: ['VITAMINA C'], precio: 18200 }
+    ]
   },
   {
     id: 'colageno-hidrolizado',
@@ -151,10 +146,9 @@ const productos = [
     imagen: 'assets/productos/colageno-hidrolizado.webp',
     descripcion: 'Péptidos hidrolizados optimizados. Protección articular profunda, recuperación de cartílagos y máxima elasticidad de los tejidos.',
     presentaciones: [
-      { nombre: '300g (Arándanos)', precio: 36500 },
-      { nombre: '300g (Naranja)', precio: 36500 }
-    ],
-    inStock: false
+      { nombre: '300g (Arándanos)', sheetMatch: ['COLAGENO ARANDANOS'], precio: 36500 },
+      { nombre: '300g (Naranja)', sheetMatch: ['COLAGENO NARANJA'], precio: 36500 }
+    ]
   },
   {
     id: 'glutamina',
@@ -162,8 +156,9 @@ const productos = [
     categoria: 'Salud & Longevidad',
     imagen: 'assets/productos/glutamina.webp',
     descripcion: '5g de aminoácido clave por porción. Frena el catabolismo muscular y acelera drásticamente la recuperación tras el esfuerzo.',
-    presentaciones: [{ nombre: '150g', precio: 16800 }],
-    inStock: false
+    presentaciones: [
+      { nombre: '150g', sheetMatch: ['GLUTAMINA 150G', 'GLUTAMINA'], precio: 16800 }
+    ]
   },
   {
     id: 'cla-1000',
@@ -171,8 +166,19 @@ const productos = [
     categoria: 'Salud & Longevidad',
     imagen: 'assets/productos/cla.webp',
     descripcion: 'Ácido Linoleico Conjugado. Tu complemento metabólico estratégico para etapas de definición y recomposición corporal.',
-    presentaciones: [{ nombre: 'Cápsulas blandas', precio: 25500 }],
-    inStock: false
+    presentaciones: [
+      { nombre: 'Cápsulas blandas', sheetMatch: ['CLA'], precio: 25500 }
+    ]
+  },
+  {
+    id: 'vitamina-d3-k2',
+    nombre: 'Vitamina D3 + K2 (MK-7)',
+    categoria: 'Salud & Longevidad',
+    imagen: 'assets/productos/vitaminad3k2.webp',
+    descripcion: 'Fórmula sinérgica de 4000 UI D3 + K2 MK-7. Garantiza la absorción del calcio y su correcta fijación directa en el tejido óseo.',
+    presentaciones: [
+      { nombre: 'Cápsulas blandas', sheetMatch: ['VITAMINA D3K2', 'VITAMINA D3 K2'], precio: 24900 }
+    ]
   },
   // ALIMENTACIÓN INTELIGENTE
   {
@@ -181,8 +187,9 @@ const productos = [
     categoria: 'Alimentación Inteligente',
     imagen: 'assets/productos/cafe-rdc.webp',
     descripcion: 'Café de especialidad origen Colombia. Energía limpia, intensa y sin caídas abruptas para dominar el arranque del día.',
-    presentaciones: [{ nombre: '500g', precio: 29800 }],
-    inStock: true
+    presentaciones: [
+      { nombre: '500g', sheetMatch: ['CAFE RDC COLOMBIA 500G', 'CAFE RDC COLOMBIA', 'CAFE RDC'], precio: 29800 }
+    ]
   },
   {
     id: 'aceite-oliva',
@@ -190,8 +197,9 @@ const productos = [
     categoria: 'Alimentación Inteligente',
     imagen: 'assets/productos/aceite-libanti.webp',
     descripcion: 'Extra virgen prensado en frío. Fuente suprema de grasas saludables esenciales para optimizar tu entorno hormonal y cardiovascular.',
-    presentaciones: [{ nombre: '1L', precio: 24000 }],
-    inStock: true
+    presentaciones: [
+      { nombre: '1L', sheetMatch: ['ACEITE DE OLIVA LIBANTI EXTRA VIRGEN 1L', 'ACEITE DE OLIVA LIBANTI', 'ACEITE DE OLIVA'], precio: 24000 }
+    ]
   },
   {
     id: 'mix-frutos-secos',
@@ -199,8 +207,9 @@ const productos = [
     categoria: 'Alimentación Inteligente',
     imagen: 'assets/productos/frutos-secos.webp',
     descripcion: 'Selección premium natural. Densidad nutricional pura, sin agregados, para mantener energía y saciedad a lo largo de la jornada.',
-    presentaciones: [{ nombre: 'Estándar', precio: 22000 }],
-    inStock: true
+    presentaciones: [
+      { nombre: 'Estándar', sheetMatch: ['MIX FRUTOS SECOS'], precio: 22000 }
+    ]
   },
   {
     id: 'hongos-adaptogenos',
@@ -209,12 +218,12 @@ const productos = [
     imagen: 'assets/productos/adaptogenos.webp',
     descripcion: 'Extractos funcionales puros. Energía adaptógena y enfoque mental sostenido sin alterar negativamente el sistema nervioso.',
     presentaciones: [
-      { nombre: 'Cordyceps 60ml', precio: 24000 },
-      { nombre: 'Melena de León 60ml', precio: 24000 },
-      { nombre: 'Reishi 60ml', precio: 24000 },
-      { nombre: 'Tremella 60ml', precio: 24000 }
-    ],
-    inStock: true
+      { nombre: 'Cordyceps 60ml', sheetMatch: ['HONGOS ADAPTOGENOS FUNGIART 60ML CORDYCEPS', 'CORDYCEPS'], precio: 24000 },
+      { nombre: 'Melena de León 60ml', sheetMatch: ['HONGOS ADAPTOGENOS FUNGIART 60ML MELENA DE LEON', 'MELENA DE LEON'], precio: 24000 },
+      { nombre: 'Reishi 60ml', sheetMatch: ['HONGOS ADAPTOGENOS FUNGIART 60ML REISHI', 'REISHI'], precio: 24000 },
+      { nombre: 'Tremella 60ml', sheetMatch: ['HONGOS ADAPTOGENOS FUNGIART 60ML TREMELLA', 'TREMELLA'], precio: 24000 },
+      { nombre: 'Ashwagandha 60ml', sheetMatch: ['HONGOS ADAPTOGENOS FUNGIART 60ML ASHWAGANDHA', 'ASHWAGANDHA'], precio: 24000 }
+    ]
   },
   {
     id: 'miel-juricich',
@@ -222,8 +231,9 @@ const productos = [
     categoria: 'Alimentación Inteligente',
     imagen: 'assets/productos/miel.webp',
     descripcion: 'Miel cruda 100% pura. El carbohidrato de rápida asimilación ideal para tus pre-entrenos y reposición de glucógeno.',
-    presentaciones: [{ nombre: '950g', precio: 9900 }],
-    inStock: true
+    presentaciones: [
+      { nombre: '950g', sheetMatch: ['MIEL PURA JURICICH 950G', 'MIEL PURA JURICICH', 'MIEL PURA'], precio: 9900 }
+    ]
   },
   {
     id: 'mix-personalizado',
@@ -231,13 +241,256 @@ const productos = [
     categoria: 'Alimentación Inteligente',
     imagen: 'assets/productos/frutos-secos.webp',
     descripcion: 'Nutrición a tu medida exacta. Diseñamos el balance de frutos e ingredientes que se ajusta perfectamente a tus macros.',
-    presentaciones: [{ nombre: 'A medida', precio: 'Consultar' }],
-    inStock: true
+    presentaciones: [
+      { nombre: 'A medida', sheetMatch: ['MIX PERSONALIZADO'], precio: 'Consultar' }
+    ]
   }
 ];
 
-// Alias para compatibilidad total
-const PRODUCTS = productos;
+// Estado dinámico del catálogo poblado desde Google Sheets DB
+let productos = [];
+let PRODUCTS = productos;
+
+/**
+ * Parsea el CSV devuelto por Google Sheets separando por comas y filas
+ */
+function parseCSV(csvText) {
+  const lines = csvText.trim().split(/\r?\n/);
+  if (lines.length < 2) return [];
+
+  const headers = lines[0].split(",").map((h) => h.trim().toUpperCase());
+  const prodIdx = headers.indexOf("PRODUCTO") !== -1 ? headers.indexOf("PRODUCTO") : 0;
+  const priceIdx = headers.indexOf("PRECIO") !== -1 ? headers.indexOf("PRECIO") : 1;
+  const stockIdx = headers.indexOf("STOCK") !== -1 ? headers.indexOf("STOCK") : 2;
+
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    const cols = [];
+    let current = "";
+    let inQuotes = false;
+    for (let j = 0; j < line.length; j++) {
+      const char = line[j];
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        cols.push(current.trim());
+        current = "";
+      } else {
+        current += char;
+      }
+    }
+    cols.push(current.trim());
+
+    const rawProd = (cols[prodIdx] || "").trim();
+    const rawPrice = (cols[priceIdx] || "").trim();
+    const rawStock = (cols[stockIdx] || "").trim().toUpperCase();
+
+    let precio = rawPrice;
+    const cleanNum = rawPrice.replace(/[^0-9]/g, "");
+    if (cleanNum !== "" && !isNaN(cleanNum)) {
+      precio = parseInt(cleanNum, 10);
+    } else if (rawPrice.toUpperCase() === "CONSULTAR") {
+      precio = "Consultar";
+    }
+
+    const inStock = rawStock === "OK";
+
+    rows.push({
+      producto: rawProd,
+      precio: precio,
+      stock: rawStock,
+      inStock: inStock
+    });
+  }
+
+  return rows;
+}
+
+/**
+ * Deduce categoría aproximada para filas dinámicas no mapeadas de Google Sheets
+ */
+function guessCategory(name) {
+  const n = (name || "").toLowerCase();
+  if (n.includes("creatina") || n.includes("proteina") || n.includes("prework") || n.includes("beta") || n.includes("fuerza")) {
+    return "Rendimiento & Fuerza";
+  }
+  if (n.includes("miel") || n.includes("cafe") || n.includes("aceite") || n.includes("frutos") || n.includes("hongo") || n.includes("mix")) {
+    return "Alimentación Inteligente";
+  }
+  return "Salud & Longevidad";
+}
+
+/**
+ * Construye el catálogo final asociando filas de Google Sheets con las definiciones maestras
+ */
+function buildCatalogFromCSV(rows) {
+  const matchedRowIndices = new Set();
+  const catalog = [];
+
+  PRODUCT_DEFINITIONS.forEach((def) => {
+    const productCopy = {
+      id: def.id,
+      nombre: def.nombre,
+      categoria: def.categoria,
+      imagen: def.imagen,
+      descripcion: def.descripcion,
+      presentaciones: []
+    };
+
+    let anyInStock = false;
+
+    def.presentaciones.forEach((pres) => {
+      // Buscar en las filas del CSV por sheetMatch
+      const matchedRowIndex = rows.findIndex((r, idx) => {
+        if (matchedRowIndices.has(idx)) return false;
+        const normName = r.producto.toUpperCase().trim();
+        return pres.sheetMatch.some((sm) => {
+          const normSm = sm.toUpperCase().trim();
+          return normName === normSm || normName.includes(normSm);
+        });
+      });
+
+      if (matchedRowIndex !== -1) {
+        matchedRowIndices.add(matchedRowIndex);
+        const row = rows[matchedRowIndex];
+        const presCopy = {
+          nombre: pres.nombre,
+          precio: row.precio,
+          inStock: row.inStock
+        };
+        if (pres.imagen) presCopy.imagen = pres.imagen;
+        productCopy.presentaciones.push(presCopy);
+        if (row.inStock) anyInStock = true;
+      } else {
+        productCopy.presentaciones.push({
+          nombre: pres.nombre,
+          precio: pres.precio,
+          inStock: true
+        });
+        anyInStock = true;
+      }
+    });
+
+    productCopy.inStock = anyInStock;
+    catalog.push(productCopy);
+  });
+
+  // Procesar filas adicionales creadas directamente en Google Sheets
+  rows.forEach((row, idx) => {
+    if (!matchedRowIndices.has(idx)) {
+      const slug = row.producto.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      catalog.push({
+        id: `sheet-${slug}-${idx}`,
+        nombre: row.producto,
+        categoria: guessCategory(row.producto),
+        imagen: null,
+        descripcion: "Producto incorporado desde Google Sheets DB.",
+        presentaciones: [
+          {
+            nombre: "Presentación única",
+            precio: row.precio,
+            inStock: row.inStock
+          }
+        ],
+        inStock: row.inStock
+      });
+    }
+  });
+
+  return catalog;
+}
+
+/**
+ * Conexión Fetch a Google Sheets DB con parseo CSV, inyección dinámica y manejo de errores de red
+ */
+async function fetchCatalogFromGoogleSheets() {
+  const container = document.getElementById("products-grid");
+  if (container) {
+    container.innerHTML = `
+      <div class="col-span-full py-20 flex flex-col items-center justify-center text-center">
+        <div class="relative flex items-center justify-center w-12 h-12 mb-4">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-40"></span>
+          <span class="relative inline-flex rounded-full h-9 w-9 bg-blue-600/20 border border-blue-500/40 items-center justify-center text-blue-400">
+            <svg class="animate-spin w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </span>
+        </div>
+        <p class="font-outfit text-sm font-bold text-neutral-200">Sincronizando Catálogo Oficial</p>
+        <p class="font-sans text-xs text-neutral-400 mt-1">Conectando en vivo con Google Sheets DB...</p>
+      </div>
+    `;
+  }
+
+  try {
+    const response = await fetch(GOOGLE_SHEETS_CSV_URL);
+    if (!response.ok) {
+      throw new Error(`Error de respuesta HTTP: ${response.status} ${response.statusText}`);
+    }
+
+    const csvText = await response.text();
+    const rows = parseCSV(csvText);
+
+    if (!rows || rows.length === 0) {
+      throw new Error("El archivo CSV devuelto no contiene filas válidas de productos.");
+    }
+
+    // Actualizar catálogo global reactivo
+    productos = buildCatalogFromCSV(rows);
+    PRODUCTS = productos;
+    window.productos = productos;
+    window.PRODUCTS = productos;
+
+    // Inicializar variantes seleccionadas en posición 0
+    productos.forEach((p) => {
+      if (state.selectedVariants[p.id] === undefined) {
+        state.selectedVariants[p.id] = 0;
+      }
+    });
+
+    // Renderizar tarjetas en el DOM con las clases exactas
+    renderCatalog();
+  } catch (error) {
+    console.error("Error al cargar el catálogo desde Google Sheets DB:", error);
+    if (container) {
+      container.innerHTML = `
+        <div class="col-span-full py-14 px-6 rounded-3xl bg-neutral-900/80 border border-red-500/30 text-center backdrop-blur-md max-w-lg mx-auto my-6 shadow-2xl">
+          <div class="w-14 h-14 rounded-2xl bg-red-500/10 text-red-400 mx-auto flex items-center justify-center mb-4 border border-red-500/20">
+            <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h3 class="font-outfit text-xl font-bold text-neutral-100">No se pudo cargar el catálogo</h3>
+          <p class="text-xs sm:text-sm text-neutral-400 mt-2 leading-relaxed font-sans">
+            Ocurrió un error al sincronizar con la base de datos de productos (Google Sheets DB). Por favor reintentá la conexión o escribinos por WhatsApp para solicitar la lista de precios y stock actualizada.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+            <button
+              type="button"
+              onclick="fetchCatalogFromGoogleSheets()"
+              class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-sans text-xs font-semibold transition shadow-lg shadow-blue-600/25 active:scale-95"
+            >
+              Reintentar Conexión
+            </button>
+            <a
+              href="https://wa.me/5492613364201?text=Hola!%20No%20se%20pudo%20cargar%20el%20cat%C3%A1logo%20en%20la%20web,%20%C2%BFme%20pasan%20la%20lista%20de%20precios%20y%20stock?"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-white/10 font-sans text-xs font-semibold transition"
+            >
+              Consultar por WhatsApp 💬
+            </a>
+          </div>
+        </div>
+      `;
+    }
+  }
+}
+window.fetchCatalogFromGoogleSheets = fetchCatalogFromGoogleSheets;
 
 // Mapeo semántico de categorías al slug de la UI
 function getCategoryKey(categoria) {
@@ -328,8 +581,8 @@ const formatPrice = (amount) => {
   }).format(amount);
 };
 
-// Inicialización de variantes por defecto en posición [0]
-productos.forEach((product) => {
+// Inicialización de variantes por defecto en posición [0] (se inicializa dinámicamente con Google Sheets)
+(productos || []).forEach((product) => {
   state.selectedVariants[product.id] = 0;
 });
 
@@ -570,7 +823,9 @@ function renderCatalog() {
     return;
   }
 
-  container.innerHTML = filteredProducts.map((product) => {
+  let cardsHtml = "";
+  for (let i = 0; i < filteredProducts.length; i++) {
+    const product = filteredProducts[i];
     const catKey = getCategoryKey(product.categoria || product.category);
     const theme = CATEGORY_THEMES[catKey] || CATEGORY_THEMES.rendimiento;
     const meta = PRODUCT_METADATA[product.id] || {
@@ -637,7 +892,7 @@ function renderCatalog() {
         </button>
       `;
 
-    return `
+    cardsHtml += `
       <article
         class="product-card group relative bg-neutral-900/60 hover:bg-neutral-900/90 border border-white/[0.08] ${theme.cardHoverBorder} rounded-3xl p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-black/70 hover:-translate-y-1 overflow-hidden backdrop-blur-sm cursor-pointer select-none"
         data-product-id="${product.id}"
@@ -712,7 +967,9 @@ function renderCatalog() {
         </div>
       </article>
     `;
-  }).join("");
+  }
+
+  container.innerHTML = cardsHtml;
 
   attachProductEvents();
 }
@@ -1329,7 +1586,7 @@ _Enviado desde suplementosmendoza.com.ar_`;
 // 11. Inicialización General y Listeners Globales
 document.addEventListener("DOMContentLoaded", () => {
   loadCartFromStorage();
-  renderCatalog();
+  fetchCatalogFromGoogleSheets();
 
   // Filtros de Categorías (Dock Switcher de 3 Categorías)
   const filterButtons = document.querySelectorAll(".category-tab");

@@ -12,15 +12,16 @@
 ## 1. Resumen Ejecutivo y Objetivos
 
 ### 1.1 Visión del Producto
-Transformar la presencia digital de **Suplementos Mendoza** de una landing estática a una **plataforma ágil de catálogo interactivo con checkout directo a WhatsApp** (funnel WhatsApp-First). 
+Transformar la presencia digital de **Suplementos Mendoza** de una landing estática a una **plataforma ágil de catálogo dinámico interactivo con checkout directo a WhatsApp** (funnel WhatsApp-First) potenciada por la arquitectura **Google Sheets DB**. 
 La plataforma posiciona al cliente como el **distribuidor local de confianza de Natural Nutrition (NN)** y referente en **alimentación consciente/inteligente** en Mendoza, abriendo dos líneas comerciales simultáneas:
-1. **B2C (Consumidor Final):** Venta directa a deportistas y personas que buscan salud real, con carrito interactivo y pedido formateado a WhatsApp sin fricción de pasarelas de pago.
+1. **B2C (Consumidor Final):** Venta directa a deportistas y personas que buscan salud real, con catálogo sincronizado en tiempo real desde Google Sheets, carrito interactivo y pedido formateado a WhatsApp sin fricción de pasarelas de pago.
 2. **B2B (Gimnasios y Centros de Bienestar):** Canal de captación de gimnasios, boxes de crossfit, centros de yoga, estética y nutricionistas para distribución mayorista local en Mendoza.
 
 ### 1.2 Objetivos Clave (KPIs)
 * **Tasa de Conversión a WhatsApp:** > 8% de visitantes que agreguen productos y envíen el pedido formateado.
 * **Tiempo de Carga Móvil:** < 1.5s (Mobile-First, optimizado para tráfico proveniente de Instagram Reels/Stories).
 * **Fricción Cero en Checkout:** Máximo 4 campos obligatorios antes de disparar el mensaje de WhatsApp.
+* **Sincronización Dinámica de Precios/Stock:** 100% de productos y precios gestionados en tiempo real desde Google Sheets DB sin necesidad de nuevos despliegues de código.
 * **Captación B2B:** Generar al menos 5-10 contactos calificados de gimnasios/profesionales locales por mes.
 
 ---
@@ -47,13 +48,14 @@ La plataforma posiciona al cliente como el **distribuidor local de confianza de 
 ├── Barra Superior de Confianza (Distribuidor Oficial NN | Envíos Gran Mendoza)
 ├── Navbar (Branding, Acceso a Categorías, Botón de Carrito con Contador Flotante)
 ├── Hero Section (Propuesta de valor cruda, badges de pureza/fábrica, CTA dual)
-├── Catálogo Interactivo
-│   ├── Filtro de Categorías:
+├── Catálogo Dinámico (Google Sheets DB)
+│   ├── Conexión Fetch a Google Sheets CSV Endpoint en Vivo
+│   ├── Filtro de Categorías (Dock Switcher):
 │   │   ├── Todos los Productos
 │   │   ├── ⚡ Rendimiento & Fuerza (Creatina, Pre-Work, Proteína)
 │   │   ├── 🌿 Salud & Vitalidad (Colágeno, Omega 3, CMZ, Vitaminas)
 │   │   └── 🥜 Alimentación Inteligente (Mix Frutos Secos, Semillas, Café, Miel, Aceite, Adaptógenos)
-│   ├── Grid de Cards con Variantes Dinámicas (Selectores de peso/dosis)
+│   ├── Grid de Cards Dinámicas (Inyección en DOM con Mapeo de Stock y Precios)
 │   └── Drawer / Modal de Carrito ("Tu Pedido WhatsApp")
 ├── Sección "Comida y Suplementación Real" (Historia del fundador, filosofía sin humo)
 ├── Sección B2B / Gimnasios y Puntos de Venta (Propuesta mayorista con CTA directo)
@@ -65,14 +67,21 @@ La plataforma posiciona al cliente como el **distribuidor local de confianza de 
 
 ## 4. Requerimientos Funcionales Detallados
 
-### 4.1 Catálogo Interactivo y Selector de Variantes
-* **Renderizado de Cards:**
-  * Nombre del producto y marca (Natural Nutrition o Línea Inteligente).
-  * Tag de categoría.
-  * Descripción breve con beneficio real (sin tecnicismos vacíos).
-  * Selector de variantes (ej. Creatina: 150g, 350g, 600g; Adaptógenos: Melena de León, Cordyceps, Reishi, etc.).
-  * Precio dinámico que se actualiza al cambiar la variante.
-  * Botón interactivo "Agregar al Pedido" con feedback visual (microanimación / badge temporal).
+### 4.1 Catálogo Dinámico con Arquitectura Google Sheets DB
+* **Origen de Datos en Tiempo Real (Google Sheets DB):**
+  * La sección del catálogo ya **no es estática ni hardcodeada**. Consume los datos directamente de la base de datos distribuida en Google Sheets publicada en formato CSV mediante el endpoint:
+    `https://docs.google.com/spreadsheets/d/e/2PACX-1vTBrNhGexyD4c1axzU9uvzUWfalYSPNPGz_NMf8NEXOrtIB0HkNuSPrl1jBoO0ps8RgN4md4Xg6zCGd/pub?gid=0&single=true&output=csv`
+  * El frontend realiza una petición asíncrona `fetch()` al inicializar la página, parsea el CSV devuelto y mapea dinámicamente cada fila a las presentaciones y productos correspondientes.
+* **Sincronización Dinámica de Precios y Stock:**
+  * **Precios en vivo:** El valor de cada variante o producto se extrae de la columna `PRECIO` del Sheet (formateado en ARS o "Consultar").
+  * **Disponibilidad / Stock Reactivo:** La columna `STOCK` (`OK` / `NO`) determina la disponibilidad inmediata. Si el valor es `NO`, la tarjeta muestra de manera destacada "Sin Stock" y deshabilita el botón de compra, impidiendo pedidos de productos no disponibles.
+  * **Autonomía Operativa (Zero Deployments):** Los administradores pueden modificar precios y activar/desactivar stock directamente desde la planilla de cálculo sin requerir cambios de código ni despliegues en producción.
+* **Manejo de Errores y Resiliencia de Red:**
+  * Implementación de bloque `try / catch` ante eventuales fallos de conexión o indisponibilidad de Google Sheets.
+  * Renderizado de mensaje amigable en el contenedor del catálogo ("No se pudo cargar el catálogo de productos") con botón de reintento y canal directo a WhatsApp para asistencia.
+* **Renderizado de Cards y Fidelidad Visual:**
+  * Las tarjetas se inyectan dinámicamente en el contenedor `#products-grid`.
+  * Se respetan al 100% las clases CSS de Tailwind, paleta semántica Trizona (Azul / Esmeralda / Ámbar), selector de variantes táctiles (pill switchers) e interactividad con el carrito.
 
 ### 4.2 Carrito de Compras en Estado Local (Sin Login)
 * Persistencia en `localStorage` para no perder los productos si el usuario recarga la página.
@@ -120,9 +129,19 @@ Al presionar el botón **"Confirmar y Enviar Pedido por WhatsApp"**:
 
 ---
 
-## 5. Modelo de Datos Inicial (Product Catalog Schema)
+## 5. Modelo de Datos & Arquitectura Google Sheets DB
 
-```json
+### 5.1 Esquema de la Base de Datos Google Sheets (CSV)
+La fuente única de verdad para el catálogo comercial es una hoja de cálculo en Google Sheets publicada como CSV accesible en la URL:
+`https://docs.google.com/spreadsheets/d/e/2PACX-1vTBrNhGexyD4c1axzU9uvzUWfalYSPNPGz_NMf8NEXOrtIB0HkNuSPrl1jBoO0ps8RgN4md4Xg6zCGd/pub?gid=0&single=true&output=csv`
+
+| Columna | Tipo de Dato | Descripción / Ejemplo |
+|---|---|---|
+| `PRODUCTO` | String | Nombre del producto o variante (`CREATINA 600`, `OMEGA 3`, `COLAGENO NARANJA`) |
+| `PRECIO` | Number / String | Valor numérico en ARS (`49000`) o texto indicativo (`CONSULTAR`) |
+| `STOCK` | Enum (`OK` \| `NO`) | Disponibilidad operativa inmediata para venta directa |
+
+### 5.2 Estructura JSON Derivada en Frontend
 [
   {
     "id": "creatina-nn",
@@ -294,11 +313,12 @@ Al presionar el botón **"Confirmar y Enviar Pedido por WhatsApp"**:
 
 ## 6. Stack Tecnológico & Arquitectura Técnica
 
-* **Frontend Framework:** React 18 + Vite (o Astro + React components) para un rendimiento brutal (cero latencia, TTFB inmediato).
-* **Estilizado & Diseño:** Tailwind CSS (diseño limpio, dark/light contrastado con acentos energéticos naranja/verde bio, tipografías legibles y modernas como Inter o Plus Jakarta Sans).
-* **Iconografía:** Lucide React (iconos minimalistas y limpios).
-* **Estado del Carrito:** React Context API o Zustand con sincronización automática en `localStorage`.
-* **Hosting & Despliegue:** Firebase Hosting o Vercel/Netlify con SSL automático para el dominio `suplementosmendoza.com.ar`.
+* **Base de Datos / CMS Dinámico:** Google Sheets DB (hoja de cálculo pública en formato CSV consumida en vivo mediante Fetch API).
+* **Frontend:** Vanilla JS modular (sin dependencias complejas, máxima velocidad de carga y compatibilidad total con navegadores móviles).
+* **Estilizado & Diseño:** Tailwind CSS (diseño limpio, dark mode contrastado con paleta Trizona: Azul Eléctrico, Verde Esmeralda y Dorado Mate; tipografías Outfit y Lato).
+* **Iconografía:** Heroicons / SVG inline optimizados.
+* **Estado del Carrito:** Estado reactivo en memoria con persistencia en `localStorage`.
+* **Hosting & Despliegue:** Firebase Hosting o GitHub Pages / Vercel con SSL automático para el dominio `suplementosmendoza.com.ar`.
 * **Mobile Optimization:** Touch targets de al menos 48px, drawer deslizable con soporte de gestos táctiles.
 
 ---
@@ -307,7 +327,7 @@ Al presionar el botón **"Confirmar y Enviar Pedido por WhatsApp"**:
 
 | Fase | Entregable | Alcance Técnico |
 |---|---|---|
-| **Fase 1: Setup & Arquitectura Base** | Estructura del proyecto Vite/React, Tailwind CSS, configuración de paleta de colores y componentes base. | Repositorio, dependencias, layout general responsivo. |
-| **Fase 2: Catálogo & Carrito Local** | Componente de Catálogo, Filtros por categoría, Cards con variantes y Drawer de Carrito. | Contexto de carrito, lógica de cálculo, modal checkout. |
+| **Fase 1: Setup & Arquitectura Base** | Estructura web, Tailwind CSS, configuración de paleta de colores y componentes base. | Layout general responsivo, metatags Open Graph y Schema.org. |
+| **Fase 2: Catálogo Dinámico (Google Sheets DB) & Carrito Local** | Integración del endpoint CSV de Google Sheets, motor de parseo y renderizado dinámico en DOM, filtros por categoría, selectores táctiles de variantes y Drawer de Carrito. | Fetch API, parseador CSV, reactividad de stock/precios en vivo, contexto de carrito y modal checkout. |
 | **Fase 3: Integración WhatsApp & Secciones de Contenido** | Serializador de pedidos para WhatsApp, sección de historia del fundador, bloque B2B y FAQ. | Lógica de URL encoding, validación de formularios, microcopys. |
 | **Fase 4: Testing, Assets & Despliegue** | Carga de logos oficiales, optimización de imágenes WebP, pruebas de flujo en mobile y deploy en producción. | Build de producción, DNS y puesta en vivo. |
