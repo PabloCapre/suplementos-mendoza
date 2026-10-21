@@ -58,8 +58,8 @@ const CATEGORY_THEMES = {
   }
 };
 
-// 2. Arquitectura de Catálogo Dinámico con Google Sheets DB
-const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBrNhGexyD4c1axzU9uvzUWfalYSPNPGz_NMf8NEXOrtIB0HkNuSPrl1jBoO0ps8RgN4md4Xg6zCGd/pub?gid=0&single=true&output=csv";
+// 2. Arquitectura de Catálogo Dinámico con Vercel Serverless Function (/api/catalogo)
+const CATALOG_API_URL = "/api/catalogo";
 
 // Definiciones maestras de productos, metadatos y mapeo de presentaciones al Sheet
 const PRODUCT_DEFINITIONS = [
@@ -252,7 +252,7 @@ let productos = [];
 let PRODUCTS = productos;
 
 /**
- * Parsea el CSV devuelto por Google Sheets separando por comas y filas
+ * Parsea el CSV separando por comas y filas, preservando precio minorista y stock
  */
 function parseCSV(csvText) {
   const lines = csvText.trim().split(/\r?\n/);
@@ -260,7 +260,9 @@ function parseCSV(csvText) {
 
   const headers = lines[0].split(",").map((h) => h.trim().toUpperCase());
   const prodIdx = headers.indexOf("PRODUCTO") !== -1 ? headers.indexOf("PRODUCTO") : 0;
-  const priceIdx = headers.indexOf("PRECIO") !== -1 ? headers.indexOf("PRECIO") : 1;
+  const minoristaIdx = headers.indexOf("MINORISTA") !== -1
+    ? headers.indexOf("MINORISTA")
+    : (headers.indexOf("PRECIO") !== -1 ? headers.indexOf("PRECIO") : 1);
   const stockIdx = headers.indexOf("STOCK") !== -1 ? headers.indexOf("STOCK") : 2;
 
   const rows = [];
@@ -285,22 +287,23 @@ function parseCSV(csvText) {
     cols.push(current.trim());
 
     const rawProd = (cols[prodIdx] || "").trim();
-    const rawPrice = (cols[priceIdx] || "").trim();
+    const rawPrice = (cols[minoristaIdx] || "").trim();
     const rawStock = (cols[stockIdx] || "").trim().toUpperCase();
 
-    let precio = rawPrice;
+    let minorista = rawPrice;
     const cleanNum = rawPrice.replace(/[^0-9]/g, "");
     if (cleanNum !== "" && !isNaN(cleanNum)) {
-      precio = parseInt(cleanNum, 10);
+      minorista = parseInt(cleanNum, 10);
     } else if (rawPrice.toUpperCase() === "CONSULTAR") {
-      precio = "Consultar";
+      minorista = "Consultar";
     }
 
     const inStock = rawStock === "OK";
 
     rows.push({
       producto: rawProd,
-      precio: precio,
+      minorista: minorista,
+      precio: minorista,
       stock: rawStock,
       inStock: inStock
     });
@@ -324,7 +327,7 @@ function guessCategory(name) {
 }
 
 /**
- * Construye el catálogo final asociando filas de Google Sheets con las definiciones maestras
+ * Construye el catálogo final asociando filas de productos con las definiciones maestras
  */
 function buildCatalogFromCSV(rows) {
   const matchedRowIndices = new Set();
@@ -343,10 +346,10 @@ function buildCatalogFromCSV(rows) {
     let anyInStock = false;
 
     def.presentaciones.forEach((pres) => {
-      // Buscar en las filas del CSV por sheetMatch
+      // Buscar en las filas del catálogo por sheetMatch
       const matchedRowIndex = rows.findIndex((r, idx) => {
         if (matchedRowIndices.has(idx)) return false;
-        const normName = r.producto.toUpperCase().trim();
+        const normName = (r.producto || "").toUpperCase().trim();
         return pres.sheetMatch.some((sm) => {
           const normSm = sm.toUpperCase().trim();
           return normName === normSm || normName.includes(normSm);
@@ -356,18 +359,24 @@ function buildCatalogFromCSV(rows) {
       if (matchedRowIndex !== -1) {
         matchedRowIndices.add(matchedRowIndex);
         const row = rows[matchedRowIndex];
+        const isOk = row.inStock !== undefined
+          ? row.inStock
+          : (String(row.stock || "").trim().toUpperCase() === "OK");
+        const precioMinorista = row.minorista !== undefined ? row.minorista : row.precio;
         const presCopy = {
           nombre: pres.nombre,
-          precio: row.precio,
-          inStock: row.inStock
+          precio: precioMinorista,
+          minorista: precioMinorista,
+          inStock: isOk
         };
         if (pres.imagen) presCopy.imagen = pres.imagen;
         productCopy.presentaciones.push(presCopy);
-        if (row.inStock) anyInStock = true;
+        if (isOk) anyInStock = true;
       } else {
         productCopy.presentaciones.push({
           nombre: pres.nombre,
           precio: pres.precio,
+          minorista: pres.precio,
           inStock: true
         });
         anyInStock = true;
@@ -378,24 +387,29 @@ function buildCatalogFromCSV(rows) {
     catalog.push(productCopy);
   });
 
-  // Procesar filas adicionales creadas directamente en Google Sheets
+  // Procesar filas adicionales creadas directamente en el catálogo
   rows.forEach((row, idx) => {
     if (!matchedRowIndices.has(idx)) {
-      const slug = row.producto.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      const isOk = row.inStock !== undefined
+        ? row.inStock
+        : (String(row.stock || "").trim().toUpperCase() === "OK");
+      const precioMinorista = row.minorista !== undefined ? row.minorista : row.precio;
+      const slug = (row.producto || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
       catalog.push({
         id: `sheet-${slug}-${idx}`,
         nombre: row.producto,
         categoria: guessCategory(row.producto),
         imagen: null,
-        descripcion: "Producto incorporado desde Google Sheets DB.",
+        descripcion: "Producto incorporado desde el catálogo oficial.",
         presentaciones: [
           {
             nombre: "Presentación única",
-            precio: row.precio,
-            inStock: row.inStock
+            precio: precioMinorista,
+            minorista: precioMinorista,
+            inStock: isOk
           }
         ],
-        inStock: row.inStock
+        inStock: isOk
       });
     }
   });
@@ -404,7 +418,7 @@ function buildCatalogFromCSV(rows) {
 }
 
 /**
- * Conexión Fetch a Google Sheets DB con parseo CSV, inyección dinámica y manejo de errores de red
+ * Conexión Fetch a Vercel Serverless Function (/api/catalogo) con inyección dinámica y manejo de errores de red
  */
 async function fetchCatalogFromGoogleSheets() {
   const container = document.getElementById("products-grid");
@@ -421,23 +435,22 @@ async function fetchCatalogFromGoogleSheets() {
           </span>
         </div>
         <p class="font-outfit text-sm font-bold text-neutral-200">Sincronizando Catálogo Oficial</p>
-        <p class="font-sans text-xs text-neutral-400 mt-1">Conectando en vivo con Google Sheets DB...</p>
+        <p class="font-sans text-xs text-neutral-400 mt-1">Conectando en vivo con el catálogo oficial...</p>
       </div>
     `;
   }
 
   try {
-    const urlCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTBrNhGexyD4c1axzU9uvzUWfalYSPNPGz_NMf8NEXOrtIB0HkNuSPrl1jBoO0ps8RgN4md4Xg6zCGd/pub?gid=0&single=true&output=csv' + '&t=' + new Date().getTime();
-    const response = await fetch(urlCSV);
+    const apiUrl = CATALOG_API_URL + "?t=" + new Date().getTime();
+    const response = await fetch(apiUrl);
     if (!response.ok) {
       throw new Error(`Error de respuesta HTTP: ${response.status} ${response.statusText}`);
     }
 
-    const csvText = await response.text();
-    const rows = parseCSV(csvText);
+    const rows = await response.json();
 
     if (!rows || rows.length === 0) {
-      throw new Error("El archivo CSV devuelto no contiene filas válidas de productos.");
+      throw new Error("El catálogo devuelto no contiene productos válidos.");
     }
 
     // Actualizar catálogo global reactivo
@@ -456,7 +469,7 @@ async function fetchCatalogFromGoogleSheets() {
     // Renderizar tarjetas en el DOM con las clases exactas
     renderCatalog();
   } catch (error) {
-    console.error("Error al cargar el catálogo desde Google Sheets DB:", error);
+    console.error("Error al cargar el catálogo desde /api/catalogo:", error);
     if (container) {
       container.innerHTML = `
         <div class="col-span-full py-14 px-6 rounded-3xl bg-neutral-900/80 border border-red-500/30 text-center backdrop-blur-md max-w-lg mx-auto my-6 shadow-2xl">
@@ -467,7 +480,7 @@ async function fetchCatalogFromGoogleSheets() {
           </div>
           <h3 class="font-outfit text-xl font-bold text-neutral-100">No se pudo cargar el catálogo</h3>
           <p class="text-xs sm:text-sm text-neutral-400 mt-2 leading-relaxed font-sans">
-            Ocurrió un error al sincronizar con la base de datos de productos (Google Sheets DB). Por favor reintentá la conexión o escribinos por WhatsApp para solicitar la lista de precios y stock actualizada.
+            Ocurrió un error al sincronizar con la base de datos de productos. Por favor reintentá la conexión o escribinos por WhatsApp para solicitar la lista de precios y stock actualizada.
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
             <button
@@ -532,10 +545,12 @@ function getProductVariants(product) {
         if (!p.imagen && product.id === 'proteina-vegetal' && p.nombre && p.nombre.toLowerCase().includes('milkshake')) {
           variantImg = 'assets/productos/proteina-milk-shake.webp';
         }
+        const finalPrice = p.minorista !== undefined ? p.minorista : p.precio;
         return {
           label: p.nombre,
           value: p.nombre,
-          price: p.precio,
+          price: finalPrice,
+          minorista: finalPrice,
           image: variantImg
         };
       }
@@ -543,6 +558,7 @@ function getProductVariants(product) {
         label: String(p),
         value: String(p),
         price: 25000,
+        minorista: 25000,
         image: product.imagen || product.image
       };
     });
@@ -553,7 +569,8 @@ function getProductVariants(product) {
   return [{
     label: 'Única presentación',
     value: 'Única presentación',
-    price: 25000,
+    price: product.minorista !== undefined ? product.minorista : (product.precio || product.price || 25000),
+    minorista: product.minorista !== undefined ? product.minorista : (product.precio || product.price || 25000),
     image: product.imagen || product.image
   }];
 }
