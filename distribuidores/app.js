@@ -10,67 +10,72 @@
 // Teléfono oficial de despacho mayorista
 const WHATSAPP_B2B_PHONE = "5492613364201";
 
-// Base de conocimiento comercial para el mostrador (Argumentos de Venta)
-const SALES_ARGUMENTS = {
+// Base de conocimiento integral sobre bienestar, salud y rendimiento biológico
+const WELLNESS_INFO = {
   creatina: {
-    funcion: "Resíntesis acelerada de ATP y aumento directo de fuerza explosiva anaeróbica.",
-    beneficio: "100% monohidrato micronizado pura (>99.85%), testeada por Proyecto Suplementos. Cero retención subcutánea.",
-    dosis: "5g diarios continuos con cualquier líquido (agua, jugo o batido), sin fase de carga obligatoria."
+    beneficioPrincipal: "Aumento de la fuerza muscular, potencia anaeróbica y aceleración de la recuperación neuromuscular.",
+    impactoBiologico: "Satura los depósitos intramusculares de fosfocreatina para regenerar ATP de manera inmediata ante esfuerzos explosivos. Optimiza la hidratación celular interna sin retención subcutánea y aporta evidencia clínica comprobada en neuroprotección, reduciendo la fatiga mental.",
+    perfilIdeal: "Atletas de fuerza, practicantes de CrossFit, deportistas de resistencia, adultos mayores en prevención activa de pérdida muscular y personas con alta demanda cognitiva y física."
   },
   proteina: {
-    funcion: "Aislado proteico de rápida asimilación (25g proteína y 3.8g BCAAs por porción).",
-    beneficio: "0% lactosa, digestión ultra liviana sin hinchazón. Sin azúcares añadidos ni rellenos de maltodextrina.",
-    dosis: "1 scoop (30g) diluido en 250-300ml de agua post-entrenamiento o como colación proteica."
+    beneficioPrincipal: "Aporte de aminoácidos de máxima pureza para reconstrucción tisular, síntesis proteica y saciedad limpia.",
+    impactoBiologico: "Aislado ultrafiltrado sin lactosa ni azúcares añadidos. Sus péptidos bioactivos y aminoácidos esenciales (más de 3.8g de BCAAs por porción) activan la vía metabólica mTOR para una rápida reparación miofibrilar sin hinchazón ni pesadez digestiva.",
+    perfilIdeal: "Personas activas que buscan alcanzar sus requerimientos proteicos diarios de forma práctica, deportistas en fase de tonificación y quienes priorizan una digestión ágil post-entrenamiento."
   },
   prework: {
-    funcion: "Activación inmediata del sistema nervioso central, vasodilatación y retraso de la fatiga láctica.",
-    beneficio: "Tríada sinérgica de Beta-Alanina, Taurina y Cafeína pura. Enfoque agresivo sin el bajón típico.",
-    dosis: "1 scoop (10g) disuelto en agua fría 20 a 30 minutos antes del entrenamiento intenso."
+    beneficioPrincipal: "Enfoque mental sostenido, activación neuromuscular limpia y aumento del umbral de rendimiento.",
+    impactoBiologico: "Sinergia calculada de Beta-Alanina, Taurina y Cafeína pura. Favorece la vasodilatación eficiente, mejorando el flujo de oxígeno a las fibras activas y modulando la dopamina para un estado de atención plena sin picos de ansiedad ni bajones abruptos.",
+    perfilIdeal: "Deportistas con entrenamientos matutinos tempranos o tras jornadas laborales extensas, y atletas que encaran sesiones de alta exigencia física y mental."
   },
-  beta: {
-    funcion: "Amortiguador intracelular del ácido láctico en esfuerzos de máxima exigencia.",
-    beneficio: "Retrasa la sensación de quemazón muscular permitiendo 2 a 3 repeticiones extra al fallo.",
-    dosis: "3g a 5g diarios repartidos antes del entrenamiento. Provoca parestesia benigna normal."
-  },
-  colageno: {
-    funcion: "Regeneración de cartílagos articulares, tendones y elasticidad de la piel.",
-    beneficio: "Péptidos hidrolizados bioactivos combinados con Vitamina C para máxima fijación tisular.",
-    dosis: "10g diarios disueltos en un vaso de agua por la mañana en ayunas o antes de dormir."
+  hongos: {
+    beneficioPrincipal: "Adaptación integral al estrés físico y cognitivo, claridad mental profunda y fortalecimiento inmunitario natural.",
+    impactoBiologico: "Los betaglucanos y compuestos triterpénicos de extractos puros (Melena de León, Cordyceps, Reishi) equilibran el eje adrenal modulando el cortisol. Estimulan el Factor de Crecimiento Nervioso (NGF), favoreciendo la neuroplasticidad y la oxigenación celular sostenida.",
+    perfilIdeal: "Profesionales, estudiantes y atletas sometidos a alta presión mental o física, biohackers y personas que desean mejorar su concentración y memoria de forma 100% natural."
   },
   omega: {
-    funcion: "Potente antiinflamatorio celular, regulador cardiovascular y protector cognitivo.",
-    beneficio: "Certificación internacional IFOS 5 Estrellas. Cero metales pesados, máxima pureza de EPA y DHA.",
-    dosis: "2 cápsulas blandas al día junto con las comidas principales con presencia de grasas."
+    beneficioPrincipal: "Modulación antiinflamatoria sistémica, protección cardiovascular y optimización cognitiva.",
+    impactoBiologico: "Ácidos grasos esenciales EPA y DHA con certificación IFOS 5 Estrellas, libres de metales pesados. Se integran en las membranas celulares del miocardio y neuronas, sintetizando resolvinas protectoras, mejorando el perfil lipídico y la salud vascular.",
+    perfilIdeal: "Personas enfocadas en longevidad y bienestar celular, atletas con impacto articular recurrente y quienes consumen poco pescado graso de forma habitual."
   },
   cmz: {
-    funcion: "Relajación neuromuscular profunda, optimización hormonal y salud ósea.",
-    beneficio: "Minerales quelatados de alta biodisponibilidad potenciados con Vitamina D3.",
-    dosis: "2 cápsulas por la noche, 45 minutos antes de dormir para inducir descanso reparador."
+    beneficioPrincipal: "Relajación neuromuscular profunda, optimización de la calidad del sueño y balance óseo-hormonal.",
+    impactoBiologico: "Minerales quelatados de alta biodisponibilidad potenciados con Vitamina D3. El magnesio calma el sistema nervioso simpático activando receptores GABA, mientras que el zinc y el calcio participan en la reparación celular y el equilibrio hormonal durante el reposo nocturno.",
+    perfilIdeal: "Personas con sueño fragmentado o dificultad para relajarse al final del día, deportistas con desgaste muscular intenso y personas propensas a contracturas o calambres."
   },
-  vitamina: {
-    funcion: "Escudo antioxidante celular e inmunoprotector bajo alta demanda física.",
-    beneficio: "1000mg de ácido ascórbico puro de liberación controlada.",
-    dosis: "1 cápsula diaria por la mañana junto con el desayuno."
+  colageno: {
+    beneficioPrincipal: "Preservación estructural de tendones, ligamentos y cartílagos, junto con elasticidad e hidratación tisular.",
+    impactoBiologico: "Péptidos hidrolizados bioactivos combinados con Vitamina C como cofactor indispensable. Estimulan directamente a los condrocitos y fibroblastos en la matriz extracelular, promoviendo la síntesis de colágeno natural y reduciendo el desgaste articular por fricción.",
+    perfilIdeal: "Deportistas en disciplinas de impacto (running, fútbol, crossfit), personas que han experimentado molestias en articulaciones y quienes buscan cuidar su salud articular a largo plazo."
+  },
+  beta: {
+    beneficioPrincipal: "Extensión de la resistencia muscular en esfuerzos intensos y amortiguación de la fatiga láctica.",
+    impactoBiologico: "Precursor esencial de la carnosina intramuscular. Neutraliza los iones de hidrógeno generados durante el ejercicio de alta exigencia, retrasando la acidosis metabólica y permitiendo sostener repeticiones o sprints en la zona de máximo rendimiento.",
+    perfilIdeal: "Nadadores, ciclistas, practicantes de artes marciales, corredores de velocidad y atletas de fuerza que entrenan al fallo muscular."
   },
   glutamina: {
-    funcion: "Integridad de la mucosa intestinal y recuperación del sistema inmune.",
-    beneficio: "L-Glutamina pura de fermentación natural grado farmacéutico sin aditivos.",
-    dosis: "5g diarios post-entrenamiento o antes del descanso nocturno."
+    beneficioPrincipal: "Integridad de la barrera intestinal, recuperación inmunológica y preservación muscular.",
+    impactoBiologico: "Principal sustrato energético de los enterocitos (epitelio intestinal) y células del sistema de defensa. Mantiene selladas las uniones celulares del intestino frente al estrés físico prolongado y favorece un balance nitrogenado positivo para la recuperación.",
+    perfilIdeal: "Atletas con alto volumen de entrenamiento semanal, personas con sensibilidad digestiva o disbiosis, y deportistas en fases de déficit calórico estricto."
+  },
+  vitaminaC: {
+    beneficioPrincipal: "Refuerzo antioxidante celular, respaldo del sistema inmunitario y catalizador de colágeno.",
+    impactoBiologico: "1000mg de ácido ascórbico de absorción controlada. Neutraliza las especies reactivas de oxígeno producidas por el esfuerzo metabólico y potencia la fijación de aminoácidos para la formación de nuevos tejidos conectivos y tendinosos.",
+    perfilIdeal: "Personas expuestas a estrés físico continuo o cambios de estación, atletas con entrenamiento outdoor y quienes buscan optimizar la absorción de hierro y síntesis de colágeno."
   },
   cla: {
-    funcion: "Modulación del metabolismo lipídico y preservación de masa muscular magra.",
-    beneficio: "Ácido linoleico conjugado concentrado en cápsulas blandas de rápida absorción.",
-    dosis: "1 a 2 cápsulas diarias con el almuerzo y la cena."
+    beneficioPrincipal: "Acompañamiento metabólico en recomposición corporal y preservación de masa libre de grasa.",
+    impactoBiologico: "Ácido Linoleico Conjugado puro en cápsulas blandas. Apoya la actividad de enzimas oxidativas mitocondriales, facilitando el transporte de ácidos grasos como fuente de combustible durante la actividad física constante sin generar estímulos nerviosos.",
+    perfilIdeal: "Alumnos y atletas en periodos de acondicionamiento físico, definición o recomposición corporal que buscan un complemento metabólico no estimulante."
   },
   d3k2: {
-    funcion: "Fijación precisa del calcio en huesos y dientes, evitando calcificación arterial.",
-    beneficio: "Sinergia de D3 (colecalciferol) con K2 (MK-7) de máxima vida media plasmática.",
-    dosis: "1 cápsula diaria junto con una comida principal."
+    beneficioPrincipal: "Fijación biológica del calcio en el sistema óseo y protección de la salud arterial.",
+    impactoBiologico: "Sinergia de Vitamina D3 (colecalciferol) con K2 (menaquinona-7). La D3 optimiza la absorción intestinal del calcio y la K2 activa la osteocalcina, asegurando que el mineral se incorpore a la matriz ósea y dental en lugar de acumularse en los vasos sanguíneos.",
+    perfilIdeal: "Personas con poca exposición solar directa, adultos orientados al cuidado de la densidad ósea y atletas sometidos a alto impacto articular."
   },
   alimentos: {
-    funcion: "Nutrición densa de la cordillera mendocina sin aditivos industriales.",
-    beneficio: "100% cosecha local seleccionada, sin aceites hidrogenados ni conservantes químicos.",
-    dosis: "Porciones diarias según requerimiento calórico del deportista."
+    beneficioPrincipal: "Nutrición viva y densa, libre de ultraprocesados y aditivos industriales, cosechada en origen.",
+    impactoBiologico: "Ricos en ácidos grasos saludables (ácido oleico en aceite de oliva virgen extra), polifenoles antioxidantes y micronutrientes bioasimilables de la cordillera mendocina. Nutren la microbiota intestinal y entregan energía metabólica estable durante toda la jornada.",
+    perfilIdeal: "Familias, deportistas y toda persona que priorice alimentos nobles y limpios para potenciar su salud, vitalidad diaria y bienestar general."
   }
 };
 
@@ -103,21 +108,22 @@ function getCategory(productName) {
   return "Salud & Longevidad";
 }
 
-// Obtener argumentos comerciales según el nombre del producto
+// Obtener información de bienestar según el nombre del producto
 function getPitch(productName) {
   const n = (productName || "").toLowerCase();
-  if (n.includes("creatina")) return SALES_ARGUMENTS.creatina;
-  if (n.includes("proteina")) return SALES_ARGUMENTS.proteina;
-  if (n.includes("prework") || n.includes("pre-work")) return SALES_ARGUMENTS.prework;
-  if (n.includes("beta")) return SALES_ARGUMENTS.beta;
-  if (n.includes("colageno")) return SALES_ARGUMENTS.colageno;
-  if (n.includes("omega")) return SALES_ARGUMENTS.omega;
-  if (n.includes("cmz") || n.includes("magnesio")) return SALES_ARGUMENTS.cmz;
-  if (n.includes("vitamina c")) return SALES_ARGUMENTS.vitamina;
-  if (n.includes("glutamina")) return SALES_ARGUMENTS.glutamina;
-  if (n.includes("cla")) return SALES_ARGUMENTS.cla;
-  if (n.includes("d3k2") || n.includes("vitamina d")) return SALES_ARGUMENTS.d3k2;
-  return SALES_ARGUMENTS.alimentos;
+  if (n.includes("creatina")) return WELLNESS_INFO.creatina;
+  if (n.includes("proteina") || n.includes("whey") || n.includes("isolate")) return WELLNESS_INFO.proteina;
+  if (n.includes("prework") || n.includes("pre-work") || n.includes("pre work")) return WELLNESS_INFO.prework;
+  if (n.includes("hongo") || n.includes("adaptogeno") || n.includes("fungi") || n.includes("melena") || n.includes("cordyceps") || n.includes("reishi")) return WELLNESS_INFO.hongos;
+  if (n.includes("omega")) return WELLNESS_INFO.omega;
+  if (n.includes("cmz") || n.includes("magnesio") || n.includes("calcio") || n.includes("zinc")) return WELLNESS_INFO.cmz;
+  if (n.includes("colageno") || n.includes("colágeno")) return WELLNESS_INFO.colageno;
+  if (n.includes("beta")) return WELLNESS_INFO.beta;
+  if (n.includes("glutamina")) return WELLNESS_INFO.glutamina;
+  if (n.includes("vitamina c")) return WELLNESS_INFO.vitaminaC;
+  if (n.includes("cla")) return WELLNESS_INFO.cla;
+  if (n.includes("d3k2") || n.includes("d3 k2") || n.includes("vitamina d")) return WELLNESS_INFO.d3k2;
+  return WELLNESS_INFO.alimentos;
 }
 
 // Ruta absoluta estricta hacia la Serverless Function del catálogo
@@ -289,13 +295,13 @@ function renderCatalog() {
               ${item.producto}
             </h2>
             
-            <!-- Botón Disparador de Argumentos de Venta -->
+            <!-- Botón Disparador de Información de Bienestar -->
             <button
               type="button"
               onclick="togglePitch('${item.id}')"
               class="inline-flex items-center gap-1.5 mt-2 text-[11px] font-semibold text-blue-400 hover:text-blue-300 transition"
             >
-              <span>Argumentos de Venta</span>
+              <span>Más información</span>
               <svg id="chevron-${item.id}" class="w-3.5 h-3.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
@@ -375,31 +381,31 @@ function renderCatalog() {
 
         </div>
 
-        <!-- Accordion: Argumentos de Venta (Sales Pitch Tool) -->
+        <!-- Accordion: Información Detallada de Bienestar y Rendimiento -->
         <div id="pitch-${item.id}" class="pitch-drawer mt-3 pt-3 border-t border-white/5">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3 p-3.5 rounded-xl bg-neutral-950/70 border border-blue-500/20 text-xs">
             <div>
               <strong class="text-blue-400 font-outfit uppercase tracking-wider text-[10px] block mb-1">
-                Función Biológica
+                Beneficio Principal
               </strong>
               <p class="text-neutral-300 font-sans leading-relaxed">
-                ${item.pitch.funcion}
+                ${item.pitch.beneficioPrincipal}
               </p>
             </div>
             <div>
               <strong class="text-emerald-400 font-outfit uppercase tracking-wider text-[10px] block mb-1">
-                Diferencial vs Relleno
+                Impacto Biológico
               </strong>
               <p class="text-neutral-300 font-sans leading-relaxed">
-                ${item.pitch.beneficio}
+                ${item.pitch.impactoBiologico}
               </p>
             </div>
             <div>
               <strong class="text-amber-400 font-outfit uppercase tracking-wider text-[10px] block mb-1">
-                Protocolo de Ingesta
+                Perfil Ideal
               </strong>
               <p class="text-neutral-300 font-sans leading-relaxed">
-                ${item.pitch.dosis}
+                ${item.pitch.perfilIdeal}
               </p>
             </div>
           </div>
