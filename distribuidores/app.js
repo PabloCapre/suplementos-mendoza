@@ -302,27 +302,27 @@ function renderCatalog() {
             </button>
           </div>
 
-          <!-- Bloque de Precios Duales y Margen -->
-          <div class="flex items-center gap-4 sm:gap-6 shrink-0 bg-neutral-950/70 p-3 sm:py-2.5 sm:px-4 rounded-xl border border-white/5">
-            <!-- Precio Público Sugerido -->
+          <!-- Bloque de Precios Duales y Margen (Claridad absoluta sin tachado) -->
+          <div class="flex items-center gap-4 sm:gap-6 shrink-0 bg-neutral-950/80 p-3 sm:py-2.5 sm:px-4 rounded-xl border border-white/10">
+            <!-- Precio Público -->
             <div>
-              <span class="block text-[9px] uppercase tracking-wider text-neutral-500 font-bold">P. Público</span>
-              <span class="font-sans text-xs text-neutral-400 line-through">
+              <span class="block text-[9px] uppercase tracking-wider text-neutral-400 font-bold font-sans">Precio Público</span>
+              <span class="font-sans text-xs sm:text-sm font-semibold text-neutral-200">
                 ${formatCurrency(item.minorista)}
               </span>
             </div>
 
-            <!-- Precio Mayorista (Costo) -->
+            <!-- Tu Costo Mayorista -->
             <div>
-              <span class="block text-[9px] uppercase tracking-wider text-blue-400 font-bold">P. Mayorista</span>
-              <span class="font-outfit text-base sm:text-lg font-black text-white leading-none">
+              <span class="block text-[9px] uppercase tracking-wider text-blue-400 font-bold font-sans">Tu Costo</span>
+              <span class="font-outfit text-base sm:text-lg font-black text-blue-400 leading-none">
                 ${formatCurrency(item.mayorista)}
               </span>
             </div>
 
             <!-- Margen de Ganancia -->
             <div class="hidden sm:block">
-              <span class="block text-[9px] uppercase tracking-wider text-emerald-400 font-bold">Margen / un.</span>
+              <span class="block text-[9px] uppercase tracking-wider text-emerald-400 font-bold font-sans">Margen / un.</span>
               <span class="font-sans text-xs font-bold text-emerald-400">
                 +${formatCurrency(profitPerUnit)} <span class="text-[10px] text-emerald-500 font-medium">(${profitMarginPct}%)</span>
               </span>
