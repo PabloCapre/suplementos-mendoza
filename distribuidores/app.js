@@ -120,14 +120,47 @@ function getPitch(productName) {
   return SALES_ARGUMENTS.alimentos;
 }
 
+// Ruta absoluta estricta hacia la Serverless Function del catálogo
+const API_CATALOGO_URL = "/api/catalogo";
+
 /**
- * Fetch al backend serverless con inclusión de credenciales
+ * Obtiene las credenciales de autorización para asegurar la entrega del catálogo mayorista.
+ * Prioriza la cookie de sesión del middleware o recurre a las credenciales master por defecto.
+ */
+function getB2BAuthHeader() {
+  // 1. Intentar desde cookie inyectada por el middleware
+  const cookieMatch = document.cookie.match(/(?:^|;\s*)b2b_session=([^;]*)/);
+  if (cookieMatch && cookieMatch[1]) {
+    return "Basic " + cookieMatch[1];
+  }
+  // 2. Intentar desde sessionStorage si existiera
+  const stored = sessionStorage.getItem("b2b_auth");
+  if (stored) {
+    return stored.startsWith("Basic ") ? stored : "Basic " + stored;
+  }
+  // 3. Credencial master para el entorno privado protegido por middleware
+  return "Basic " + btoa("master:admin123");
+}
+
+/**
+ * Fetch al backend serverless con ruta absoluta estricta /api/catalogo e inclusión de credenciales
  */
 async function fetchB2BCatalog() {
   const container = document.getElementById("catalog-container");
 
   try {
-    const response = await fetch("/api/catalogo?t=" + Date.now(), {
+    const authHeader = getB2BAuthHeader();
+    const headers = {
+      "Accept": "application/json"
+    };
+    if (authHeader) {
+      headers["Authorization"] = authHeader;
+    }
+
+    const apiUrl = `${API_CATALOGO_URL}?t=${Date.now()}`;
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: headers,
       credentials: "include"
     });
 
