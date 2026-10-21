@@ -1,8 +1,7 @@
 /**
  * Vercel Edge Middleware - Protección del Portal de Distribuidores B2B
- * Implementa HTTP Basic Auth sobre la ruta /distribuidores y sus sub-recursos.
- * Valida credenciales contra la variable de entorno CUENTAS_DISTRIBUIDORES ("user1:pass1,user2:pass2").
- * Blindaje SEO estricto (X-Robots-Tag: noindex, nofollow, noarchive).
+ * Implementa HTTP Basic Auth sobre /distribuidores.
+ * Valida credenciales exclusivamente contra process.env.CUENTAS_DISTRIBUIDORES.
  */
 
 export const config = {
@@ -12,59 +11,87 @@ export const config = {
 export default function middleware(request) {
   const url = new URL(request.url);
 
-  // Interceptar exclusivamente la ruta /distribuidores
-  if (url.pathname.startsWith("/distribuidores")) {
-    const basicAuth = request.headers.get("authorization");
-
-    if (basicAuth) {
-      const parts = basicAuth.split(" ");
-      if (parts.length === 2 && parts[0].toLowerCase() === "basic") {
-        try {
-          // Decodificar Base64 a string "usuario:contraseña"
-          const credentials = atob(parts[1]).trim();
-
-          // Cortar por comas, limpiar espacios con .trim() y validar con .includes()
-          const cuentasRaw = (process.env.CUENTAS_DISTRIBUIDORES || "master:admin123").replace(/^["']|["']$/g, "");
-          const cuentasArray = cuentasRaw
-            .split(",")
-            .map((cuenta) => cuenta.trim())
-            .filter(Boolean);
-
-          // Si coincide con alguna de las cuentas autorizadas, permitir acceso
-          if (cuentasArray.includes(credentials)) {
-            return new Response(null, {
-              status: 200,
-              headers: {
-                "x-middleware-next": "1",
-                "Set-Cookie": `b2b_session=${parts[1]}; Path=/; SameSite=Lax`,
-                "X-Robots-Tag": "noindex, nofollow, noarchive"
-              }
-            });
-          }
-        } catch (e) {
-          // Error al decodificar base64, continuar al desafío 401
-        }
+  // Interceptar exclusivamente la ruta /distribuidores y sus sub-rutas
+  if (!url.pathname.startsWith("/distribuidores")) {
+    return new Response(null, {
+      status: 200,
+      headers: {
+        "x-middleware-next": "1"
       }
-    }
-
-    // Si no hay cabecera o las credenciales no están autorizadas, emitir desafío 401
-    return new Response(
-      "Acceso restringido al Portal de Distribuidores B2B de Suplementos Mendoza. Ingrese credenciales autorizadas.",
-      {
-        status: 401,
-        headers: {
-          "WWW-Authenticate": 'Basic realm="Portal Privado de Distribuidores - Suplementos Mendoza"',
-          "X-Robots-Tag": "noindex, nofollow, noarchive",
-          "Content-Type": "text/plain; charset=utf-8"
-        }
-      }
-    );
+    });
   }
 
-  return new Response(null, {
-    status: 200,
+  // 1 & 2. Leer cabecera Authorization. Si no existe, devolver 401
+  const authHeader = request.headers.get("authorization");
+  if (!authHeader) {
+    return new Response("Acceso restringido al Portal de Distribuidores B2B.", {
+      status: 401,
+      headers: {
+        "WWW-Authenticate": 'Basic realm="Acceso Distribuidores"',
+        "Content-Type": "text/plain; charset=utf-8",
+        "X-Robots-Tag": "noindex, nofollow, noarchive"
+      }
+    });
+  }
+
+  // 3. Extraer porción en base64 y decodificar usando atob()
+  let credentials = "";
+  let base64Token = "";
+  try {
+    const parts = authHeader.split(" ");
+    if (parts.length === 2 && parts[0].toLowerCase() === "basic") {
+      base64Token = parts[1].trim();
+      credentials = atob(base64Token).trim();
+    } else {
+      return new Response("Formato de autorización no válido.", {
+        status: 401,
+        headers: {
+          "WWW-Authenticate": 'Basic realm="Acceso Distribuidores"',
+          "Content-Type": "text/plain; charset=utf-8",
+          "X-Robots-Tag": "noindex, nofollow, noarchive"
+        }
+      });
+    }
+  } catch (e) {
+    return new Response("Error al decodificar credenciales.", {
+      status: 401,
+      headers: {
+        "WWW-Authenticate": 'Basic realm="Acceso Distribuidores"',
+        "Content-Type": "text/plain; charset=utf-8",
+        "X-Robots-Tag": "noindex, nofollow, noarchive"
+      }
+    });
+  }
+
+  // 4. Obtener process.env.CUENTAS_DISTRIBUIDORES (fallback string vacío si es undefined)
+  const cuentasRaw = (process.env.CUENTAS_DISTRIBUIDORES || "").replace(/^["']|["']$/g, "");
+
+  // 5. Convertir con .split(',') en array de cuentas válidas y sanear con .map(c => c.trim())
+  const cuentasValidas = cuentasRaw
+    .split(",")
+    .map((c) => c.trim())
+    .filter(Boolean);
+
+  // 6. Comprobar si el array de cuentas válidas .includes() el string decodificado
+  if (cuentasValidas.length > 0 && cuentasValidas.includes(credentials)) {
+    // Si coincide, permitir el paso e inyectar cookie de sesión
+    return new Response(null, {
+      status: 200,
+      headers: {
+        "x-middleware-next": "1",
+        "Set-Cookie": `b2b_session=${base64Token}; Path=/; SameSite=Lax`,
+        "X-Robots-Tag": "noindex, nofollow, noarchive"
+      }
+    });
+  }
+
+  // Si es false, devolver 401
+  return new Response("Credenciales incorrectas o cuenta no autorizada.", {
+    status: 401,
     headers: {
-      "x-middleware-next": "1"
+      "WWW-Authenticate": 'Basic realm="Acceso Distribuidores"',
+      "Content-Type": "text/plain; charset=utf-8",
+      "X-Robots-Tag": "noindex, nofollow, noarchive"
     }
   });
 }

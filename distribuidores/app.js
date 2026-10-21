@@ -138,8 +138,8 @@ function getB2BAuthHeader() {
   if (stored) {
     return stored.startsWith("Basic ") ? stored : "Basic " + stored;
   }
-  // 3. Credencial master para el entorno privado protegido por middleware
-  return "Basic " + btoa("master:admin123");
+  // 3. Sin credencial hardcodeada; la cookie enviada por credentials: 'include' autentica la sesión
+  return null;
 }
 
 /**

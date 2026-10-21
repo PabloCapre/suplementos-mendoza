@@ -13,7 +13,7 @@ const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1v
  * cabecera Authorization Basic o cookie de sesión b2b_session inyectada por el middleware.
  */
 function checkB2BAuthorization(req) {
-  const cuentasRaw = (process.env.CUENTAS_DISTRIBUIDORES || "master:admin123").replace(/^["']|["']$/g, "");
+  const cuentasRaw = (process.env.CUENTAS_DISTRIBUIDORES || "").replace(/^["']|["']$/g, "");
   const cuentasArray = cuentasRaw
     .split(",")
     .map((cuenta) => cuenta.trim())
