@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <title>Portal Distribuidores B2B | Suplementos Mendoza</title>
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08090A" />
+
+  <!-- Favicon Oficial -->
+  <link rel="icon" type="image/png" href="../assets/logos/favicon.png" />
+  <link rel="apple-touch-icon" href="../assets/logos/favicon.png" />
+
+  <!-- Preconnect y Fuentes Oficiales (Outfit + Lato según design-system.md) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Lato', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            carbon: '#08090A',
+            surface: 'rgba(18, 20, 23, 0.85)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Estilos complementarios compartidos -->
+  <link rel="stylesheet" href="../styles.css" />
+
+  <style>
+    body {
+      background-color: #08090A;
+      color: #FAFAFA;
+      font-family: 'Lato', sans-serif;
+    }
+    .touch-target {
+      min-width: 44px;
+      min-height: 44px;
+    }
+    /* Estilos del accordion */
+    .pitch-drawer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), opacity 0.25s ease;
+      opacity: 0;
+    }
+    .pitch-drawer.open {
+      max-height: 500px;
+      transition: max-height 0.35s ease-in-out, opacity 0.3s ease;
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body class="bg-[#08090A] text-neutral-100 min-h-screen flex flex-col antialiased selection:bg-blue-600 selection:text-white pb-36">
+
+  <!-- Top Announcement Bar B2B -->
+  <header class="sticky top-0 z-40 bg-[#08090A]/95 backdrop-blur-md border-b border-white/[0.08]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
+      <!-- Identidad y Status -->
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2 group">
+          <img src="../assets/logos/favicon.png" alt="Suplementos Mendoza" class="w-6 h-6 object-contain" />
+          <span class="font-outfit font-bold tracking-tight text-neutral-100 text-sm group-hover:text-blue-400 transition">
+            SUPLEMENTOS MENDOZA <span class="text-blue-500 font-semibold text-xs ml-1 px-1.5 py-0.5 rounded bg-blue-500/10 border border-blue-500/20">B2B DESK</span>
+          </span>
+        </a>
+        <span class="hidden md:inline text-neutral-500">|</span>
+        <span class="hidden md:inline-flex items-center gap-1.5 text-neutral-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Lista Mayorista en Vivo
+        </span>
+      </div>
+
+      <!-- Datos de Sesión y Logout -->
+      <div class="flex items-center gap-3 ml-auto">
+        <div class="flex items-center gap-2 bg-neutral-900 border border-white/10 px-3 py-1 rounded-full">
+          <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+          <span class="text-neutral-300 font-medium font-sans">
+            Distribuidor: <strong id="session-user-badge" class="text-white font-bold">master</strong>
+          </span>
+        </div>
+        <a
+          href="/"
+          class="text-neutral-400 hover:text-red-400 transition font-medium px-2 py-1 rounded hover:bg-neutral-900/50"
+          title="Salir del portal mayorista"
+        >
+          Cerrar Portal
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenedor Principal -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 w-full mt-6 flex-1">
+
+    <!-- Encabezado Operativo y Guía Rápida -->
+    <div class="mb-6 p-4 sm:p-5 rounded-2xl bg-neutral-900/70 border border-white/[0.08] backdrop-blur-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <h1 class="font-outfit text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
+          Consola de Abastecimiento & Ventas
+        </h1>
+        <p class="text-xs sm:text-sm text-neutral-400 mt-1 max-w-2xl font-sans">
+          Reabastecé tu gimnasio o box a precio mayorista neto sin mínimos de compra. Usá los argumentos de venta en mostrador para despejar dudas a tus alumnos y clientes.
+        </p>
+      </div>
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div class="px-3 py-2 rounded-xl bg-blue-600/10 border border-blue-600/20 text-blue-400 text-xs">
+          <span class="block font-bold uppercase font-outfit tracking-wider text-[10px]">Despachos</span>
+          <span>Gran Mendoza 24/48hs</span>
+        </div>
+        <div class="px-3 py-2 rounded-xl bg-emerald-600/10 border border-emerald-600/20 text-emerald-400 text-xs">
+          <span class="block font-bold uppercase font-outfit tracking-wider text-[10px]">Margen</span>
+          <span>Hasta 45% en reventa</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barra de Búsqueda y Filtros Rápidos -->
+    <div class="sticky top-12 z-30 bg-[#08090A]/95 py-3 backdrop-blur-md border-b border-white/[0.06] mb-6">
+      <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+        <!-- Buscador en tiempo real -->
+        <div class="relative flex-1">
+          <svg class="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Buscar por producto, presentación o beneficio..."
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-neutral-900 border border-white/10 text-white placeholder-neutral-500 text-xs sm:text-sm focus:outline-none focus:border-blue-500 transition"
+          />
+        </div>
+
+        <!-- Filtros por categoría (Dock Switcher B2B) -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0" id="category-filters">
+          <button
+            type="button"
+            data-category="all"
+            class="cat-filter-btn px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-blue-600 text-white transition active:scale-95"
+          >
+            Todos (<span id="count-all">0</span>)
+          </button>
+          <button
+            type="button"
+            data-category="Rendimiento & Fuerza"
+            class="cat-filter-btn px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-neutral-900 text-neutral-300 hover:text-white border border-white/10 transition active:scale-95"
+          >
+            Rendimiento
+          </button>
+          <button
+            type="button"
+            data-category="Salud & Longevidad"
+            class="cat-filter-btn px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-neutral-900 text-neutral-300 hover:text-white border border-white/10 transition active:scale-95"
+          >
+            Salud & Vitalidad
+          </button>
+          <button
+            type="button"
+            data-category="Alimentación Inteligente"
+            class="cat-filter-btn px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-neutral-900 text-neutral-300 hover:text-white border border-white/10 transition active:scale-95"
+          >
+            Alimentación
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de Catálogo Quick-Order (Inyección dinámica) -->
+    <div id="catalog-container" class="space-y-3">
+      <!-- Loader de Inicialización -->
+      <div class="py-24 text-center">
+        <div class="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+        <p class="font-outfit text-sm font-bold text-neutral-200">Cargando Catálogo Mayorista</p>
+        <p class="text-xs text-neutral-500 mt-1">Verificando credenciales y precios de distribución...</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Barra Inferior Fija de Resumen de Pedido Mayorista (Sticky Bottom Bar) -->
+  <aside id="sticky-order-bar" class="fixed bottom-0 inset-x-0 z-40 bg-neutral-950/95 border-t border-white/10 backdrop-blur-xl px-4 py-3 sm:py-4 shadow-2xl transition-transform duration-300">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+      
+      <!-- Métricas en vivo del pedido -->
+      <div class="flex items-center justify-between sm:justify-start gap-4 sm:gap-6">
+        <div>
+          <span class="block text-[10px] uppercase font-bold tracking-wider text-neutral-400 font-sans">Unidades</span>
+          <span id="bar-total-qty" class="font-outfit text-lg sm:text-xl font-bold text-neutral-100">0 un.</span>
+        </div>
+        <div class="h-8 w-px bg-white/10 hidden sm:block"></div>
+        <div>
+          <span class="block text-[10px] uppercase font-bold tracking-wider text-neutral-400 font-sans">Total a Pagar (Mayorista)</span>
+          <span id="bar-total-amount" class="font-outfit text-xl sm:text-2xl font-black text-blue-400 leading-none">$0</span>
+        </div>
+        <div class="h-8 w-px bg-white/10 hidden sm:block"></div>
+        <div class="hidden md:block">
+          <span class="block text-[10px] uppercase font-bold tracking-wider text-neutral-400 font-sans">Margen Reventa Estimado</span>
+          <span id="bar-total-profit" class="font-outfit text-sm font-bold text-emerald-400 leading-none">+$0</span>
+        </div>
+      </div>
+
+      <!-- Acciones de Checkout -->
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          id="btn-reset-order"
+          class="px-3 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 text-xs font-semibold border border-white/10 transition active:scale-95"
+          title="Vaciar cantidades"
+        >
+          Limpiar
+        </button>
+        <button
+          type="button"
+          id="btn-open-checkout"
+          disabled
+          class="flex-1 sm:flex-initial px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed text-white font-outfit text-sm font-bold transition shadow-lg shadow-blue-600/20 active:scale-95 flex items-center justify-center gap-2"
+        >
+          <span>Emitir Orden Mayorista</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- Modal de Cierre y Despacho de Pedido B2B -->
+  <div id="checkout-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-neutral-900 border border-white/10 rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] flex flex-col">
+      <!-- Header Modal -->
+      <div class="flex items-center justify-between pb-4 border-b border-white/10">
+        <div>
+          <h3 class="font-outfit text-lg font-bold text-white">Confirmar Orden de Compra B2B</h3>
+          <p class="text-xs text-neutral-400 font-sans">Se generará el remito formal para despacho vía WhatsApp</p>
+        </div>
+        <button type="button" id="btn-close-modal" class="p-1 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800 transition">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Resumen de Items y Formulario -->
+      <div class="overflow-y-auto py-4 space-y-4 flex-1 pr-1">
+        <!-- Lista compacta de items -->
+        <div>
+          <h4 class="text-[11px] uppercase tracking-wider font-bold text-neutral-400 mb-2">Detalle de Productos</h4>
+          <div id="modal-items-list" class="space-y-1.5 text-xs bg-neutral-950/60 p-3 rounded-2xl border border-white/5 max-h-36 overflow-y-auto">
+            <!-- Items inyectados -->
+          </div>
+        </div>
+
+        <!-- Totales -->
+        <div class="p-3.5 rounded-2xl bg-blue-600/10 border border-blue-600/20 flex items-center justify-between">
+          <div>
+            <span class="text-[11px] text-neutral-400 block">Total a Facturar / Abonar</span>
+            <span class="text-xs text-neutral-300 font-semibold">(Precios Mayoristas sin mínimos)</span>
+          </div>
+          <span id="modal-total-amount" class="font-outfit text-xl font-black text-blue-400">$0</span>
+        </div>
+
+        <!-- Campos de Entrega -->
+        <div class="space-y-3">
+          <div>
+            <label class="block text-[11px] font-bold text-neutral-300 mb-1">Punto de Entrega / Modalidad</label>
+            <select id="modal-delivery-type" class="w-full bg-neutral-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-blue-500">
+              <option value="envio">Envío a Gimnasio / Local (Gran Mendoza)</option>
+              <option value="retiro">Retiro Coordinado por Distribuidor</option>
+            </select>
+          </div>
+
+          <div id="modal-address-group">
+            <label class="block text-[11px] font-bold text-neutral-300 mb-1">Nombre del Gimnasio / Dirección de Entrega</label>
+            <input
+              type="text"
+              id="modal-address"
+              placeholder="Ej: Gimnasio Iron Fit - San Martín 1234, Godoy Cruz"
+              class="w-full bg-neutral-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-neutral-300 mb-1">Aclaraciones / Observaciones para el Remito (Opcional)</label>
+            <textarea
+              id="modal-notes"
+              rows="2"
+              placeholder="Ej: Adjuntar factura B. Entregar preferentemente por la mañana."
+              class="w-full bg-neutral-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-blue-500"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Modal -->
+      <div class="pt-4 border-t border-white/10 flex items-center justify-end gap-3">
+        <button
+          type="button"
+          id="btn-cancel-modal"
+          class="px-4 py-2 rounded-xl text-neutral-400 hover:text-white text-xs font-semibold transition"
+        >
+          Volver a la Lista
+        </button>
+        <button
+          type="button"
+          id="btn-send-whatsapp"
+          class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-outfit text-xs font-bold transition shadow-lg shadow-blue-600/25 active:scale-95 flex items-center gap-1.5"
+        >
+          <span>Confirmar y Enviar a WhatsApp</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script de Lógica B2B -->
+  <script src="app.js"></script>
+</body>
+</html>
