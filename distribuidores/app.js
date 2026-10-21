@@ -552,16 +552,11 @@ function sendWhatsAppB2BOrder() {
   const timeStr = now.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
 
   let totalMayorista = 0;
-  let totalProfit = 0;
 
   const itemsLines = selectedItems.map((item) => {
     const qty = orderQuantities[item.id];
-    const sub = qty * item.mayorista;
-    totalMayorista += sub;
-    const profitUnit = item.minorista > item.mayorista ? item.minorista - item.mayorista : 0;
-    totalProfit += qty * profitUnit;
-
-    return `- ${qty}x ${item.producto}: ${formatCurrency(sub)} (Unitario: ${formatCurrency(item.mayorista)} | Sugerido publico: ${formatCurrency(item.minorista)})`;
+    totalMayorista += qty * item.mayorista;
+    return `- ${qty}x ${item.producto}`;
   }).join("\n");
 
   const deliveryText = deliveryType === "envio"
@@ -577,11 +572,10 @@ Distribuidor: ${sessionUser}
 Fecha: ${dateStr} - ${timeStr}
 Entrega: ${deliveryText}
 
-DETALLE DEL PEDIDO (PRECIOS MAYORISTAS):
+DETALLE DEL PEDIDO:
 ${itemsLines}
 
-TOTAL A PAGAR (MAYORISTA): ${formatCurrency(totalMayorista)}
-MARGEN DE GANANCIA ESTIMADO: ${formatCurrency(totalProfit)}
+TOTAL A PAGAR: ${formatCurrency(totalMayorista)}
 --------------------------------------------------
 ${notes ? `Notas: ${notes}\n--------------------------------------------------\n` : ""}Remito emitido desde el Portal B2B de Suplementos Mendoza`;
 
@@ -591,8 +585,26 @@ ${notes ? `Notas: ${notes}\n--------------------------------------------------\n
   closeCheckoutModal();
 }
 
+/**
+ * Inicializa el nombre del distribuidor en el badge a partir de la sesión autenticada
+ */
+function initSessionUser() {
+  try {
+    const cookieMatch = document.cookie.match(/(?:^|;\s*)b2b_session=([^;]*)/);
+    if (cookieMatch && cookieMatch[1]) {
+      const decoded = atob(cookieMatch[1]);
+      const username = decoded.split(":")[0];
+      const badge = document.getElementById("session-user-badge");
+      if (badge && username) {
+        badge.textContent = username.trim();
+      }
+    }
+  } catch (e) {}
+}
+
 // Inicialización de Listeners al cargar el DOM
 document.addEventListener("DOMContentLoaded", () => {
+  initSessionUser();
   fetchB2BCatalog();
 
   // Búsqueda en tiempo real

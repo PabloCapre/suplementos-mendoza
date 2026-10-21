@@ -9,33 +9,15 @@
 const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTBrNhGexyD4c1axzU9uvzUWfalYSPNPGz_NMf8NEXOrtIB0HkNuSPrl1jBoO0ps8RgN4md4Xg6zCGd/pub?gid=0&single=true&output=csv";
 
 /**
- * Parsea y obtiene la lista de credenciales autorizadas desde CUENTAS_DISTRIBUIDORES.
- * Soporta múltiples cuentas separadas por comas (ej. user1:pass1,user2:pass2).
- */
-function getAuthorizedAccounts() {
-  const accountsString = process.env.CUENTAS_DISTRIBUIDORES || "";
-  const accounts = accountsString
-    .split(",")
-    .map((pair) => pair.trim())
-    .filter(Boolean);
-
-  if (process.env.B2B_AUTH_USER && process.env.B2B_AUTH_PASS) {
-    accounts.push(`${process.env.B2B_AUTH_USER.trim()}:${process.env.B2B_AUTH_PASS.trim()}`);
-  }
-
-  if (accounts.length === 0) {
-    accounts.push("master:admin123");
-  }
-
-  return accounts;
-}
-
-/**
  * Valida si la petición proviene de un distribuidor B2B autenticado mediante
  * cabecera Authorization Basic o cookie de sesión b2b_session inyectada por el middleware.
  */
 function checkB2BAuthorization(req) {
-  const validAccounts = getAuthorizedAccounts();
+  const cuentasRaw = (process.env.CUENTAS_DISTRIBUIDORES || "master:admin123").replace(/^["']|["']$/g, "");
+  const cuentasArray = cuentasRaw
+    .split(",")
+    .map((cuenta) => cuenta.trim())
+    .filter(Boolean);
 
   // 1. Revisar cabecera Authorization (HTTP Basic Auth)
   const authHeader = req.headers["authorization"] || req.headers["Authorization"];
@@ -43,13 +25,10 @@ function checkB2BAuthorization(req) {
     const parts = authHeader.split(" ");
     if (parts.length === 2 && parts[0].toLowerCase() === "basic") {
       try {
-        const decoded = Buffer.from(parts[1], "base64").toString("utf-8").trim();
-        const [user, pwd] = decoded.split(":");
-        const isMatched = validAccounts.some((account) => {
-          const [accUser, accPwd] = account.split(":");
-          return accUser === user && accPwd === pwd;
-        });
-        if (isMatched) return true;
+        const credentials = Buffer.from(parts[1], "base64").toString("utf-8").trim();
+        if (cuentasArray.includes(credentials)) {
+          return true;
+        }
       } catch (e) {
         // Formato base64 inválido
       }
@@ -67,13 +46,10 @@ function checkB2BAuthorization(req) {
 
     if (cookies.b2b_session) {
       try {
-        const decoded = Buffer.from(cookies.b2b_session, "base64").toString("utf-8").trim();
-        const [user, pwd] = decoded.split(":");
-        const isMatched = validAccounts.some((account) => {
-          const [accUser, accPwd] = account.split(":");
-          return accUser === user && accPwd === pwd;
-        });
-        if (isMatched) return true;
+        const credentials = Buffer.from(cookies.b2b_session, "base64").toString("utf-8").trim();
+        if (cuentasArray.includes(credentials)) {
+          return true;
+        }
       } catch (e) {
         // Cookie malformada
       }
