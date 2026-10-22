@@ -283,7 +283,7 @@ function renderCatalog() {
         id="card-${item.id}"
       >
         <!-- Fila Principal: Datos, Precios y Controles -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
           
           <!-- Bloque de Producto -->
           <div class="flex-1 min-w-0">
@@ -306,22 +306,52 @@ function renderCatalog() {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
+
+            <!-- Accordion: Información Detallada de Bienestar y Rendimiento (Estructuralmente debajo del botón) -->
+            <div id="pitch-${item.id}" class="pitch-drawer mt-3 pt-3 border-t border-white/5">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3.5 rounded-xl bg-neutral-950/70 border border-blue-500/20 text-xs">
+                <div>
+                  <strong class="text-blue-400 font-outfit uppercase tracking-wider text-[10px] block mb-1">
+                    Beneficio Principal
+                  </strong>
+                  <p class="text-neutral-300 font-sans leading-relaxed">
+                    ${item.pitch.beneficioPrincipal}
+                  </p>
+                </div>
+                <div>
+                  <strong class="text-emerald-400 font-outfit uppercase tracking-wider text-[10px] block mb-1">
+                    Impacto Biológico
+                  </strong>
+                  <p class="text-neutral-300 font-sans leading-relaxed">
+                    ${item.pitch.impactoBiologico}
+                  </p>
+                </div>
+                <div>
+                  <strong class="text-amber-400 font-outfit uppercase tracking-wider text-[10px] block mb-1">
+                    Perfil Ideal
+                  </strong>
+                  <p class="text-neutral-300 font-sans leading-relaxed">
+                    ${item.pitch.perfilIdeal}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Bloque de Precios Duales y Margen (Claridad absoluta sin tachado) -->
+          <!-- Bloque de Precios Duales Enfrentados y Margen -->
           <div class="flex items-center gap-4 sm:gap-6 shrink-0 bg-neutral-950/80 p-3 sm:py-2.5 sm:px-4 rounded-xl border border-white/10">
             <!-- Precio Público -->
             <div>
               <span class="block text-[9px] uppercase tracking-wider text-neutral-400 font-bold font-sans">Precio Público</span>
-              <span class="font-sans text-xs sm:text-sm font-semibold text-neutral-200">
+              <span class="font-outfit text-sm sm:text-base font-bold text-neutral-400 leading-none">
                 ${formatCurrency(item.minorista)}
               </span>
             </div>
 
-            <!-- Tu Costo Mayorista -->
+            <!-- Precio Mayorista -->
             <div>
-              <span class="block text-[9px] uppercase tracking-wider text-blue-400 font-bold font-sans">Tu Costo</span>
-              <span class="font-outfit text-base sm:text-lg font-black text-blue-400 leading-none">
+              <span class="block text-[9px] uppercase tracking-wider text-blue-400 font-bold font-sans">Precio Mayorista</span>
+              <span class="font-outfit text-sm sm:text-base font-bold text-blue-400 leading-none">
                 ${formatCurrency(item.mayorista)}
               </span>
             </div>
@@ -379,36 +409,6 @@ function renderCatalog() {
             </div>
           </div>
 
-        </div>
-
-        <!-- Accordion: Información Detallada de Bienestar y Rendimiento -->
-        <div id="pitch-${item.id}" class="pitch-drawer mt-3 pt-3 border-t border-white/5">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 p-3.5 rounded-xl bg-neutral-950/70 border border-blue-500/20 text-xs">
-            <div>
-              <strong class="text-blue-400 font-outfit uppercase tracking-wider text-[10px] block mb-1">
-                Beneficio Principal
-              </strong>
-              <p class="text-neutral-300 font-sans leading-relaxed">
-                ${item.pitch.beneficioPrincipal}
-              </p>
-            </div>
-            <div>
-              <strong class="text-emerald-400 font-outfit uppercase tracking-wider text-[10px] block mb-1">
-                Impacto Biológico
-              </strong>
-              <p class="text-neutral-300 font-sans leading-relaxed">
-                ${item.pitch.impactoBiologico}
-              </p>
-            </div>
-            <div>
-              <strong class="text-amber-400 font-outfit uppercase tracking-wider text-[10px] block mb-1">
-                Perfil Ideal
-              </strong>
-              <p class="text-neutral-300 font-sans leading-relaxed">
-                ${item.pitch.perfilIdeal}
-              </p>
-            </div>
-          </div>
         </div>
 
       </article>

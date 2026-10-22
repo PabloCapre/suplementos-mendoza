@@ -583,6 +583,7 @@ let state = {
   activeCategory: "all",
   isDrawerOpen: false,
   isModalOpen: false,
+  modalHistoryActive: false,
   selectedVariants: {} // Map de productId -> variantIndex
 };
 
@@ -1317,6 +1318,12 @@ function openProductModal(productId) {
 
   if (!modal || !backdrop || !card) return;
 
+  // Intercepción UX: inyectar estado en el historial para interceptar botón Atrás en celulares
+  if (!state.modalHistoryActive) {
+    history.pushState({ modalOpen: true, productId: productId }, "");
+    state.modalHistoryActive = true;
+  }
+
   state.isModalOpen = true;
   modal.classList.remove("pointer-events-none", "opacity-0");
   backdrop.classList.remove("pointer-events-none");
@@ -1326,7 +1333,16 @@ function openProductModal(productId) {
   document.body.classList.add("overflow-hidden");
 }
 
-function closeProductModal() {
+function closeProductModal(fromPopState = false) {
+  // Limpiar estado en el historial al cerrar manualmente
+  const isPop = fromPopState === true;
+  if (state.modalHistoryActive && !isPop) {
+    state.modalHistoryActive = false;
+    history.back();
+  } else {
+    state.modalHistoryActive = false;
+  }
+
   state.isModalOpen = false;
   const modal = document.getElementById("product-modal");
   const backdrop = document.getElementById("product-modal-backdrop");
@@ -1656,8 +1672,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Cerrar Modal de Producto
   const closeProductModalBtn = document.getElementById("close-product-modal-btn");
   const productModalBackdrop = document.getElementById("product-modal-backdrop");
-  if (closeProductModalBtn) closeProductModalBtn.addEventListener("click", closeProductModal);
-  if (productModalBackdrop) productModalBackdrop.addEventListener("click", closeProductModal);
+  if (closeProductModalBtn) closeProductModalBtn.addEventListener("click", () => closeProductModal());
+  if (productModalBackdrop) productModalBackdrop.addEventListener("click", () => closeProductModal());
 
   // Cerrar Drawer o Modal con tecla Escape
   window.addEventListener("keydown", (e) => {
@@ -1667,6 +1683,13 @@ document.addEventListener("DOMContentLoaded", () => {
       } else if (state.isDrawerOpen) {
         closeDrawer();
       }
+    }
+  });
+
+  // Interceptar botón / gesto "Volver Atrás" del celular para cerrar el modal
+  window.addEventListener("popstate", () => {
+    if (state.isModalOpen) {
+      closeProductModal(true);
     }
   });
 
